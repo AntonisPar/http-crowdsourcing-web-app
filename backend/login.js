@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js'
 
 export function login(app,connection,path) {
     app.get('/', function (request, response) {
-        response.sendFile(path.join('/home/tsac/server/node_server/html/login.html'));
+        response.sendFile(path.join('/Users/tsac/Projects/http-crowdsourcing/html/login.html'));
     });
     app.post('/api', function (req, res) {
         var username = req.body.username;
