@@ -3,7 +3,7 @@ import path from 'path'
 
 export function login(app,connection,path) {
     app.get('/', function (request, response) {
-        response.sendFile(path.join('/home/tsac/Projects/http_crowdsourced_traffic/node_server/html/login.html'));
+        response.sendFile(path.join('/Users/tsac/Projects/http-crowdsourcing/html/login.html'));
     });
     app.post('/api', function (req, res) {
         var username = req.body.username;

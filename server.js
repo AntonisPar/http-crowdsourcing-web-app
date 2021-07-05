@@ -30,7 +30,7 @@ app.use(express.static('html'));
 var connection = mysql.createConnection({
     host: "localhost",
     user: "tsac",
-    password: "pass",
+    password: "password",
     database: "web"
 });
 
