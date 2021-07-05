@@ -1,1 +1,12 @@
-node_modules
+*
+!backend/
+!html/
+!server.js
+!package.json
+!backend/*
+!html/*
+!html/scripts/
+!html/scripts/*
+!README.md
+!create_tables.sql
+!.gitignore
