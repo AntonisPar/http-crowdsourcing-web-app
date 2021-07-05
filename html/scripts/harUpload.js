@@ -1,5 +1,6 @@
 var uploadButton = document.getElementById("uploadBut");
 
+
 function inHeaders(obj) {
     let inHeaderValues = {};
     for (var i in obj) {
@@ -59,8 +60,16 @@ function readHar() {
                 addHeaderValues(harResponse, valueArr, "Response");
                 uploadValues[key] = valueArr;
             }
-            console.log(uploadValues);
-            $.post("/upload", uploadValues);
+            console.log(typeof uploadValues);
+            fetch("/upload",
+            {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(uploadValues)
+            })
+            .then(function(res){ return res.json(); })
+
+//            $.post("/upload", uploadValues);
         }
 
         reader.onerror = function () {

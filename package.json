@@ -27,6 +27,7 @@
     "http": "0.0.1-security",
     "jquery": "^3.5.1",
     "mysql": "^2.18.1",
+    "nodaemon": "^0.0.5",
     "raw-body": "^2.4.1"
   },
   "devDependencies": {

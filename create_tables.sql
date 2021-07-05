@@ -9,12 +9,11 @@ CREATE TABLE IF NOT EXISTS User
 
 CREATE TABLE IF NOT EXISTS Entry
 (
-    entry_id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     startedDateTime VARCHAR(255) NOT NULL,
     serverIPAddress VARCHAR(255) NOT NULL,
     timings INT NOT NULL,
-    PRIMARY KEY(entry_id),
+    PRIMARY KEY(username, startedDateTime),
     FOREIGN KEY(username) REFERENCES User(username)
     ON DELETE CASCADE ON UPDATE CASCADE
 );

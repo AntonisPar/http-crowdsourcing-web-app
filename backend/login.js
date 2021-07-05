@@ -12,7 +12,14 @@ export function login(app,connection,path) {
             connection.query("select username,passwd from User where username = ?", [username], (error, response) => {
                 if (response) {
                     if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
-                        res.redirect('/har.html')
+                        console.log(username);
+//                        fetch('/usertest',
+//                        {
+//                            method: 'POST',
+//                            body: username
+//                        })
+//                        .then(function(res){ return res.json(); })
+                        res.redirect('/har.html');
                     }
                 }
             });
