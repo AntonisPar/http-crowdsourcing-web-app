@@ -1,11 +1,10 @@
-import bodyParser from 'body-parser';
-import path from 'path'
-import express from 'express';
-import getRawBody from 'raw-body'
-import * as mysql from 'mysql'
-import { login } from './backend/login.js'
-import { signup } from './backend/signup.js'
-import { uploadHar } from './backend/uploadHar.js'
+var mysql = require('mysql');
+var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
+var login = require('./backend/login.js');
+var signup = require( './backend/signup.js');
+var uploadHar  = require('./backend/uploadHar.js');
 var app = express()
 
 //app.use(bodyParser.urlencoded({extended: true }));
@@ -48,8 +47,8 @@ var server = app.listen(3000, function () {
 });
 
 
-login(app,connection,path);
+login.login(app,connection,path);
 
-signup(app,connection); 
+signup.signup(app,connection); 
 
-uploadHar(app,connection);
+uploadHar.uploadHar(app,connection);

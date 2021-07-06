@@ -1,4 +1,4 @@
-export function uploadHar(app, connection) {
+module.exports.uploadHar =  function uploadHar(app, connection) {
 //    app.post("/usercookie",function(request,response) {
 //        console.log(request.body);
 //

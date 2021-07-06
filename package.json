@@ -2,7 +2,7 @@
   "name": "http_crowdsource",
   "version": "1.0.0",
   "description": "Web Project",
-  "type": "module",
+  "type": "commonjs",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"

@@ -1,7 +1,7 @@
-import CryptoJS from 'crypto-js'
-import path from 'path'
+var CryptoJS = require('crypto-js');
+var path = require( 'path');
 
-export function login(app,connection,path) {
+module.exports.login =  function login(app,connection,path) {
     app.get('/', function (request, response) {
         response.sendFile(path.resolve('html/login.html'));
     });

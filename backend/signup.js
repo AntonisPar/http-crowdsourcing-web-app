@@ -1,6 +1,6 @@
-import SHA1 from 'crypto-js/sha1.js';
+var SHA1 =require( 'crypto-js/sha1.js');
 
-export function signup(app, connection) {
+module.exports.signup =  function signup(app, connection) {
     app.get('/', function (request, response) {
         response.sendFile(path.resolve('html/signup.html'));
     });
