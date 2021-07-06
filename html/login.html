@@ -8,8 +8,8 @@
   <body>
     <h1> <b>Login</b> </h1>
       
-     <div id="login"> 
-       <form action="api" method="POST" >
+     <div id="login" name="login1"> 
+       <form name="form1" action="api" method="POST" >
          
         <label  for="username"><b>Username</b></label>
         <input  type="text/submit/hidden/button" name="username" value="" id="username">
@@ -17,7 +17,7 @@
         <label for="pass"><b> Password </b></label>
         <input id="password" type="password"  name="password" > 
   
-        <input type="submit">
+        <input type="submit" id="sub">
   
        </form>
         <button id="signBut" onclick="redirect_signup()" >Sign Up</button>

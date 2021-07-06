@@ -1,5 +1,10 @@
 var uploadButton = document.getElementById("uploadBut");
 
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
 function inHeaders(obj) {
     let inHeaderValues = {};
@@ -60,15 +65,21 @@ function readHar() {
                 addHeaderValues(harResponse, valueArr, "Response");
                 uploadValues[key] = valueArr;
             }
-            console.log(typeof uploadValues);
+            var name = getCookie('username');
+            console.log(name);
             fetch("/upload",
             {
                 method: 'POST',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "name":name },
                 body: JSON.stringify(uploadValues)
             })
             .then(function(res){ return res.json(); })
-
+//            fetch("/usercookie",
+//            {
+//                method: 'POST',
+//                body: name
+//            })
+//            .then(function(res){ return res.json(); })
 //            $.post("/upload", uploadValues);
         }
 
