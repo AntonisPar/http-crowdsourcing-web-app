@@ -15,8 +15,8 @@ app.use(express.static('html'));
 var connection = mysql.createConnection({
     host: "localhost",
     user: "jason",
-    password: "J@s0n123",
-    database: "web_project"
+    password: "j@s0n_123", //used to be J@s0n123
+    database: "web" //used to be web_project
 });
 
 connection.connect(function (err) {
@@ -33,7 +33,7 @@ var server = app.listen(3000, function () {
 });
 
 app.get('/', function (request, response) {
-    response.sendFile(path.join('/home/jason/Documents/Web_Project/http-traffic-analysis-app/html/signup.html'));
+    response.sendFile(path.join('/home/ubuntu/Documents/Web_Project/http-crowdsourcing-web-app/html/signup.html'));
 });
 
 login.login(app,connection,path);

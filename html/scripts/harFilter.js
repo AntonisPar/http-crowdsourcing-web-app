@@ -35,14 +35,25 @@ function filterHar() {
     var sensitive = JSON.stringify(testObject, null, 2);
     var blob = new Blob([sensitive], {type: "application/json"});
     var url = URL.createObjectURL(blob); 
-    var a = document.createElement('a');
-    a.download = "sensitive.json"
-    a.href = url;
-    a.textContent = "Download Filtered Har"
+    var filteredHar = document.createElement('a');
+    filteredHar.download = "sensitive.json"
+    filteredHar.href = url;
+    filteredHar.textContent = "Download Filtered Har"
 
-    document.getElementById('link').appendChild(a);
+    var linkNode = document.getElementById('link')
+    if(linkNode.hasChildNodes()){
+      linkNode.removeChild(linkNode.childNodes[0]);
+    }
+    linkNode.appendChild(filteredHar);
     
   } 
 }
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+console.log(getCookie('username'))
 
 fileLoad.onchange = filterHar; 

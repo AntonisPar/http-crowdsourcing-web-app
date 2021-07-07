@@ -1,7 +1,7 @@
 var CryptoJS = require('crypto-js');
 
 module.exports.login = function(app,connection,path) {
-    app.post('/api', function (request, response) {
+    app.post('/', function (request, response) {
         var username = request.body.username;
         var password = CryptoJS.SHA1(request.body.password);
         if (username && password) {
