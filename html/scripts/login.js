@@ -5,7 +5,10 @@ var loginBut= document.getElementById("sub");
 
 function usernameCookie(){
     var user = document.getElementById("username").value;
-    document.cookie = "username="+user;
+    var cookieObj = {
+        "username": user,
+    } ;
+    document.cookie = JSON.stringify(cookieObj);
 }
 
 function redirect_signup() {
