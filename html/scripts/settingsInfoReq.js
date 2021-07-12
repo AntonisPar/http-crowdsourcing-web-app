@@ -7,6 +7,10 @@ function getInfo(){
             method: 'GET',
             headers: cookies
         })
-        .then(function(res){ console.log(res) })
+        .then(function(res){ 
+            var value = res.json(); 
+            console.log(value)
+
+        });
     
 }

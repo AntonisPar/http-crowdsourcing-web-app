@@ -3,13 +3,14 @@ var SHA1 =require( 'crypto-js/sha1.js');
 module.exports.changeSettings =  function changeSettings(app, connection) {
     app.get('/info', function (request, response) {
         var name = request.headers;
-        connection.query('SELECT COUNT(entryId) AS entryNum FROM Entry where username=(?)', [name['username']], function(err,result,fields){
+        connection.query('SELECT COUNT(entryId) as entryNum  FROM Entry where username=(?)', [name['username']], function(err,result,fields){
             if (err) throw  err;
-            for(i in result[0]){
-                console.log(i)
-            }
-        });
+            entryNum = result[0]['entryNum'];
+            response.send(entryNum.toString())
+            });
 
+            
+            
         //response.sendFile(path.resolve('html/profileSettings.html'));
     });
 
