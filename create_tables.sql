@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Entry
 (
     entryId INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
+    uploadDate DATE NOT NULL,
     startedDateTime VARCHAR(255) NOT NULL,
     serverIPAddress VARCHAR(255),
     wait INT,

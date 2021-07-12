@@ -3,10 +3,16 @@ var SHA1 =require( 'crypto-js/sha1.js');
 module.exports.changeSettings =  function changeSettings(app, connection) {
     app.get('/info', function (request, response) {
         var name = request.headers;
-        connection.query('SELECT COUNT(entryId) as entryNum  FROM Entry where username=(?)', [name['username']], function(err,result,fields){
+        connection.query('SELECT COUNT(entryId) as entryNum  FROM Entry where username=(?) ; SELECT uploadDate FROM Entry WHERE username=(?) ORDER BY uploadDate DESC LIMIT 1', [name['username'],name['username']], function(err,result,fields){
             if (err) throw  err;
-            entryNum = result[0]['entryNum'];
-            response.send(entryNum.toString())
+            entryNum = result[0][0]['entryNum'];
+            lastDate = result[1][0]['uploadDate'];
+            var info = [{
+                "entryNum": entryNum,
+                "lastDate": lastDate
+            }]
+
+            response.send(info)
             });
 
             
