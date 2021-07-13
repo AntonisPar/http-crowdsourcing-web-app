@@ -12,13 +12,12 @@ function getInfo(){
             var tagDate = document.createElement("p");
             var entries = document.createTextNode("Number Of Entries: " + data[0]['entryNum']);
             tagEntry.appendChild(entries);
-            var date = document.createTextNode("Last Upload Date: " +data[0]['lastDate']);
+            var lastDate = data[0]['lastDate'].split("T")[0]
+            var date = document.createTextNode("Last Upload Date: " + lastDate);
             tagDate.appendChild(date);
             var element = document.getElementById("main");
             element.appendChild(tagEntry);
             element.appendChild(tagDate);
-//            console.log(data[0]['entryNum'])
-//            console.log(data[0]['lastDate'])
         })
     
 }

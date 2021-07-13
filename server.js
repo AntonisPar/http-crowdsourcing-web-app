@@ -3,10 +3,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var login = require('./backend/login.js');
-var signup = require( './backend/signup.js');
+var signup = require('./backend/signup.js');
+var ipGeolocation = require('./backend/ipGeolocation.js');
 var uploadHar  = require('./backend/uploadHar.js');
 var changeSettings  = require('./backend/changeSettings.js');
-var app = express()
+var app = express();
 
 //app.use(bodyParser.urlencoded({extended: true }));
 app.use(bodyParser.json({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -41,4 +42,7 @@ login.login(app,connection,path);
 signup.signup(app,connection); 
 
 uploadHar.uploadHar(app,connection);
+
 changeSettings.changeSettings(app,connection);
+
+ipGeolocation.ipGeolocation(app,connection);
