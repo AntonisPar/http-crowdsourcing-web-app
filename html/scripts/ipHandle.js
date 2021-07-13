@@ -12,7 +12,7 @@ function handleIP(){
             var ips = [];
             var endpoint = "http://ip-api.com/batch?fields=lat,lon,status,isp"
             for(var i in data){
-                ips[i] = data[i].match(/(?<=\[).*?(?=\])/)[0].toString();
+                ips[i] = data[i].match(/\w.*\w/)[0].toString();
             }
             fetch(endpoint,
                 {
