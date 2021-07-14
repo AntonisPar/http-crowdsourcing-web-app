@@ -5,7 +5,9 @@ var path = require('path');
 var login = require('./backend/login');
 var signup = require('./backend/signup');
 var upload = require('./backend/upload');
-var app = express()
+var changeSettings = require('./backend/changeSettings');
+var ipGeolocation = require('./backend/ipGeolocation');
+var app = express();
 
 
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -16,7 +18,8 @@ var connection = mysql.createConnection({
     host: "localhost",
     user: "jason",
     password: "j@s0n_123", //used to be J@s0n123
-    database: "web" //used to be web_project
+    database: "web", //used to be web_project
+    multipleStatements: true
 });
 
 connection.connect(function (err) {
@@ -39,4 +42,5 @@ app.get('/', function (request, response) {
 login.login(app,connection,path);
 signup.signup(app,connection);
 upload.upload(app,connection);
-
+changeSettings.changeSettings(app,connection);
+ipGeolocation.ipGeolocation(app,connection);
