@@ -7,27 +7,25 @@ function handleIP(){
             headers: cookies
         })
         .then(res => res.json())
-        .then(data => {
+        .then(responseData => {
             var ips = [];
             var endpoint = "http://ip-api.com/batch?fields=query,lat,lon,status,isp"
             var j = 0;
-            for(var i in data){
+            for(var i in responseData){
                 if (i !== '')
                     ips[j] = i
                 j++
             }
-            console.log(ips)
             fetch(endpoint,
                 {
                     method: 'POST',
                     body: JSON.stringify(ips)
                 })
                 .then(response => ( response.json()))
-                .then(geo => {
-                    for(var i in geo){
-                        geo[i]['visits'] = data[geo[i]['query']]
+                .then(heatmapData => {
+                    for(var i in heatmapData){
+                        heatmapData[i]['visits'] = responseData[heatmapData[i]['query']]
                     }
-                    console.log(geo)
                 })
 
         })

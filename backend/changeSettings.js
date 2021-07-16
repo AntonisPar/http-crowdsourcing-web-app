@@ -23,11 +23,23 @@ module.exports.changeSettings =  function changeSettings(app, connection) {
     app.post('/settings', function (request, response) {
 
         var username = request.body.new_username;
+        var conf_pass = SHA1(request.body.confirm_pass).toString();
         var password = SHA1(request.body.new_password).toString();
+        var old_pass = SHA1(request.body.old_pass).toString()
         var cookie = JSON.parse(request.headers.cookie)
 
-        //connection.query('UPDATE User SET username=(?), passwd=(?) WHERE username=(?)', [username,  password,cookie['username']]);
+        //console.log( username, conf_pass ,password ,old_pass )
+        connection.query('SELECT passwd FROM User WHERE username=(?)', [cookie['username']],function(err,pass,fields){
+            console.log(pass[0]['passwd'])
+            if(pass[0]['passwd'] === old_pass){
+                console.log("yes")
+                if( password === conf_pass )
+                    connection.query('UPDATE User SET username=(?), passwd=(?) WHERE username=(?)', [username,  password,cookie['username']]);
+                    response.send("cool")
+            }
 
-        //response.send('COOL');
+        });
+
+
     });
 }
