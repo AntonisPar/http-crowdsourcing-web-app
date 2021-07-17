@@ -22,7 +22,7 @@ module.exports.changeSettings =  function changeSettings(app, connection) {
 
     app.post('/settings', function (request, response) {
 
-        var username = request.body.new_username;
+        var username = request.body.new_name;
         var conf_pass = SHA1(request.body.confirm_pass).toString();
         var password = SHA1(request.body.new_password).toString();
         var old_pass = SHA1(request.body.old_pass).toString()

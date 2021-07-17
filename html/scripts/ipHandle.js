@@ -26,6 +26,7 @@ function handleIP(){
                     for(var i in heatmapData){
                         heatmapData[i]['visits'] = responseData[heatmapData[i]['query']]
                     }
+                    console.log(heatmapData);
                 })
 
         })

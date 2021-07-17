@@ -21,3 +21,38 @@ function getInfo(){
         })
     
 }
+
+
+var subBut = document.getElementById('sub');
+
+function changeSettings(){
+    var fields = {
+        "new_name": document.getElementById('new_username').value,
+        "new_password": document.getElementById('new_password').value,
+        "confirm_pass": document.getElementById('confirm_pass').value,
+        "old_pass": document.getElementById('old_pass').value,
+
+    }
+    console.log(JSON.stringify(fields))
+
+    fetch("/settings",
+        {
+        method: 'POST',
+        headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+        body: JSON.stringify(fields)
+    })
+    .then( res => console.log(res.json() ))
+    .then( data => {
+        var tag = document.createElement("p");
+        console.log(data)
+        if(data === "yes"){
+            var text = document.createTextNode("password changed succesfully")
+            tag.appendChild(text)
+        }
+    })
+}
+
+subBut.onclick = changeSettings;
