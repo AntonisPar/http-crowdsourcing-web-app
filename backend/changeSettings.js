@@ -30,13 +30,12 @@ module.exports.changeSettings =  function changeSettings(app, connection) {
 
         //console.log( username, conf_pass ,password ,old_pass )
         connection.query('SELECT passwd FROM User WHERE username=(?)', [cookie['username']],function(err,pass,fields){
-            console.log(pass[0]['passwd'])
             if(pass[0]['passwd'] === old_pass){
-                console.log("yes")
-                if( password === conf_pass )
                     connection.query('UPDATE User SET username=(?), passwd=(?) WHERE username=(?)', [username,  password,cookie['username']]);
-                    response.send("cool")
+                    response.send("1")
             }
+            else response.send("3")
+            
 
         });
 
