@@ -5,9 +5,6 @@ function signup()
 {
     var emailFormat = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
     var passFormat = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    var el = document.getElementById('main')
-    //var errTag = document.createElement("p",{id:"mes"})
-    var errTag = document.getElementById("mes")
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value ;
 
@@ -19,7 +16,6 @@ function signup()
             "email"    : email,
             "password" : password
         }
-        console.log(formInfo)
 
         fetch('/signup', 
             {
@@ -31,17 +27,16 @@ function signup()
             })
         .then(res => res.text())
         .then(data => {
-            console.log(data)
             if ( data === 'true')
-                errTag.innerHTML= "Successful Signup";
+                document.getElementById("mes").innerHTML= "Successful Signup";
             else if ( data === 'exist')
-                errTag.innerHTML ="Username Already Exists";
+                document.getElementById("mes").innerHTML ="Username Already Exists";
         })
 
     }
     else {
         
-        errTag.innerHTML = "Invalid email address format or password!";
+        document.getElementById("mes").innerHTML = "Invalid email address format or password!";
     }
 
 }
