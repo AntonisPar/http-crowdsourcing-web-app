@@ -1,19 +1,44 @@
 body{
-  background-color: #1e1e1e;
-  color: #ebdbb2;
-  text-align: center; 
+  background-color: #ffffff;
+  color: #000000;
 }
 
-.username{ 
-  text-align: center; 
+.welcome{
+    #display: visible;
+    padding-top: 20rem;
+    padding-bottom: 20rem;
+    text-align: center;
+    justify-content:center;
+    white-space: pre-line;
 }
-.pass{ 
-  text-align: center; 
-} 
+.login{
+    #display: flex;
+    padding-top: 10rem;
+    align-items:center;
+    justify-content: center;
+    white-space: pre-line;
+    text-align: center;
+}
+.signBut{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    padding-bottom: 15rem;
+}
+.scrollBut{
+    display:flex;
+}
+#scroll{
 
-#login{
-  white-space: pre-line;
+    display: inline;
+    position: absolute;
+    top: 90%;
+    right: 53%;
+    left: 47%;
+    width: 4em;
+    height: 4em;
 }
+
 
 input,label{
   display: block;

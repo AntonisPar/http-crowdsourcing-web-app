@@ -26,7 +26,7 @@ function getInfo(){
 var subBut = document.getElementById('sub');
 
 function changeSettings(){
-    var element = document.getElementById("main");
+    var mes = document.getElementById("infoMess");
     var passFormat = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     var fields = {
         "new_name": document.getElementById('new_username').value,
@@ -37,16 +37,11 @@ function changeSettings(){
     }
 
     if(!passFormat.test(fields['new_password'])){
-        var passFormTag = document.createElement("p")
-        passFormTag.appendChild(document.createTextNode("Password incorrect Format"))
-        element.appendChild(passFormTag)
+        mes.innerHTML = "Password incorrect Format";
     }
     else if(fields['new_password'] !== fields['confirm_pass']){
 
-        var confPassTag = document.createElement("p") 
-        var text = document.createTextNode("The passwords you enetered are different")
-        confPassTag.appendChild(text)
-        element.appendChild(confPassTag)
+       mes.innerHTML = "The passwords you enetered are different";
     }
 
     else {
@@ -64,19 +59,13 @@ function changeSettings(){
         .then( data => {
             
             console.log(data)
-            var tag = document.createElement("p");
             if(data === "1"){
-                var text = document.createTextNode("settings changed succesfully")
-                tag.appendChild(text)
+                mes.innerHTML="settings changed succesfully";
             }
             
             else if (data === "3"){
-                var text = document.createTextNode("Incorrect Password")
-                tag.appendChild(text)
+                mes.innerHTML ="Incorrect Password";
             }
-
-            element.appendChild(tag)
-            
         })
     }
 }

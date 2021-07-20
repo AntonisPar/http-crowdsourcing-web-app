@@ -6,9 +6,17 @@
     <title>Login</title>
   </head>
   <body>
-    <h1> <b>Login</b> </h1>
+      <div class='welcome'>
+          <h1 id='wel'>Welcome!</h1>
+          <input type='image' src='img/scroll.png'  id="scroll" title="Log In"></button>
+      </div>
+
+
+
+
+    <div id="login" class='login' name="login1"> 
+     <h2> <b>Login</b> </h2>
       
-     <div id="login" name="login1"> 
        <form name="form1" action="api" method="POST" >
          
         <label  for="username"><b>Username</b></label>
@@ -20,6 +28,9 @@
         <input type="submit" id="sub"value="Log In">
   
        </form>
+
+    </div>
+    <div class='signBut'>
         <button id="signBut" onclick="redirect_signup()" >Sign Up</button>
       </div> 
       <script charset="utf-8" type="text/javascript" src="scripts/login.js"></script> 
