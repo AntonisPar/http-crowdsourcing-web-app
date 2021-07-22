@@ -1,4 +1,3 @@
-var signupButton = document.getElementById("signBut");
 var loginBut= document.getElementById("sub");
 var scrollBut = document.getElementById("scroll");
 
@@ -11,11 +10,6 @@ function usernameCookie(){
     } ;
     document.cookie = JSON.stringify(cookieObj);
 }
-
-function redirect_signup() {
-  window.location.replace("http://localhost:3000/signup.html");
-}
-
 
 function showBut(){
     if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
@@ -34,6 +28,3 @@ function scrollToLogin() {
 window.onscroll = function() {showBut()};
 scrollBut.onclick = scrollToLogin;
 loginBut.onclick=usernameCookie;
-
-
-

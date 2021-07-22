@@ -12,7 +12,7 @@ module.exports.login =  function login(app,connection,path) {
             connection.query("select username,passwd from User where username = ?", [username], (error, response) => {
                 if (response) {
                     if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
-                        res.redirect('/har.html');
+                        res.redirect('/main.html');
                     }
                 }
             });
