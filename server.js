@@ -6,8 +6,10 @@ var login = require('./backend/login.js');
 var signup = require('./backend/signup.js');
 var ipGeolocation = require('./backend/ipGeolocation.js');
 var uploadHar  = require('./backend/uploadHar.js');
+var viewInfo  = require('./backend/viewInfo.js');
 var changeSettings  = require('./backend/changeSettings.js');
 var app = express();
+
 
 //app.use(bodyParser.urlencoded({extended: true }));
 app.use(bodyParser.json({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -46,3 +48,5 @@ uploadHar.uploadHar(app,connection);
 changeSettings.changeSettings(app,connection);
 
 ipGeolocation.ipGeolocation(app,connection);
+
+viewInfo.viewInfo(app,connection);

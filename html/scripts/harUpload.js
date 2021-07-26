@@ -62,7 +62,7 @@ function readHar() {
             fetch("/upload",
             {
                 method: 'POST',
-                headers: { "Content-Type": "application/json", "name":name },
+                headers: { "Content-Type": "application/json"},
                 body: JSON.stringify(uploadValues)
             })
             .then(function(res){ res.json(); })

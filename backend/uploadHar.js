@@ -6,6 +6,7 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
     app.post("/upload", function (request, response) {
 
         var data = request.body;
+        console.log(request.headers.cookie);
         var cookie = JSON.parse(request.headers.cookie);
 
         for(var i in data){
