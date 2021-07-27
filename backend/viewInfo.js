@@ -3,8 +3,7 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
         connection.query('SELECT COUNT(*) as count FROM User WHERE isAdmin=0', function(err,result,fields){
             if (err) throw  err;
             response.send(result[0].count.toString());
-            });
-    });
+            }); });
     app.get('/methodCount', function (request, response) {
         connection.query('SELECT method,COUNT(method) as count FROM Entry GROUP BY method', function(err,result,fields){
             if (err) throw  err;
@@ -45,28 +44,42 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
             if (err) throw  err;
             let cont_type = {}
             for(let i in result){
-                if(result[i].type !== null ){
+//                 if(result[i].type !== null ){
+// 
+//                         if(result[i].type.includes(';')) {
+//                             if(!( result[i].type.split(';')[0] in cont_type))
+//                                 cont_type[ result[i].type.split(';')[0]] = result[i].count
+//                             else
+//                                 cont_type[ result[i].type.split(';')[0]] += result[i].count
+//                             //cont_type[result[i].type] = result[i].count
+//                         }
+//     
+//                         else{ 
+//                             if(!( result[i].type in cont_type))
+//                                 cont_type[ result[i].type] = result[i].count
+//                             else
+//                                 cont_type[ result[i].type] += result[i].count
+//                         }
+//                 }
+            cont_type[result[i].type] = result[i].count;
+          }
+            console.log(cont_type)
 
-                        if(result[i].type.includes(';')) {
-                            if(!( result[i].type.split(';')[0] in cont_type))
-                                cont_type[ result[i].type.split(';')[0]] = result[i].count
-                            else
-                                cont_type[ result[i].type.split(';')[0]] += result[i].count
-                            //cont_type[result[i].type] = result[i].count
-                        }
-    
-                        else{ 
-                            if(!( result[i].type in cont_type))
-                                cont_type[ result[i].type] = result[i].count
-                            else
-                                cont_type[ result[i].type] += result[i].count
-                        }
-                }
+          var sqlquery ="";
+          for(let i in cont_type){
+            sqlquery += ("SELECT AVG(TIME_TO_SEC(startedDateTime)) as ctime, expiresResponse as exp  FROM Entry WHERE `content-typeResponse`=\"" + i +"\"; ")
             }
-
-
-
-            });
+            connection.query(sqlquery,function(err,result,fields){
+                var startTime = {}
+                var endTime = {}
+                for(var i=1; i<Object.keys(cont_type).length; i++){
+                    startTime[Object.keys(cont_type)[i]] = result[i][0].ctime
+                    endTime[Object.keys(cont_type)[i]] = result[i][0].exp
+                }
+                console.log(endTime['font/woff2'].split(' ')[4])
+                });
+            
+        });
     });
 }
 
