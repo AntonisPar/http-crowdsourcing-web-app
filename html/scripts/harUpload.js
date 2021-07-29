@@ -3,7 +3,7 @@ var uploadButton = document.getElementById("uploadBut");
 function inHeaders(obj) {
     let inHeaderValues = {};
     for (var i in obj) {
-        let checkName = ['cache-control', 'pragma', 'host', 'last-modified', 'content-type', 'expires'];
+        let checkName = ['cache-control', 'pragma', 'host', 'last-modified', 'content-type', 'expires','age'];
         if (checkName.includes(obj[i]["name"].toLowerCase())) {
             if (obj[i]['name'] != null && obj[i]['value'] != null) {
                 inHeaderValues[obj[i]['name'].toLowerCase()] = obj[i]['value'];

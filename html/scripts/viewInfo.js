@@ -1,5 +1,11 @@
 var infoBut = document.getElementById('infoView');
-var finalData = new Object();
+var finalData={};
+var usersEl = document.createElement('usersEl');
+var perMethodEl = document.createElement('perMethodEl');
+var perStatusEl = document.createElement('perStatusEl');
+var uniqueDomainsEl = document.createElement('uniqueDomainsEl');
+var uniqueIspEl = document.createElement('uniqueIspEl');
+var avgAgeEl = document.createElement('avgAgeEl');
 
 function userCount(){
     fetch('/userCount',
@@ -8,6 +14,7 @@ function userCount(){
         })
     .then(response =>  response.text())
     .then(data => {
+        finalData['user'] = data;
     })
 }
 
@@ -19,6 +26,7 @@ function perMethod(){
     .then(response => response.json())
     .then(data => {
         //console.log(data,data['GET'])
+        finalData['methodCount'] = data;
     })
 
 }
@@ -30,7 +38,7 @@ function perStatus(){
         })
     .then(response => response.json())
     .then(data => {
-        console.log(data)
+        finalData['statusCount'] = data;
     })
 }
 
@@ -41,7 +49,7 @@ function uniqueDomains(){
         })
     .then(response => response.text())
     .then(data => {
-        console.log(data)
+        finalData['domainsCount'] = data;
     })
 }
 
@@ -52,7 +60,7 @@ function uniqueIsp(){
         })
     .then(response => response.text())
     .then(data => {
-        console.log(data)
+        finalData['ispCount'] = data;
     })
 
 }
@@ -61,35 +69,30 @@ function avgAge(){
     fetch('avgAge', {
         method: 'GET'
     })
-    .then( respone => response.json())
+    .then( response => response.json())
     .then( data => {
-        console.log(data)
+        for(var i in data)
+        {
+            var h = data[i]/3600
+
+            var m = parseFloat("0."+h.toString().split('.')[1])*60
+            data[i] = h.toString().split('.')[0]+":"+m.toString().split('.')[0]
+        }
+        finalData['avgAge'] = data;
     })
 
 }
 
-function createTable(value){
+function createTable(){
   var body = document.getElementsByTagName('body')[0];
   var tbl = document.createElement('table');
-  tbl.style.width = '100%';
-  tbl.setAttribute('border', '1');
-  var tbdy = document.createElement('tbody');
-  for (var i = 0; i < 3; i++) {
-    var tr = document.createElement('tr');
-    for (var j = 0; j < 2; j++) {
-      if (i == 2 && j == 1) {
-        break
-      } else {
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(value))
-        i == 1 && j == 1 ? td.setAttribute('rowSpan', '2') : null;
-        tr.appendChild(td)
-      }
-    }
-    tbdy.appendChild(tr);
-  }
-  tbl.appendChild(tbdy);
-  body.appendChild(tbl)
+  userCount()
+  perMethod()
+  perStatus()
+  uniqueIsp()
+  uniqueDomains()
+  avgAge()
+  console.log(finalData)
 }
 
-infoBut.onclick = avgAge();
+infoBut.onclick = createTable();
