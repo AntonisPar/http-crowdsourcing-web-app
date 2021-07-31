@@ -1,5 +1,4 @@
 var infoBut = document.getElementById('infoView');
-var finalData={};
 var usersEl = document.createElement('usersEl');
 var perMethodEl = document.createElement('perMethodEl');
 var perStatusEl = document.createElement('perStatusEl');
@@ -7,92 +6,83 @@ var uniqueDomainsEl = document.createElement('uniqueDomainsEl');
 var uniqueIspEl = document.createElement('uniqueIspEl');
 var avgAgeEl = document.createElement('avgAgeEl');
 
-function userCount(){
-    fetch('/userCount',
+async function userCount(){
+    let response = await fetch('/userCount',
         {
             method: 'GET'
         })
-    .then(response =>  response.text())
-    .then(data => {
-        finalData['user'] = data;
-    })
+    return await response.text()
+
 }
 
-function perMethod(){
-    fetch('/methodCount',
+async function perMethod(){
+    let response = await fetch('/methodCount',
         {
             method: 'GET'
         })
-    .then(response => response.json())
-    .then(data => {
-        //console.log(data,data['GET'])
-        finalData['methodCount'] = data;
-    })
-
+    return await response.json()
 }
 
-function perStatus(){
-    fetch('/statusCount',
+async function perStatus(){
+    let response = await fetch('/statusCount',
         {
             method: 'GET'
         })
-    .then(response => response.json())
-    .then(data => {
-        finalData['statusCount'] = data;
-    })
+    return await response.json()
 }
 
-function uniqueDomains(){
-    fetch('/domainsCount',
+async function uniqueDomains(){
+    let response = await fetch('/domainsCount',
         {
             method: 'GET'
         })
-    .then(response => response.text())
-    .then(data => {
-        finalData['domainsCount'] = data;
-    })
+    return await response.text()
 }
 
-function uniqueIsp(){
-    fetch('/ispCount',
+async function uniqueIsp(){
+    let response = await fetch('/ispCount',
         {
             method: 'GET'
         })
-    .then(response => response.text())
-    .then(data => {
-        finalData['ispCount'] = data;
-    })
 
+    return await response.text();
 }
 
-function avgAge(){
-    fetch('avgAge', {
+async function avgAge(){
+    let response = await fetch('avgAge', {
         method: 'GET'
     })
-    .then( response => response.json())
-    .then( data => {
-        for(var i in data)
-        {
-            var h = data[i]/3600
-
-            var m = parseFloat("0."+h.toString().split('.')[1])*60
-            data[i] = h.toString().split('.')[0]+":"+m.toString().split('.')[0]
-        }
-        finalData['avgAge'] = data;
-    })
-
+    return await response.json()
 }
 
-function createTable(){
-  var body = document.getElementsByTagName('body')[0];
-  var tbl = document.createElement('table');
-  userCount()
-  perMethod()
-  perStatus()
-  uniqueIsp()
-  uniqueDomains()
-  avgAge()
-  console.log(finalData)
-}
+async function createTable(){
+    let finalData = {
+        "users": await userCount(),
+        "isps": await uniqueIsp(),
+        "domains": await uniqueDomains(),
+        "age": await avgAge(),
+        "perMethod": await perMethod(),
+        "perStatus": await perStatus()
+    }
 
+    let div = document.getElementById('tables');
+    let table = document.createElement('table')
+    var header = table.createTHead();
+    //for(let i=0; i < finalData.length; i++)
+    for(let i in finalData)
+    {
+    var k = 0 ;
+    var row = header.insertRow(k);    
+     var cell = row.insertCell(0);
+     cell.innerHTML = i + " " ;
+     k++;
+//        for(let j in finalData[i])
+//        {
+//            let subrow = 
+//        }
+            
+    }
+    div.append(table)
+
+}
 infoBut.onclick = createTable();

@@ -43,7 +43,12 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
         connection.query('SELECT `content-typeResponse` as type, AVG(age) as age  FROM Entry WHERE age!="NULL" GROUP BY `content-typeResponse`', function(err,result,fields){
             var avgAge = {}
             for( var i in result){
-                avgAge[result[i].type] = result[i].age;
+
+                var h = result[i].age/3600
+
+                var m = parseFloat("0."+h.toString().split('.')[1])*60
+                avgAge[result[i].type] = h.toString().split('.')[0]+":"+m.toString().split('.')[0]
+
             }
             if (err) throw  err;
             response.send(avgAge);
