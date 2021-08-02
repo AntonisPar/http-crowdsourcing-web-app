@@ -1,4 +1,5 @@
 var infoBut = document.getElementById('infoView');
+document.getElementById('viewInfo').style.visibility = 'hidden';
 
 async function userCount(){
     let response = await fetch('/userCount',
@@ -100,7 +101,7 @@ async function createTable(){
         options: chartOptions,
     });
 
-    let div = document.getElementById('tables');
+    let div = document.getElementById('viewInfo');
     let table = document.createElement('table')
     var header = table.createTHead();
     var row1 = header.insertRow(0);    
@@ -180,4 +181,21 @@ async function createTable(){
     }
 }
 
-infoBut.onclick = createTable();
+function clickAct()
+{
+    let div = document.getElementById('viewInfo')
+    console.log(div.style.visibility)
+    if(div.style.visibility === 'hidden')
+    {
+        createTable()
+        div.style.visibility='visible'
+    }
+    else
+    {
+        div.style.visibility='hidden'
+    }
+
+
+}
+
+infoBut.onclick = clickAct;
