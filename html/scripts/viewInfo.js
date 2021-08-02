@@ -68,21 +68,45 @@ async function createTable(){
     let div = document.getElementById('tables');
     let table = document.createElement('table')
     var header = table.createTHead();
-    //for(let i=0; i < finalData.length; i++)
-    for(let i in finalData)
-    {
-    var k = 0 ;
-    var row = header.insertRow(k);    
-     var cell = row.insertCell(0);
-     cell.innerHTML = i + " " ;
-     k++;
-//        for(let j in finalData[i])
-//        {
-//            let subrow = 
-//        }
-            
-    }
+    console.log(finalData)
+    var row1 = header.insertRow(0);    
+    row1.insertCell(0).innerHTML = "Unique ISPs" ;
+    row1.insertCell(0).innerHTML  = "Unique Domains" ;
+    row1.insertCell(0).innerHTML = "Number of Users" ;
+    var row2 = header.insertRow(1)
+    row2.insertCell(0).innerHTML = finalData.isps ;
+    row2.insertCell(0).innerHTML  = finalData.domains ;
+    row2.insertCell(0).innerHTML = finalData.users ;
+    
     div.append(table)
 
+    for(let key=0; key<Object.keys(finalData).length; key++)
+    {
+        if( (Object.keys(finalData)[key] === 'age') || (Object.keys(finalData)[key] === 'perMethod') || (Object.keys(finalData)[key] === 'perStatus'))
+        {
+            let table = document.createElement('table');
+            let k =Object.keys(finalData); 
+            for(let i=0; i<Object.keys(k[key]).length; i++)
+            {  
+               console.log( finalData[key].length)
+                let info = finalData[k[key]]
+            //    let table = document.createElement('table')
+            //    var header = table.createTHead();
+            //    console.log(finalData)
+            //    var row1 = header.insertRow(0);    
+            //    row1.insertCell(0).innerHTML = "Unique ISPs" ;
+            //    row1.insertCell(0).innerHTML  = "Unique Domains" ;
+            //    row1.insertCell(0).innerHTML = "Number of Users" ;
+                var header = table.createTHead();
+                var row = header.insertRow(0);
+                //row.insertCell(0).innerHTML = Object.keys(info);
+                //row.insertCell(1).innerHTML = info[i];
+                console.log(info)
+                div.append(table)
+                
+            }
+        }
+    }
 }
+
 infoBut.onclick = createTable();
