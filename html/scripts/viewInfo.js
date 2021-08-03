@@ -1,5 +1,5 @@
 var infoBut = document.getElementById('infoView');
-document.getElementById('viewInfo').style.visibility = 'hidden';
+document.getElementById('viewInfo').style.display = 'none';
 
 async function userCount(){
     let response = await fetch('/userCount',
@@ -185,14 +185,14 @@ function clickAct()
 {
     let div = document.getElementById('viewInfo')
     console.log(div.style.visibility)
-    if(div.style.visibility === 'hidden')
+    if(div.style.display === 'none')
     {
         createTable()
-        div.style.visibility='visible'
+        div.style.display='block'
     }
     else
     {
-        div.style.visibility='hidden'
+        div.style.display='none'
     }
 
 
