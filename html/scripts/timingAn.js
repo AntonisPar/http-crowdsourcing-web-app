@@ -2,9 +2,17 @@ var timingBut = document.getElementById('timing');
 
 async function getData()
 {
-    let response = await fetch('/timingData',{
-        method: 'GET'
+    fetch('/timingData',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain'
+        },
+        body: 
     })
+    .then(res => res.text())
 
-    return await response.json()
 }
+
+
+var x = getData()
+console.log(x)
