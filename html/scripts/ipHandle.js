@@ -62,7 +62,7 @@ function handleIP(){
                     
                     var heatmapLayer = new HeatmapOverlay(cfg);
                     
-                    var map = new L.Map('map-canvas', {
+                    var map = new L.Map('mapid', {
                       center: new L.LatLng(25.6586, -80.3568),
                       zoom: 4,
                       layers: [baseLayer, heatmapLayer]
