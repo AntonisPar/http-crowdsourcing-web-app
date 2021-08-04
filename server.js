@@ -7,6 +7,8 @@ var signup = require('./backend/signup');
 var upload = require('./backend/upload');
 var changeSettings = require('./backend/changeSettings');
 var ipGeolocation = require('./backend/ipGeolocation');
+var viewInfo  = require('./backend/viewInfo.js');
+var timingAn  = require('./backend/timingAn.js');
 var app = express();
 
 
@@ -41,6 +43,8 @@ app.get('/', function (request, response) {
 
 login.login(app,connection,path);
 signup.signup(app,connection);
-upload.upload(app,connection);
+upload.uploadHar(app,connection);
 changeSettings.changeSettings(app,connection);
 ipGeolocation.ipGeolocation(app,connection);
+viewInfo.viewInfo(app,connection);
+timingAn.timingAn(app, connection);

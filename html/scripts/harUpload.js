@@ -1,15 +1,9 @@
 var uploadButton = document.getElementById("uploadBut");
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
- 
 function inHeaders(obj) {
     let inHeaderValues = {};
     for (var i in obj) {
-        let checkName = ['cache-control', 'pragma', 'host', 'last-modified', 'content-type', 'expires'];
+        let checkName = ['cache-control', 'pragma', 'host', 'last-modified', 'content-type', 'expires','age'];
         if (checkName.includes(obj[i]["name"].toLowerCase())) {
             if (obj[i]['name'] != null && obj[i]['value'] != null) {
                 inHeaderValues[obj[i]['name'].toLowerCase()] = obj[i]['value'];
@@ -65,22 +59,38 @@ function readHar() {
                 addHeaderValues(harResponse, valueArr, "Response");
                 uploadValues[key] = valueArr;
             }
-            var name = getCookie('username');
-            console.log(name);
             fetch("/upload",
             {
                 method: 'POST',
-                headers: { "Content-Type": "application/json", "name":name },
+                headers: { "Content-Type": "application/json"},
                 body: JSON.stringify(uploadValues)
             })
-            .then(function(res){ return res.json(); })
+            .then(function(res){ res.json(); })
         }
 
         reader.onerror = function () {
             console.log("error loading file");
         }
 
+        fetch("http://ip-api.com/json/?fields=lat,lon,isp,status",
+            {
+                method: 'GET',
+                headers:{
+                    "content-type": "application/json"
+                }
+            })
+            .then( response => response.json())
+            .then (ipInfo => {
+                fetch('/myisp',
+                    {
+                        method: 'POST',
+                        headers: {"content-type": "application/json"},
+                        body: JSON.stringify(ipInfo)
+                    })
+                    .then(res => res.json())
+            })
+
     }
 }
 
-uploadButton.onclick = readHar; 
+uploadButton.onclick = readHar;

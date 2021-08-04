@@ -1,7 +1,7 @@
 function getInfo(){
     var cookies = JSON.parse(document.cookie);
 
-    fetch("/user_settings",
+    fetch("/info",
         {
             method: 'GET',
             headers: cookies
@@ -21,3 +21,53 @@ function getInfo(){
         })
     
 }
+
+
+var subBut = document.getElementById('sub');
+
+function changeSettings(){
+    var mes = document.getElementById("infoMess");
+    var passFormat = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    var fields = {
+        "new_name": document.getElementById('new_username').value,
+        "new_password": document.getElementById('new_password').value,
+        "confirm_pass": document.getElementById('confirm_pass').value,
+        "old_pass": document.getElementById('old_pass').value,
+
+    }
+
+    if(!passFormat.test(fields['new_password'])){
+        mes.innerHTML = "Password incorrect Format";
+    }
+    else if(fields['new_password'] !== fields['confirm_pass']){
+
+       mes.innerHTML = "The passwords you enetered are different";
+    }
+
+    else {
+
+        fetch("/settings",
+            {
+            method: 'POST',
+            headers: {
+          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+            body: JSON.stringify(fields)
+        })
+        .then( res => res.text())
+        .then( data => {
+            
+            console.log(data)
+            if(data === "1"){
+                mes.innerHTML="settings changed succesfully";
+            }
+            
+            else if (data === "3"){
+                mes.innerHTML ="Incorrect Password";
+            }
+        })
+    }
+}
+
+subBut.onclick = changeSettings;

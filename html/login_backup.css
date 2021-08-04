@@ -1,0 +1,75 @@
+body{
+    background-color: #ededed;
+    color: #000000;
+    text-align: center;
+    white-space: pre-line;
+    justify-content:center;
+  }
+  
+  .welcome{
+  
+    background-image: url("img/background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: relative;
+    background-position: center;
+    background-size: 60% 80%; 
+  }
+  
+  .ball{
+      position: absolute;
+      border-radius: 100%;
+      opacity: 0.9;
+  }
+  
+  .welcome{
+      display: visible;
+      padding-top: 20rem;
+      padding-bottom: 20rem;
+      padding-right: 50%
+  }
+  #wel{
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      margin-top: -50px;
+      margin-left: -110px;
+      font-size: 55px;
+  }
+  .login{
+      position: absolute;
+      padding-top: 10rem;
+      align-items:center;
+      justify-content: center;
+      white-space: pre-line;
+      text-align: center;
+      right: 50%;
+      margin-right: -10px;
+  }
+  .signBut{
+      display: absolute;
+      align-items:center;
+      justify-content: center;
+      padding-bottom: 15rem;
+  }
+  #scroll{
+  
+      position: absolute;
+      top: 90%;
+      margin-left: 450px;
+      width: 2%;
+      height: 4%;
+  }
+  h2{
+      position: absolute;
+      left: 50%;
+  }
+  .sub{
+  
+      white-space: pre-line;
+      justify-content:center;
+  }
+  
+  input,label{
+    position:absolute;
+    display: block;
+  }
