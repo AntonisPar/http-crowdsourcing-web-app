@@ -19,33 +19,29 @@ async function selectChange()
 
     var filterType = listEl.options[listEl.selectedIndex].value;
     let data = await getData(filterType)
-    console.log(data)
-    labels = data[1]
-    console.log(labels)
-    data = data[0]
+    var labels = [...new Set(data['labels'])]
+    data = data['data']
+
+    for(var i in labels)
+    {
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = labels[i];
+            checkbox.id =    'check';
+            checkbox.name =  labels[i];
+            var label = document.createElement('label')
+            label.htmlFor =  labels[i];
+            label.appendChild(document.createTextNode(labels[i]));
+            timingDiv.append(checkbox);
+            timingDiv.append(label);
+
+    }
     let filterMap = {
         'method':'method',
         '\`content-typeResponse\`': 'type',
         'dayname(startedDateTime)' : 'time'
     }
-    for(var i in data)
-    {
-        for(var j in data[i])
-        {
-            var checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.value = data[i][j].check;
-            checkbox.id = data[i][j].check;
-            checkbox.name = data[i][j].check;
-            var label = document.createElement('label')
-            label.htmlFor =  data[i][j].check;
-            label.appendChild(document.createTextNode( data[i][j].check));
- 
-            timingDiv.append(checkbox)
-            timingDiv.append(label)
-            console.log(data[i][j].check)
-        }
-    }
+    createChart(data)
 
 }
 
@@ -61,6 +57,11 @@ async function getData(filter)
     });
     return await response.json()
 
+}
+
+function createChart(dataObj)
+{
+    console.log(dataObj)
 }
 
 timingBut.onclick = clickTimingBut

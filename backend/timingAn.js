@@ -27,15 +27,12 @@ module.exports.timingAn =  function timingAn(app, connection) {
                     data[key].push(obj)
                  }
              }
-             var arr = {}
-             var labels = new Set(label)
              
-             arr = {
-                 'labels': labels.keys(),
-                 ...data
+             var toSend = {
+                 'labels': label,
+                 'data' : data
              }
-             console.log(arr)
-             response.send(arr)
+             response.send(toSend)
 
             });
     });
