@@ -8,6 +8,7 @@ var ipGeolocation = require('./backend/ipGeolocation.js');
 var uploadHar  = require('./backend/uploadHar.js');
 var viewInfo  = require('./backend/viewInfo.js');
 var timingAn  = require('./backend/timingAn.js');
+var polyline  = require('./backend/polyline.js');
 var changeSettings  = require('./backend/changeSettings.js');
 var app = express();
 
@@ -53,3 +54,5 @@ ipGeolocation.ipGeolocation(app,connection);
 viewInfo.viewInfo(app,connection);
 
 timingAn.timingAn(app,connection);
+
+polyline.polyline(app,connection);
