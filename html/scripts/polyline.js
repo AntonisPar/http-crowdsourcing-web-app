@@ -14,19 +14,19 @@ async function getReqDest(ips)
 {
     var endpoint = "http://ip-api.com/batch?fields=query,lat,lon,status,isp"
     var ip = [];
-    for(let i=0; i<Object.keys(ips).length; i++)
+    for(var i in ips)
     {
-        if(ips[i].serverIPAddress !== '')
-            ip[i] = ips[i].serverIPAddress.match(/\w.*\w/)[0].toString()
+        for(var j in ips[i])
+            ip.push(ips[i][j].ip)
     }
-    console.log(ip)
+    console.log(JSON.stringify(ip))
 
     var dest = await fetch(endpoint,
         {
             method: 'POST',
             body: JSON.stringify(ip)
         });
-    return await dest.json()
+    return await dest.json();
 }
 
 async function createMap()
@@ -43,9 +43,21 @@ async function createMap()
 
     var data = await getData()
     var httpDest = await getReqDest(data)
+    for(var i in data)
+    {
+        for(let j=0; j<Object.keys(httpDest).length; j++)
+        {
+            data[i][j].ip = httpDest[j].lat.toString() + ',' + httpDest[j].lon.toString()
+        }
+    }
     for(let i in data)
     {
-        L.marker([data[i].lat, data[i].lon]).addTo(mymap)
+        L.marker([parseFloat(i.split(',')[0]), parseFloat(i.split(',')[1])]).addTo(mymap)
+        for(var j in data[i])
+        {
+            let cords = [[parseFloat(i.split(',')[0]), parseFloat(i.split(',')[1])],[parseFloat(data[i][j].ip.split(',')[0]),parseFloat(data[i][j].ip.split(',')[1])]]
+            L.polyline(cords).addTo(mymap);
+        }
     }
 }
 
