@@ -184,10 +184,12 @@ async function createTable(){
 function clickAct()
 {
     let div = document.getElementById('viewInfo')
-    console.log(div.style.visibility)
     if(div.style.display === 'none')
     {
+        document.getElementById('map').style.display='none'
+        document.getElementById('timingDiv').style.display='none'
         createTable()
+
         div.style.display='block'
     }
     else

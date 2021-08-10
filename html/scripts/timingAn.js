@@ -57,6 +57,7 @@ function clickTimingBut()
 {
     if (timingDiv.style.display === 'none')
     {
+        document.getElementById('map').style.display='none'
         timingDiv.style.display = 'block';
         tablesDiv.style.display = 'none';
         selectChange();
