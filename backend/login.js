@@ -1,5 +1,5 @@
 var CryptoJS = require('crypto-js');
-var path = require( 'path');
+var path = require('path');
 
 module.exports.login =  function login(app,connection,path) {
  app.get('/', function (request, response) {

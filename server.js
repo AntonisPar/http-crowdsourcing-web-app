@@ -2,13 +2,15 @@ var mysql = require('mysql');
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
-var login = require('./backend/login');
-var signup = require('./backend/signup');
-var upload = require('./backend/upload');
-var changeSettings = require('./backend/changeSettings');
-var ipGeolocation = require('./backend/ipGeolocation');
+var login = require('./backend/login.js');
+var signup = require('./backend/signup.js');
+var upload = require('./backend/upload.js');
+var changeSettings = require('./backend/changeSettings.js');
+var ipGeolocation = require('./backend/ipGeolocation.js');
 var viewInfo  = require('./backend/viewInfo.js');
 var timingAn  = require('./backend/timingAn.js');
+var headersInfo = require('./backend/headersInfo.js');
+var polyline = require('./backend/polyline.js');
 var app = express();
 
 
@@ -37,10 +39,6 @@ var server = app.listen(3000, function () {
     console.log('Express app listening at http://%s:%s', host, port)
 });
 
-app.get('/', function (request, response) {
-    response.sendFile(path.join('/home/ubuntu/Documents/Web_Project/http-crowdsourcing-web-app/html/signup.html'));
-});
-
 login.login(app,connection,path);
 signup.signup(app,connection);
 upload.uploadHar(app,connection);
@@ -48,3 +46,5 @@ changeSettings.changeSettings(app,connection);
 ipGeolocation.ipGeolocation(app,connection);
 viewInfo.viewInfo(app,connection);
 timingAn.timingAn(app, connection);
+polyline.polyline(app, connection);
+headersInfo.headersInfo(app, connection);

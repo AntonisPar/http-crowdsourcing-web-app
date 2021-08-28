@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width" />
     <script src=" https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"> </script>
     <title>Choose an Action</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+       crossorigin=""/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heatmap.js/2.0.1/heatmap.js"></script>
+
 </head>
 
 <body>
@@ -13,12 +20,30 @@
         <button type="infoView" id="infoView">View Information</button>
         <button type="timing" id="timing">Timing Analysis</button>
         <button type="headers" id="headers">Headers Analysis</button>
-        <button type="heat" id="heat">Heat map</button>
+        <button type="polyline" id="polyline">Heat map</button>
     </div>
-    <div id='viewInfo'>
+    <div id='viewInfo' class='info'>
     </div>
+    <div id='timingDiv' class='info'>
+        <select name="filter" id="filter">
+            <option value= "method">By Method</option>
+              <option value="`content-typeResponse`">By Content-Type</option>
+              <option value="dayname(startedDateTime)">By Day of the Week</option>
+              <option value="isp">By ISP</option>
+        </select>
+    </div>
+    <div id='headers_div' class='info'>
+
+    </div>
+    <div id='map'>
+    </div>
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
     <script charset="utf-8" type="text/javascript" src="scripts/viewInfo.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/timingAn.js"></script>
+    <script charset="utf-8" type="text/javascript" src="scripts/polyline.js"></script>
+    <script src="https://unpkg.com/leaflet-heatmap@1.0.0/leaflet-heatmap.js"></script>
 </body>
 
 </html>
