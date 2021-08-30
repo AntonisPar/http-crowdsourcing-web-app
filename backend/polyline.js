@@ -21,7 +21,6 @@ module.exports.polyline =  function polyline(app, connection) {
                         toSend[(result[i].lat.toString() + "," + result[i].lon.toString())].push(dataObj)
 
              }
-             console.log(toSend)
              response.send(toSend)
 
             });

@@ -3,12 +3,13 @@ var polyBut = document.getElementById('polyline')
 mapDiv.style.height='600px'
 mapDiv.style.display = 'none';
 
-function butClick()
+function mapButClick()
 {
     if(mapDiv.style.display === 'none')
     {
         document.getElementById('viewInfo').style.display='none'
         document.getElementById('timingDiv').style.display='none'
+        document.getElementById('headersDiv').style.display='none'
         mapDiv.style.display = 'block';
         createMap();
     }
@@ -86,4 +87,4 @@ async function createMap()
     }
 }
 
-polyBut.onclick = butClick;
+polyBut.onclick = mapButClick;

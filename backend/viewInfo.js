@@ -28,7 +28,7 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
             });
     });
     app.get('/domainsCount', function (request, response) {
-        connection.query('SELECT COUNT(DISTINCT serverIPAddress) as count FROM Entry', function(err,result,fields){
+        connection.query('SELECT COUNT(DISTINCT url) as count FROM Entry', function(err,result,fields){
             if (err) throw  err;
             response.send(result[0].count.toString());
             });
@@ -40,7 +40,7 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
             });
     });
     app.get('/avgAge', function (request, response) {
-        connection.query('SELECT `content-typeResponse` as type, AVG(age) as age  FROM Entry WHERE age!="NULL" GROUP BY `content-typeResponse`', function(err,result,fields){
+        connection.query('SELECT `content-typeResponse` as type, AVG(ageResponse) as age  FROM Entry WHERE ageResponse!="NULL" GROUP BY `content-typeResponse`', function(err,result,fields){
             var avgAge = {}
             for( var i in result){
 

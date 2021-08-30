@@ -53,7 +53,7 @@ async function getData(filter)
 
 }
 
-function clickTimingBut()
+function timingButClick()
 {
     if (timingDiv.style.display === 'none')
     {
@@ -181,5 +181,5 @@ function checkAll()
 }
 
 
-timingBut.onclick = clickTimingBut
+timingBut.onclick = timingButClick;
 listEl.onchange = selectChange

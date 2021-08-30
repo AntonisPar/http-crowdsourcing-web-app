@@ -15,6 +15,8 @@ module.exports.timingAn =  function timingAn(app, connection) {
              {
                 var padded = [];
                 let key = result[i][filterMap[filter['filter']]]
+                if(key === null)
+                    continue;
                 for( var j =0; j<=24; j++)
                 {
                         padded[j]=0;

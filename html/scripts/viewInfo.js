@@ -181,13 +181,14 @@ async function createTable(){
     }
 }
 
-function clickAct()
+function infoButClick()
 {
     let div = document.getElementById('viewInfo')
     if(div.style.display === 'none')
     {
         document.getElementById('map').style.display='none'
         document.getElementById('timingDiv').style.display='none'
+        document.getElementById('headersDiv').style.display='none'
         createTable()
 
         div.style.display='block'
@@ -200,4 +201,4 @@ function clickAct()
 
 }
 
-infoBut.onclick = clickAct;
+infoBut.onclick = infoButClick;
