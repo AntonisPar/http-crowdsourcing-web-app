@@ -1,6 +1,8 @@
 function getInfo(){
     var cookies = JSON.parse(document.cookie);
 
+    document.getElementById('new_password')[0].placeholder="Current Username: " + cookies.username
+
     fetch("/info",
         {
             method: 'GET',
@@ -8,22 +10,26 @@ function getInfo(){
         })
         .then(res => res.json())
         .then(data => {
-            var tagEntry = document.createElement("p");
-            var tagDate = document.createElement("p");
-            var entries = document.createTextNode("Number Of Entries: " + data[0]['entryNum']);
-            tagEntry.appendChild(entries);
+            var tagEntry = document.getElementById("num_of_entries");
+            var tagDate = document.getElementById("last_upload");
+            // var entries = document.createTextNode("Number Of Entries: " + data[0]['entryNum']);
+            tagEntry.innerHTML(entries);
             var lastDate = data[0]['lastDate'].split("T")[0]
-            var date = document.createTextNode("Last Upload Date: " + lastDate);
-            tagDate.appendChild(date);
-            var element = document.getElementById("main");
-            element.appendChild(tagEntry);
-            element.appendChild(tagDate);
+            var date = document.createTextNode(lastDate);
+            tagDate.innerHTML(date);
+            // var element = document.getElementById("main");
+            // element.appendChild(tagEntry);
+            // element.appendChild(tagDate);
         })
     
 }
 
 
 var subBut = document.getElementById('sub');
+
+// var cookies = JSON.parse(document.cookie);
+// document.getElementById('username').innerHTML = '<b>New Username</b>(current: ' + cookies.username+')'
+// kai vale stin html ekei p leei label id='username'
 
 function changeSettings(){
     var mes = document.getElementById("infoMess");

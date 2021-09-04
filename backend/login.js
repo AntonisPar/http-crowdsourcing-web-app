@@ -15,7 +15,7 @@ module.exports.login =  function login(app,connection,path) {
                     if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
                         if(response[0].isAdmin === 0)
                         //res.redirect('/main.html');
-                            res.send('/main.html');
+                            res.send('/har.html');
                         else
                             res.send('/mainAdmin.html');
                     }

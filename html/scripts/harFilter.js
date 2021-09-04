@@ -21,6 +21,7 @@ function filterHar() {
   var harFile = document.getElementById("harFile").files[0];
   var reader = new FileReader();
   reader.readAsText(harFile, "UTF-8");
+  var file_name = harFile.name;
 
   reader.onload = function () {
 
@@ -34,11 +35,12 @@ function filterHar() {
     testObject = remove(harContent, itemsToFilter);
     var sensitive = JSON.stringify(testObject, null, 2);
     var blob = new Blob([sensitive], {type: "application/json"});
-    var url = URL.createObjectURL(blob); 
+    var url = URL.createObjectURL(blob);
+    document.getElementById("choose_file_placeholder").innerHTML = file_name
     var filteredHar = document.createElement('a');
-    filteredHar.download = "sensitive.json"
+    filteredHar.download = file_name.split(".har")[0]+ "-FILTERED.har"
     filteredHar.href = url;
-    filteredHar.textContent = "Download Filtered Har"
+    filteredHar.textContent = "Download Filtered .HAR file"
 
     var linkNode = document.getElementById('link')
     if(linkNode.hasChildNodes()){

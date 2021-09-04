@@ -1,30 +1,111 @@
 <!DOCTYPE html>
-<html>
+
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Upload you .har file</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+   <title>.HAR Analyzer - Upload File</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="icon" href="./img/har_analyzer-removebg-preview.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <style>
+    body{
+      background-color: rgb(219,226,226);
+    }
+    .container{
+        margin-top: 1%;
+        padding-right: 1.5%;
+        padding-left: 1.5%;
+        padding-top: 1%;
+        padding-bottom: 2%;
+        /* padding-bottom : 20px; */
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 5px 5px 15px;
+    }
+    a:link{
+        color: white;
+    }
+    .navbar{
+        margin-top: 0.5%;
+        margin-left: 0.5%;
+        margin-right: 0.5%;
+        border-radius: 50px;
+    }
+    /* .custom-file{
+        /* margin-left: 10%;  */
+        /* margin-right: 10% */
+    /* } */
+  </style>
+
 </head>
 
 <body>
-    <h1>Upload Har!</h1>
 
-    <div class="fileSel">
-        <label for="harFile">Select a file:</label>
-        <input type="file" value="harFile" name="harFile" id="harFile" />
-        <button type="button" id="uploadBut">Upload</button>
-        <a id="link" class="content"></a>
-        <button type="ip" id="ip">Get IPs</button>
-    </div>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-brand">
+            <img src="./img/har_analyzer-removebg-preview.png" width="75" height="75" class="d-inline-block" alt="">
+            .HAR Analyzer</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Filter file <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/html/heatmap.html">Data Visualisation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/html/profileSettings.html">Settings</a>
+            </li>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+    <!-- CONTENT -->
+        <div class="container ">
+            <h1><b>Filter and Upload a .HAR file</b></h1>
+
+            <div class="container-fluid" style="margin-top: 3%;">
+                <div class="row">
+                  <div class="col">
+                    <!-- EMPTY ON PURPOSE -->
+                  </div>
+                  <div class="col-6">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="harFile" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" id="choose_file_placeholder" for="inputGroupFile01">Choose file</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <!-- EMPTY ON PURPOSE -->
+                  </div>
+            </div>
+            
+            <div class="row" style="margin-top: 5%; text-align: center;">
+                <div class="col-6">
+                    <button type="button" id="uploadBut" class="btn btn-secondary btn-lg" role="button">Upload File</button>
+                </div>
+                <div class="col-6">
+                    <a id="link" class="link btn btn-secondary btn-lg" href="#" role="button">Download Filtered .HAR file</a>
+                </div>
+                <!-- <button type="ip" id="ip">Get IPs</button> -->
+            </div>
+        </div>
+    
 
     <script charset="utf-8" type="text/javascript" src="scripts/harFilter.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/harUpload.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/ipHandle.js"></script>
-    <link rel="stylesheet" href="har.css?v=1.1" type="text/css" media="screen" title="no title" charset="utf-8">
+    <!-- <link rel="stylesheet" href="har.css?v=1.1" type="text/css" media="screen" title="no title" charset="utf-8"> -->
     <script charset="utf-8" type="text/javascript" src="scripts/redirectSettings.js"></script>
-    <link rel="stylesheet" href="har.css?v=1.1" type="text/css" media="screen" title="no title" charset="utf-8">
 </body>
 
 </html>
