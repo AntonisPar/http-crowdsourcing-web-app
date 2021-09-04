@@ -10,12 +10,13 @@ let barChartOptions = {
     scales:{
         y: {
             beginAtZero: true
+        },
+        xAxis: {
+            alignToPixels: true
         }
     },
     plugins: {
-      legend: {
-        position: 'top',
-      },
+      legend: { },
       title: {
         display: true,
         text: ''
@@ -27,6 +28,7 @@ let barChartOptions = {
 async function cacheChartCreate(options)
 {
     let data = await getHeadersData()
+    let ttldata = await getTtlData()
     if(typeof(document.getElementById('canvas'+options[0])) !== 'undefined' && document.getElementById('canvas'+options[0]) !== null)
        document.getElementById('canvas'+options[0]).remove()
     let cacheChartPlaceHolder = document.createElement('canvas')
@@ -56,28 +58,27 @@ async function cacheChartCreate(options)
 
     if(options[0] === 'max-age')
     {
-        for(var i in data[list.value])
-        {
-            var header = table.createTHead();
-            var row1 = header.insertRow(0);    
-            var header = table.createTHead();
-            var row = header.insertRow(0);
-            let d = [];
-            if(cacheCheckedList.includes(i))
-            {
-                var age =data[list.value][i]['max-age']/data[list.value][i]['count'] 
-                d.push(age)
-                    plotData.datasets.push( {
-                            label: i,
-                            data: d
-                        })
-                    row.insertCell(0).innerHTML = i
-                    row.insertCell(1).innerHTML = age
-                }
-            }
-            cacheChart.data = plotData;
-            cacheChart.update()
-            headersDiv.append(table)
+        plotData.labels=Object.keys(ttldata[list.value]).slice(0,10)
+        plotData.datasets.push({
+            label: [],
+            data: Object.values(ttldata[list.value]).slice(0,10)
+        })
+//        for(var i in ttldata[list.value])
+//        {
+//            var header = table.createTHead();
+//            var row1 = header.insertRow(0);    
+//            var header = table.createTHead();
+//            var row = header.insertRow(0);
+//            headersDiv.append(table)
+//            for(var label in plotData.labels)
+//                row.insertCell(0).innerHTML = label
+//            for(var val in plotData.datasets.data)
+//                console.log(val)
+//                //row.insertCell(1).innerHTML = val
+//                
+//        }
+        cacheChart.data = plotData;
+        cacheChart.update()
     }
     else
     {
@@ -85,9 +86,8 @@ async function cacheChartCreate(options)
         {
             let d = [];
             var header = table.createTHead();
-            var row1 = header.insertRow(0);    
-            var header = table.createTHead();
             var row = header.insertRow(0);
+            table.createTHead();
             if(cacheCheckedList.includes(i))
             {
             row.insertCell(0).innerHTML = i
@@ -137,6 +137,20 @@ async function getHeadersData()
 {
     let response = await fetch('/headersData',{
         method: 'GET',
+    });
+    return await response.json()
+
+}
+
+async function getTtlData()
+{
+    let response = await fetch('/ttlData',{
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'list':list.value
+        },
+        body: JSON.stringify(cacheCheckedList)
     });
     return await response.json()
 
@@ -227,7 +241,6 @@ function cacheCheckAll()
         }
     }
     allCacheBox.checked = true;
-    console.log(cacheCheckedList)
     cacheChartCreate(['max-age'])
     cacheChartCreate(['max-stale','min-fresh'])
     cacheChartCreate(['public','private','no-cache','no-store'])
