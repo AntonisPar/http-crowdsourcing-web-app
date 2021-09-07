@@ -1,0 +1,36 @@
+<html>
+    <head>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Change Profile Settings</title>
+
+    </head>
+
+    <body onload="getInfo()">
+        <div id='main'>
+        <h1><b>Change Profile Settings</b></h1>
+         
+        <label  for="username" id='username'><b>Username</b></label>
+        <input  type="text/submit/hidden/button" name="new_username" value="" id="new_username">
+  
+        <p id="p1">
+        <label for="pass"><b> Password </b></label>
+        <input id="new_password" type="password"  name="new_password" > 
+        <input id="confirm_pass" type="password"  name="confirm_pass" > 
+        </p>
+  
+        <input id="old_pass" type="password"  name="old_pass" > 
+        <input type="submit" id="sub" value="Confirm">
+        <p id='infoMess'> </p>
+  
+        </div>
+        <div id='alert' class="alert alert-danger" role="alert"
+                               style='display:none;'>
+        </div>
+
+      <script charset="utf-8" type="text/javascript" src="scripts/settingsInfoReq.js"></script> 
+
+
+    </body>
+</html>

@@ -2,25 +2,40 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!--script charset="utf-7" type="text/javascript" src="background.js"></script> -->
   </head>
+
   <body>
-    <h1> <b>Login</b> </h1>
-      
-     <div id="login"> 
-       <form action="api" method="POST" >
-         
-        <label  for="username"><b>Username</b></label>
-        <input  type="text/submit/hidden/button" name="username" value="" id="username">
+      <div class='start'>
+          <h1 id='wel'>Welcome!</h1>
+          <input type='image' src='img/scroll.png'  id="scroll" title="Log In"></input>
+      </div>
+
+    <div class='login' id='login'> 
+
+     <h2>Login</h2>
+             
+        <label  for="username" class="label">Username</label>
+        <input  type="text/submit/hidden/button" class="fields" value="" name="username" id="username">
+ 
+        <label for="pass" class="label">Password</label>
+        <input id="password" type="password" name="password" class="fields" > 
   
-        <label for="pass"><b> Password </b></label>
-        <input id="password" type="password"  name="password" required> 
-  
-        <input type="submit">
-  
-       </form>
-      </div> 
-      <link rel="stylesheet" href="login.css?v=1.1" type="text/css" media="all"> 
+        <input type="submit" id="loginBut" class="buttons" value="Log In">
+
+        <button class="buttons" id="signBut" >Sign Up</button>
+        <p id='erMes'></p>
+
+    </div>
+
+        <div id='alert' class="alert alert-danger" role="alert"
+                               style='display:none;'>
+        </div>
+    <script charset="utf-8" type="text/javascript" src="scripts/login.js"></script> 
+    <script charset="utf-8" type="text/javascript" src="scripts/redirect.js"></script> 
+    <link rel="stylesheet" href="login.css?v=1.1" type="text/css" media="all"> 
   </body>
+
 </html>

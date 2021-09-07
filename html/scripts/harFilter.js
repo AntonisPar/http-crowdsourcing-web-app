@@ -1,4 +1,5 @@
 var fileLoad = document.getElementById('harFile');
+var message = document.getElementById('alert')
 testObject = {};
 
 function remove(obj, itemsToFilter) {
@@ -24,7 +25,13 @@ function filterHar() {
 
   reader.onload = function () {
 
-    var harContent = JSON.parse(reader.result);
+    try{
+        var harContent = JSON.parse(reader.result);
+        message.style.display='none'
+    }catch(e){
+        message.innerHTML = 'The .har file is damaged'
+        message.style.display='block'
+    }
 
     const itemsToFilter = ["cookies", "content", "postData"];
 
@@ -35,14 +42,24 @@ function filterHar() {
     var sensitive = JSON.stringify(testObject, null, 2);
     var blob = new Blob([sensitive], {type: "application/json"});
     var url = URL.createObjectURL(blob); 
-    var a = document.createElement('a');
-    a.download = "sensitive.json"
-    a.href = url;
-    a.textContent = "Download Filtered Har"
+    var filteredHar = document.createElement('a');
+    filteredHar.download = "sensitive.json"
+    filteredHar.href = url;
+    filteredHar.textContent = "Download Filtered Har"
 
-    document.getElementById('link').appendChild(a);
+    var linkNode = document.getElementById('link')
+    if(linkNode.hasChildNodes()){
+      linkNode.removeChild(linkNode.childNodes[0]);
+    }
+    linkNode.appendChild(filteredHar);
     
   } 
+    reader.onerror = () => {
+
+        let message = document.createElement('p');
+        message.innerHTML = "Error with .har file";
+        document.body.append(message)
+    }
 }
 
 fileLoad.onchange = filterHar; 

@@ -1,20 +1,26 @@
-import SHA1 from 'crypto-js/sha1.js';
+var SHA1 =require( 'crypto-js/sha1.js');
 
-export function signup(app, connection) {
+module.exports.signup =  function signup(app, connection) {
     app.get('/', function (request, response) {
-        response.sendFile(path.join('/home/tsac/server/node_server/html/signup.html'));
+        response.sendFile(path.resolve('html/signup.html'));
     });
 
     app.post('/signup', function (request, response) {
 
-        var username = request.body.username;
-        var e_mail = request.body.email;
-        var password = SHA1(request.body.password).toString();
+        var username = request.body['username'];
+        var e_mail = request.body['email'];
+        var password = SHA1(request.body['password']).toString();
 
-        console.log(username, password, e_mail);
+        connection.query('SELECT * FROM User WHERE username=(?)', [username], (err,query,fields)=>{
+            if(Object.keys(query).length !== 0 ){
+                response.send("exist")
+            }
+            else{
 
-        connection.query('INSERT INTO User (username, e_mail, passwd) VALUES (?, ?, ?)', [username, e_mail, password]);
+                connection.query('INSERT INTO User (username, e_mail, passwd) VALUES (?, ?, ?)', [username, e_mail, password]);
+                response.send("true")
+            }
+        });
 
-        response.send('COOL');
     });
 }

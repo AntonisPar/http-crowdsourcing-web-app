@@ -1,45 +1,51 @@
-const login = document.getElementById('loginBut')
+var loginBut= document.getElementById("loginBut");
+var scrollBut = document.getElementById("scroll");
 
-login.onclick = () => {
+function usernameCookie(){
+    var user = document.getElementById("username").value;
+    var cookieObj = {
+        "username": user,
+    };
+    document.cookie = JSON.stringify(cookieObj);
 
-  const username = document.getElementById('username').value
-  const password = document.getElementById('pass').value
-
-  let data = {
-    "username": username,
-    "password": pass
-  };
-
-  data = JSON.stringify(data);
-  console.log(data);
-
-  options = {
-    method: 'POST',
-    headers: {  'Content-Type':'application/json'},
-    body: JSON.stringify(data) 
-  }; 
-  fetch('/api',options);
+    var fields ={ 
+        "username": document.getElementById("username").value,
+        "password": document.getElementById("password").value
+    }
+        fetch('/login', 
+            {
+                method: 'POST',
+                headers: {
+                            'Content-Type': 'application/json'
+                        },
+                body: JSON.stringify(fields)
+            })
+        .then(res => res.text())
+        .then(data => {
+            if ( data === 'fail')
+                document.getElementById("erMes").innerHTML= "Username or Password incorrect";
+            else if ( data === 'empty')
+                document.getElementById("erMes").innerHTML ="You need to fill all fields";
+            else 
+                window.location.href = data
+            
+        })
 }
 
-/*
-but.addEventListener('submit', (event) =>{
+function showBut(){
+    if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        scrollBut.style.display = "none";
+      } else {
+        scrollBut.style.display = "inline";
+      }
+}
 
-  event.preventDefault();
-  const xhr = new XMLHttpRequest();
+function scrollToLogin() {
+    var log = document.getElementById("login");
+    log.scrollIntoView();
+}
 
-  xhr.open('POST', "localhost/backend/importToDatabase.js");
 
-  let data  = new FormData(data);
-
-  xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('X-Request-With', 'XMLHttpRequest');
-
-  xhr.send(data);
-
-  xhr.onload = function() {
-
-    console.log(xhr.responseText);
-
-  }
-});
-*/
+window.onscroll = function() {showBut()};
+scrollBut.onclick = scrollToLogin;
+loginBut.onclick=usernameCookie;
