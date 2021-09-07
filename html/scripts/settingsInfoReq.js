@@ -70,4 +70,6 @@ function changeSettings(){
     }
 }
 
+var cookies = JSON.parse(document.cookie);
+document.getElementById('username').innerHTML = '<b>Username</b>(current: ' + cookies.username+')'
 subBut.onclick = changeSettings;

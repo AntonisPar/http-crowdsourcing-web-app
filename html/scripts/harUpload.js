@@ -1,4 +1,5 @@
 var uploadButton = document.getElementById("uploadBut");
+var message = document.getElementById('alert')
 
 function urlDomain(url)
 {
@@ -41,6 +42,7 @@ function addHeaderValues(obj, valueArr, attribute) {
 
 function readHar() {
 
+    message.style.display='none'
     let uploadValues = {};
     var harFile = document.getElementById("harFile").files[0];
     if (harFile) {
@@ -81,11 +83,28 @@ function readHar() {
                 headers: { "Content-Type": "application/json"},
                 body: JSON.stringify(uploadValues)
             })
-            .then(function(res){ res.json(); })
+            .then(res => res.json())
+            .then(data =>{
+                if(Object.keys(data).includes('succ'))
+                {
+                    message.innerHTML = data['succ']
+                    message.class = 'alert alert-success'
+                    message.style.display = 'block';
+
+                }
+                   
+                else if(Object.keys(data).includes('err'))
+                {
+                    message.innerHTML = data['err'];
+                    message.style.display = 'block';
+                }
+            })
         }
 
         reader.onerror = function () {
-            console.log("error loading file");
+                    message.innerHTML = 'Error in .har file'
+                    message.class = 'alert alert-success'
+                    message.style.display = 'block';
         }
 
         fetch("http://ip-api.com/json/?fields=lat,lon,isp,status",

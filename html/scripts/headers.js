@@ -1,6 +1,8 @@
 var headBut = document.getElementById('headers')
 var headersDiv = document.getElementById('headersDiv')
+var message = document.getElementById('alert')
 var list = document.createElement("select");
+list.style.display = 'none';
 var checkBoxPlace = document.createElement("p"); 
 var cacheCheckedList=[];
 headersDiv.style.display='none';
@@ -27,8 +29,15 @@ let barChartOptions = {
 
 async function cacheChartCreate(options)
 {
-    let data = await getHeadersData()
-    let ttldata = await getTtlData()
+    try{
+        var data = await getHeadersData()
+        var ttldata = await getTtlData()
+    }
+    catch(e){
+        message.innerHTML='an error occured'
+        message.style.display = 'block';
+
+    }
     if(typeof(document.getElementById('canvas'+options[0])) !== 'undefined' && document.getElementById('canvas'+options[0]) !== null)
        document.getElementById('canvas'+options[0]).remove()
     let cacheChartPlaceHolder = document.createElement('canvas')
@@ -112,7 +121,16 @@ async function cacheChartCreate(options)
 
 async function headButClick()
 {
-    let cacheData = await getHeadersData();
+    message.style.display = 'none';
+    try{
+        var cacheData = await getHeadersData();
+        list.style.display = 'block';
+    }
+    catch(e){
+
+        message.innerHTML=e;
+        message.style.display = 'block';
+    }
     if(headersDiv.style.display === 'none')
     {
         document.getElementById('viewInfo').style.display='none'
@@ -138,7 +156,10 @@ async function getHeadersData()
     let response = await fetch('/headersData',{
         method: 'GET',
     });
-    return await response.json()
+    if(!response.ok)
+        throw new Error('An error occured')
+    else
+        return await response.json()
 
 }
 
@@ -152,7 +173,10 @@ async function getTtlData()
         },
         body: JSON.stringify(cacheCheckedList)
     });
-    return await response.json()
+    if(!response.ok)
+        throw new Error('An error occured')
+    else
+        return await response.json()
 
 }
 

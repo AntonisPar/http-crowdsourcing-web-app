@@ -17,17 +17,6 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                 }
 //                //else content = data[i]['content-typeResponse']
             }
-            if ((data[i]['ageResponse'] == null) && (typeof(data[i]['ageResponse']) == 'undefined'))
-            {
-                if(typeof(data[i].expiresResponse) !== 'undefined' && data[i].expiresResponse !== null)
-                {
-                        data[i].ageResponse = (Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse))).toString();
-                        //data[i].ageResponse = new Date(Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse)) * 1000).toISOString().substr(11,8);
-                    }
-            
-                else
-                    data[i].ageResponse = 'NULL';
-            }        
                 
             if ((data[i]['cache-controlResponse'] === null) || (typeof(data[i]['cache-controlResponse']) === 'undefined') || (!(data[i]['cache-controlResponse'].includes('max-age'))) )
             {
@@ -71,7 +60,12 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
             nestedArr[i].unshift(cookie['username'],curdate)
 
         }
-            connection.query('INSERT INTO Entry(username,uploadDate,ageRequest,ageResponse,`cache-controlRequest`,`cache-controlResponse`,`content-typeRequest`,`content-typeResponse`,expiresRequest,expiresResponse,hostRequest,hostResponse,`last-modifiedRequest`,`last-modifiedResponse`,method, pragmaRequest,pragmaResponse,serverIPAddress,startedDateTime,status,statusText,url,wait) VALUES ?', [nestedArr]);
+            connection.query('INSERT INTO Entry(username,uploadDate,ageRequest,ageResponse,`cache-controlRequest`,`cache-controlResponse`,`content-typeRequest`,`content-typeResponse`,expiresRequest,expiresResponse,hostRequest,hostResponse,`last-modifiedRequest`,`last-modifiedResponse`,method, pragmaRequest,pragmaResponse,serverIPAddress,startedDateTime,status,statusText,url,wait) VALUES ?', [nestedArr], function(err,result,fields){
+                if(err)
+                    response.send({'err':'The .har file is damaged'})
+                else 
+                    response.send({'succ':'Upload Successful'})
+            });
             
         
     });
@@ -84,3 +78,14 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
         connection.query('INSERT IGNORE INTO Ip_info(username,isp,lat,lon) VALUES (?,?,?,?)', [cookie['username'],request.body['isp'],request.body['lat'],request.body['lon']]);
     });
 }
+//            if ((data[i]['ageResponse'] == null) && (typeof(data[i]['ageResponse']) == 'undefined'))
+//            {
+//                if(typeof(data[i].expiresResponse) !== 'undefined' && data[i].expiresResponse !== null)
+//                {
+//                        data[i].ageResponse = (Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse))).toString();
+//                        //data[i].ageResponse = new Date(Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse)) * 1000).toISOString().substr(11,8);
+//                    }
+//            
+//                else
+//                    data[i].ageResponse = 'NULL';
+//            }        

@@ -1,4 +1,5 @@
 var infoBut = document.getElementById('infoView');
+var message = document.getElementById('alert')
 document.getElementById('viewInfo').style.display = 'none';
 
 async function userCount(){
@@ -6,7 +7,12 @@ async function userCount(){
         {
             method: 'GET'
         })
-    return await response.text()
+    if (!response.ok) {
+        throw new Error('An error has occured');
+
+     }
+    else
+        return await response.text()
 
 }
 
@@ -15,7 +21,12 @@ async function perMethod(){
         {
             method: 'GET'
         })
-    return await response.json()
+    if (!response.ok) {
+        throw new Error('An error has occured');
+
+     }
+    else
+        return await response.json()
 }
 
 async function perStatus(){
@@ -23,7 +34,12 @@ async function perStatus(){
         {
             method: 'GET'
         })
-    return await response.json()
+    if (!response.ok) {
+        throw new Error('An error has occured');
+
+     }
+    else
+        return await response.json()
 }
 
 async function uniqueDomains(){
@@ -31,7 +47,12 @@ async function uniqueDomains(){
         {
             method: 'GET'
         })
-    return await response.text()
+    if (!response.ok) {
+        throw new Error('An error has occured');
+
+     }
+    else
+        return await response.text()
 }
 
 async function uniqueIsp(){
@@ -39,25 +60,39 @@ async function uniqueIsp(){
         {
             method: 'GET'
         })
-
-    return await response.text();
+    if (!response.ok) {
+        throw new Error('An error has occured');
+     }
+    else
+        return await response.text();
 }
 
 async function avgAge(){
-    let response = await fetch('avgAge', {
+    let response = await fetch('/avgAge', {
         method: 'GET'
     })
-    return await response.json()
+    if (!response.ok) {
+        throw new Error('An error has occured');
+
+     }
+    else
+        return await response.json()
 }
 
 async function createTable(){
-    let finalData = {
-        "users": await userCount(),
-        "isps": await uniqueIsp(),
-        "domains": await uniqueDomains(),
-        "age": await avgAge(),
-        "perMethod": await perMethod(),
-        "perStatus": await perStatus()
+    try{
+        var finalData = {
+            "users": await userCount(),
+            "isps": await uniqueIsp(),
+            "domains": await uniqueDomains(),
+            "age": await avgAge(),
+            "perMethod": await perMethod(),
+            "perStatus": await perStatus()
+        }
+    }
+    catch(e){
+        message.innerHTML = e;
+        message.style.display = 'block'
     }
     let chartBg = [
                 'rgba(255, 99, 132, 0.2)',
@@ -184,6 +219,7 @@ async function createTable(){
 function infoButClick()
 {
     let div = document.getElementById('viewInfo')
+    message.style.display = 'none';
     if(div.style.display === 'none')
     {
         document.getElementById('map').style.display='none'

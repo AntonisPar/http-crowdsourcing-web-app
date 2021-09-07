@@ -30,4 +30,7 @@ module.exports.login =  function login(app,connection,path) {
             res.send("empty")
 
     });
+ app.get('/redirect', function (request, response) {
+            response.sendFile(path.resolve('html/main.html'));
+    });
 }

@@ -26,8 +26,9 @@ function usernameCookie(){
                 document.getElementById("erMes").innerHTML= "Username or Password incorrect";
             else if ( data === 'empty')
                 document.getElementById("erMes").innerHTML ="You need to fill all fields";
-            else
-                window.location.replace('http://localhost:3000'+data)
+            else 
+                window.location.href = data
+            
         })
 }
 

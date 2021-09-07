@@ -1,4 +1,5 @@
 var fileLoad = document.getElementById('harFile');
+var message = document.getElementById('alert')
 testObject = {};
 
 function remove(obj, itemsToFilter) {
@@ -24,7 +25,13 @@ function filterHar() {
 
   reader.onload = function () {
 
-    var harContent = JSON.parse(reader.result);
+    try{
+        var harContent = JSON.parse(reader.result);
+        message.style.display='none'
+    }catch(e){
+        message.innerHTML = 'The .har file is damaged'
+        message.style.display='block'
+    }
 
     const itemsToFilter = ["cookies", "content", "postData"];
 
@@ -47,6 +54,12 @@ function filterHar() {
     linkNode.appendChild(filteredHar);
     
   } 
+    reader.onerror = () => {
+
+        let message = document.createElement('p');
+        message.innerHTML = "Error with .har file";
+        document.body.append(message)
+    }
 }
 
 fileLoad.onchange = filterHar; 

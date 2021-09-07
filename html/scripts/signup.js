@@ -1,20 +1,24 @@
 var log_red = document.getElementById("red_but");
 var sub_but = document.getElementById("sub");
+var message = document.getElementById('alert')
 
 function signup()
 {
+    message.style.display = 'none'
     var emailFormat = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
     var passFormat = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value ;
+    var conf_password = document.getElementById('conf_password').value ;
 
-    if(emailFormat.test(email) && passFormat.test(password)){
+    if(emailFormat.test(email) && passFormat.test(password) && conf_password === password){
 
         formInfo = {
 
             "username" : document.getElementById('username').value,
             "email"    : email,
-            "password" : password
+            "password" : password,
+            "conf_password" : conf_password
         }
 
         fetch('/signup', 
@@ -27,23 +31,31 @@ function signup()
             })
         .then(res => res.text())
         .then(data => {
+            console.log(data)
             if ( data === 'true')
-                document.getElementById("mes").innerHTML= "Successful Signup";
+            {
+                message.innerHTML= "Successful Signup";
+                message.style.display = 'block'
+            }
             else if ( data === 'exist')
-                document.getElementById("mes").innerHTML ="Username Already Exists";
+            {
+                message.innerHTML ="Username Already Exists";
+                message.style.display = 'block'
+            }
         })
 
     }
     else {
         
-        document.getElementById("mes").innerHTML = "Invalid email address format or password!";
+        message.innerHTML = "Invalid email address format or password!";
+        message.style.display = 'block'
     }
 
 }
 
 
 function redirect(){
-  window.location.replace("http://localhost:3000/login.html");
+  window.location.href= "http://localhost:3000/login.html";
 }
 
 sub_but.onclick=signup;

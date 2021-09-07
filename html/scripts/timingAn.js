@@ -1,13 +1,19 @@
 var timingBut = document.getElementById('timing');
 var timingDiv = document.getElementById('timingDiv');
 var tablesDiv = document.getElementById('viewInfo');
-var checkedList = [];
-timingDiv.style.display = 'none';
+var headersDiv = document.getElementById('headersDiv');
 var listEl = document.getElementById('filter')
 var checkP = document.createElement('p')
 let chartPlaceHolder = document.createElement('canvas')
+var message = document.getElementById('alert');
+var checkedList = [];
+
 timingDiv.append(chartPlaceHolder)
 timingDiv.append(checkP)
+chartPlaceHolder.style.display ='none'
+timingDiv.style.display = 'none';
+message.style.display = 'none';
+listEl.style.display ='none'
 
 let chartOptions = {
     responsive: true,
@@ -49,7 +55,10 @@ async function getData(filter)
         },
         body: JSON.stringify(reqData)
     });
-    return await response.json()
+    if(!response.ok)
+        throw new Error('An error has occured')
+    else
+        return await response.json()
 
 }
 
@@ -58,20 +67,29 @@ function timingButClick()
     if (timingDiv.style.display === 'none')
     {
         document.getElementById('map').style.display='none'
+        headersDiv.style.display='none';
         timingDiv.style.display = 'block';
         tablesDiv.style.display = 'none';
         selectChange();
+        createChart()
     }
     else
         timingDiv.style.display = 'none';
-    createChart()
 }
 
 async function selectChange()
 {
 
     var filterType = listEl.options[listEl.selectedIndex].value;
-    let data = await getData(filterType)
+    try{
+        var data = await getData(filterType)
+        listEl.style.display ='block'
+    }
+    catch(e)
+    {
+        message.innerHTML = e;
+        message.style.display = 'block';
+    }
     checkP.innerHTML = ' '
     var checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -127,7 +145,17 @@ function checkBoxes()
 async function createChart()
 {
     let filterType = listEl.options[listEl.selectedIndex].value;
-    let data = await getData(filterType)
+    message.style.display='none';
+    try{
+        var data = await getData(filterType)
+        listEl.style.display ='block'
+        chartPlaceHolder.style.display ='block'
+    }
+    catch(e)
+    {
+        message.innerHTML = e;
+        message.style.display = 'block';
+    }
     charts.data.datasets=[]
     charts.update()
     var box = document.getElementById('all')
