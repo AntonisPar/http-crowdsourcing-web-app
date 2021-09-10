@@ -10,7 +10,7 @@ module.exports.login =  function login(app,connection,path) {
         var password = CryptoJS.SHA1(req.body['password']);
         if (username && password) {
             connection.query("select username,passwd,isAdmin from User where username = ?", [username], (error, response) => {
-                if (response) {
+                if (response.length !==0) {
                     if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
                         if(response[0].isAdmin === 0)
                             res.send('/har.html');

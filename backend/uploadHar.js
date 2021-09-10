@@ -80,14 +80,3 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
         connection.query('INSERT IGNORE INTO Ip_info(username,isp,lat,lon) VALUES (?,?,?,?)', [cookie['username'],request.body['isp'],request.body['lat'],request.body['lon']]);
     });
 }
-//            if ((data[i]['ageResponse'] == null) && (typeof(data[i]['ageResponse']) == 'undefined'))
-//            {
-//                if(typeof(data[i].expiresResponse) !== 'undefined' && data[i].expiresResponse !== null)
-//                {
-//                        data[i].ageResponse = (Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse))).toString();
-//                        //data[i].ageResponse = new Date(Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse)) * 1000).toISOString().substr(11,8);
-//                    }
-//            
-//                else
-//                    data[i].ageResponse = 'NULL';
-//            }        

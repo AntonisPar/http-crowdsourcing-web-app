@@ -94,22 +94,8 @@ async function createTable(){
         message.innerHTML = e;
         message.style.display = 'block'
     }
-    let chartBg = [
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure)',
-                'Azure'
-                ]
-    let chartBorderColor = [ 
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure)',
-                'Azure'
-                ]
+    let chartBg = Object.values(colors)
+    let chartBorderColor = Object.values(colors)
 
     let chartOptions = {
             scales: {
@@ -120,13 +106,14 @@ async function createTable(){
         }
 
     var chartPlaceHolder = document.createElement('canvas')
+    chartPlaceHolder.style["margin-top"] = "3%"
 
     var myChart = new Chart(chartPlaceHolder, {
         type:'bar',
         data:{
             labels: ['users','domains','isps'],
             datasets: [{
-                label: 'data',
+                label: 'General Application Data',
                 data:  [finalData.users,finalData.domains,finalData.isps],
                 backgroundColor:chartBg,
                 borderColor:chartBorderColor,
@@ -136,33 +123,54 @@ async function createTable(){
         options: chartOptions,
     });
 
+    // Creating the first table and chart (General Application Data)
+    // and appending it in DOM
     let div = document.getElementById('viewInfo');
-    let table = document.createElement('table')
-    var header = table.createTHead();
-    var row1 = header.insertRow(0);    
-    row1.insertCell(0).innerHTML = "Unique ISPs" ;
-    row1.insertCell(0).innerHTML  = "Unique Domains" ;
-    row1.insertCell(0).innerHTML = "Number of Users" ;
-    var row2 = header.insertRow(1)
-    row2.insertCell(0).innerHTML = finalData.isps ;
-    row2.insertCell(0).innerHTML  = finalData.domains ;
-    row2.insertCell(0).innerHTML = finalData.users ;
+
+    let chartDescription = document.createElement('h2')
+    chartDescription.innerHTML = 'General Application Data'
+    chartDescription.style['margin-top'] = "3%"
+    chartDescription.style['textAlign'] = "center"
     
-    div.append(table)
+    let table = document.createElement('table')
+    table.classList.add('table')
+    table.style["margin-top"] = "4%";
+    
+    var table_header = table.createTHead();
+    var table_header_row = table_header.insertRow(0);    
+    table_header_row.insertCell(0).outerHTML = "<th>Unique ISPs</th>";
+    table_header_row.insertCell(0).outerHTML  = "<th>Unique Domains</th>";
+    table_header_row.insertCell(0).outerHTML = "<th>Number of Users</th>";
+    
+    var table_body = table.createTBody()
+    var content_row = table_body.insertRow(0)
+    content_row.insertCell(0).innerHTML = finalData.isps ;
+    content_row.insertCell(0).innerHTML  = finalData.domains ;
+    content_row.insertCell(0).innerHTML = finalData.users ;
+    
+    div.append(chartDescription)
     div.append(chartPlaceHolder)
+    div.append(table)
 
     var captions = {
         'age': 'Average age per content-type',
-        'perMethod': 'Number of entries per method',
-        'perStatus': 'Number of entries per status',
+        'perMethod': 'Number of Entries per method',
+        'perStatus': 'Number of Entries per status',
     }
+
+    // Creating a table and a chart for each key in finalData
+    // and appending them in DOM after the initializaton process
     for(let key in finalData)
     {
         if( key === 'age' || key === 'perMethod' || key === 'perStatus')
         {
+            let chartDescription = document.createElement('h2')
+            chartDescription.innerHTML = captions[key]
+            chartDescription.style['margin-top'] = "10%"
+            chartDescription.style['textAlign'] = "center"
+
             let chartPlaceHolder = document.createElement('canvas')
-            let table = document.createElement('table')
-            table.createCaption().textContent = captions[key]
+            chartPlaceHolder.style["margin-top"] = "3%"
             let charts = new Chart(chartPlaceHolder, {
                 type:'bar',
                 data:{
@@ -178,26 +186,43 @@ async function createTable(){
                 options: chartOptions,
             });
 
+            let table = document.createElement('table')
+            table.classList.add('table')
+            table.style["margin-top"] = "4%";
+
+            var table_header = table.createTHead();
+            var table_header_row = table_header.insertRow(0);
+            if(key === 'age'){
+                table_header_row.insertCell(0).outerHTML = "<th>Average Age</th>";
+                table_header_row.insertCell(0).outerHTML = "<th>Content Type</th>";
+            }
+            else if(key === 'perMethod'){
+                table_header_row.insertCell(0).outerHTML = "<th>Number of Entries</th>";
+                table_header_row.insertCell(0).outerHTML = "<th>HTTP Method</th>";
+            }
+            else if(key === 'perStatus'){
+                table_header_row.insertCell(0).outerHTML = "<th>Number of Entries</th>";
+                table_header_row.insertCell(0).outerHTML = "<th>HTTP Status</th>";
+            }
+
+            var table_body = table.createTBody();
+            // Initializing the values of the table's body and the chart
             for(let i=0; i<Object.keys(finalData[key]).length; i++)
             {  
-                
-                var header = table.createTHead();
-                var row1 = header.insertRow(0);    
-                var header = table.createTHead();
-                var row = header.insertRow(0);
+                var row = table_body.insertRow(i);
 
                 if(key ==='age')
                 {
-                   var h =  finalData[key][Object.keys(finalData[key])[i]].split(':')
-                   var m = h[1]
-                   h = h[0]
+                   var hours =  finalData[key][Object.keys(finalData[key])[i]].split(':')
+                   var minutes = hours[1]
+                   hours = hours[0]
                 
 
                     charts.data.labels.push(Object.keys(finalData[key])[i]);
-                    charts.data.datasets[0].data.push(h);
+                    charts.data.datasets[0].data.push(hours);
 
                     row.insertCell(0).innerHTML = Object.keys(finalData[key])[i];
-                    row.insertCell(1).innerHTML = h + "hours and " + m + " minutes";
+                    row.insertCell(1).innerHTML = hours + " hours and " + minutes + " minutes";
                 }
 
                 else
@@ -208,8 +233,10 @@ async function createTable(){
                     row.insertCell(0).innerHTML = Object.keys(finalData[key])[i];
                     row.insertCell(1).innerHTML = finalData[key][Object.keys(finalData[key])[i]];
                 }
-                div.append(table)
+                
+                div.append(chartDescription)
                 div.append(chartPlaceHolder)
+                div.append(table)
                 
             }
         }

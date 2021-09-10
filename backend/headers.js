@@ -23,10 +23,6 @@ module.exports.headers =  function headers(app, connection) {
                         let splitted = result[i].cache.split(',')
                         for(var j in splitted)
                         {
-                            if(splitted[j].includes('max-age'))
-                            {
-                                cacheData[isp][contentType]['max-age'] += parseInt(splitted[j].split('=')[1])
-                            }
                             if(splitted[j].includes('max-stale'))
                             {
                                 cacheData[isp][contentType]['max-stale'] += 1
@@ -42,7 +38,6 @@ module.exports.headers =  function headers(app, connection) {
                     else
                     {
                     cacheData[isp][contentType] = {
-                        'max-age': 0,
                         'public':0,
                         'private':0,
                         'max-stale':0,
@@ -54,10 +49,6 @@ module.exports.headers =  function headers(app, connection) {
                         let splitted = result[i].cache.split(',')
                         for(var j in splitted)
                         {
-                            if(splitted[j].includes('max-age'))
-                            {
-                                cacheData[isp][contentType]['max-age'] += parseInt(splitted[j].split('=')[1])
-                            }
                             if(splitted[j].includes('max-stale'))
                             {
                                 cacheData[isp][contentType]['max-stale'] += 1
@@ -75,7 +66,6 @@ module.exports.headers =  function headers(app, connection) {
                         
                 }
 
-                //console.log(cacheData)
                 response.send(cacheData)
             }
         });
