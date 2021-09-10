@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <script src=" https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"> </script>
-    <title>Choose an Action</title>
+    <title>.HAR Analyzer - Admin Actions</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -62,7 +62,7 @@
               <a class="nav-link" href="#">User Data Analysis <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Create Admin Account</a>
+              <a class="nav-link" href="giveAdmin.html">Create Admin Account</a>
             </li>
           </ul>
         </div>
@@ -82,7 +82,7 @@
                             <button type="infoView" class="btn btn-secondary" id="infoView">View Information</button>
                             <button type="timing" class="btn btn-secondary" id="timing">Timing Analysis</button>
                             <button type="headers" class="btn btn-secondary" id="headers">Headers Analysis</button> <br>
-                            <button type="polyline" class="btn btn-secondary" id="polyline">Heat map</button>
+                            <button type="polyline" class="btn btn-secondary" id="polyline">Polyline Map</button>
                         </div>
                       </div>
                       <div class="col">
@@ -100,8 +100,18 @@
                             <option value="isp">By ISP</option>
                         </select>
                     </div>
-                    <div id='headers_div' class='info'></div>
-                    <div id='map'></div>
+                    <div id='headersDiv' class='info'></div>
+                    <div id='alert' class="alert alert-danger" role="alert"
+                               style='display:none;margin-top: 15px;'>
+                    </div>
+                    <div id='polyline_map'>
+                      <div id='polyline_map_description' style='margin-bottom: 25px;'>
+                        
+                      </div>
+                      
+
+                      <div id="map"></div>
+                    </div>
 
         </div>
         
@@ -116,6 +126,7 @@
    crossorigin=""></script>
     <script charset="utf-8" type="text/javascript" src="scripts/viewInfo.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/timingAn.js"></script>
+    <script charset="utf-8" type="text/javascript" src="scripts/headers.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/polyline.js"></script>
     <script src="https://unpkg.com/leaflet-heatmap@1.0.0/leaflet-heatmap.js"></script>
 </body>

@@ -1,15 +1,26 @@
 var uploadButton = document.getElementById("uploadBut");
+var error_message = document.getElementById('alert');
+var success_message = document.getElementById('succ');
+
+function urlDomain(url)
+{
+    let domain = (new URL(url));
+    domain = domain.hostname.replace('www.','');
+    return domain
+}
 
 function inHeaders(obj) {
     let inHeaderValues = {};
+    let checkName = ['cache-control', 'pragma', 'host', 'last-modified', 'content-type', 'expires','age'];
     for (var i in obj) {
-        let checkName = ['cache-control', 'pragma', 'host', 'last-modified', 'content-type', 'expires','age'];
         if (checkName.includes(obj[i]["name"].toLowerCase())) {
-            if (obj[i]['name'] != null && obj[i]['value'] != null) {
                 inHeaderValues[obj[i]['name'].toLowerCase()] = obj[i]['value'];
-
-            }
         }
+    }
+    for(var i in checkName)
+    {
+        if(!(Object.keys(inHeaderValues).includes(checkName[i])))
+            inHeaderValues[checkName[i]]=null;
     }
     return inHeaderValues;
 }
@@ -32,6 +43,8 @@ function addHeaderValues(obj, valueArr, attribute) {
 
 function readHar() {
 
+    error_message.class = 'alert alert-danger'
+    error_message.style.display='none'
     let uploadValues = {};
     var harFile = document.getElementById("harFile").files[0];
     if (harFile) {
@@ -49,7 +62,7 @@ function readHar() {
                     "startedDateTime": harEntry[key]["startedDateTime"],
                     "serverIPAddress": harEntry[key]["serverIPAddress"],
                     "wait": harEntry[key].timings["wait"],
-                    "url": harEntry[key].request["url"],
+                    "url": urlDomain(harEntry[key].request["url"]),
                     "method": harEntry[key].request["method"],
                     "status": harEntry[key].response["status"],
                     "statusText": harEntry[key].response["statusText"],
@@ -57,19 +70,44 @@ function readHar() {
 
                 addHeaderValues(harRequest, valueArr, "Request");
                 addHeaderValues(harResponse, valueArr, "Response");
+                valueArr = Object.keys(valueArr)
+                    .sort()
+                    .reduce(function (acc, key) { 
+                        acc[key] = valueArr[key];
+                        return acc;
+                    }, {});
                 uploadValues[key] = valueArr;
             }
+            console.log(uploadValues);
             fetch("/upload",
             {
                 method: 'POST',
                 headers: { "Content-Type": "application/json"},
                 body: JSON.stringify(uploadValues)
             })
-            .then(function(res){ res.json(); })
+            .then(res => res.json())
+            .then(data =>{
+                if(Object.keys(data).includes('succ'))
+                {
+                    success_message.innerHTML = data['succ']
+                    success_message.style.display='block';
+                    setTimeout(function(){ success_message.style.display="none"; }, 6000);
+
+                }
+                   
+                else if(Object.keys(data).includes('err'))
+                {
+                    error_message.innerHTML = data['err'];
+                    error_message.style.display = 'block';
+                    setTimeout(function(){ error_message.style.display="none"; }, 6000);
+                }
+            })
         }
 
         reader.onerror = function () {
-            console.log("error loading file");
+                    error_message.innerHTML = 'Error in loading the .har file'
+                    error_message.style.display = 'block';
+                    setTimeout(function(){ error_message.style.display="none"; }, 6000);
         }
 
         fetch("http://ip-api.com/json/?fields=lat,lon,isp,status",
@@ -93,4 +131,4 @@ function readHar() {
     }
 }
 
-uploadButton.onclick = readHar;
+uploadButton.onclick = readHar; 

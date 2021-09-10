@@ -1,4 +1,5 @@
 var fileLoad = document.getElementById('harFile');
+var message = document.getElementById('alert') 
 testObject = {};
 
 function remove(obj, itemsToFilter) {
@@ -25,9 +26,15 @@ function filterHar() {
 
   reader.onload = function () {
 
-    var harContent = JSON.parse(reader.result);
+    try{
+      var harContent = JSON.parse(reader.result);
+      message.style.display='none'
+  }catch(e){
+      message.innerHTML = 'The .har file is damaged' // what is "message" ?
+      message.style.display='block'
+  }
 
-    const itemsToFilter = ["cookies", "content", "postData"];
+    const itemsToFilter = ["cookies", "content", "postData", "Cookie"];
 
     var harFiltered = remove(harContent, itemsToFilter);
     console.log(harFiltered); 
@@ -49,8 +56,18 @@ function filterHar() {
     linkNode.appendChild(filteredHar);
     
   } 
+  
+  reader.onerror = () => {
+
+    let message = document.createElement('p');
+    message.innerHTML = "Error with .har file";
+    document.body.append(message)
+}
 }
 
+
+// This function is not in main's version of harFilter.js 
+// May need to be deleted
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);

@@ -1,15 +1,17 @@
 var mapDiv = document.getElementById('map')
 var polyBut = document.getElementById('polyline')
-mapDiv.style.height='600px'
+var message = document.getElementById('alert');
 mapDiv.style.display = 'none';
+mapDiv.style.height='600px'
+mapDiv.style.width='80%'
 
-function butClick()
+function mapButClick()
 {
     if(mapDiv.style.display === 'none')
     {
         document.getElementById('viewInfo').style.display='none'
         document.getElementById('timingDiv').style.display='none'
-        mapDiv.style.display = 'block';
+        document.getElementById('headersDiv').style.display='none'
         createMap();
     }
     else
@@ -22,7 +24,10 @@ async function getMapData()
         {
             method: 'GET'
         });
-    return await response.json()
+    if(!response.ok)
+        throw new Error('An error occured');
+    else
+        return await response.json()
 
 }
 
@@ -34,12 +39,17 @@ async function getReqDest(ips)
         ip.push(ips[i].ip)
     
 
+    console.log(ip)
     var dest = await fetch(endpoint,
         {
             method: 'POST',
+            //mode: 'no-cors',
             body: JSON.stringify(ip)
         });
-    return await dest.json();
+    if(!dest.ok)
+        throw new Error('Problem with the IP-api');
+    else
+        return await dest.json();
 }
 
 async function myCords()
@@ -48,15 +58,38 @@ async function myCords()
     let myCords = await fetch(endpoint, {
         method: 'POST'
     })
-    return await myCords.json();
+    if(!myCords.ok)
+        throw new Error('Problem with the IP-api');
+    else
+        return await myCords.json();
 }
 
 async function createMap()
 {
-    var mapData = await getMapData();
-    var view = await myCords();
+    
+    message.style.display='none'
+    try{
+        var mapData = await getMapData();
+    }
+    catch(e){
+        message.innerHTML=e;
+        message.style.display='block'
+        return 0;
+    }
+    mapDiv.style.display = 'block';
+    try{
+        var view = await myCords();
+    }
+    catch(e){
+        message.innerHTML=e;
+        message.style.display='block'
+        return 0;
+    }
+    mapDiv.innerHTML = ''
+    if(!(typeof(mymap) ==='undefined' || mymap === null))
+        mymap.remove()
 
-    var mymap = L.map('map').setView([view.lat, view.lon], 13);
+    var mymap = L.map('map').setView([view.lat, view.lon], 20);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 12,
@@ -68,7 +101,15 @@ async function createMap()
 
     for(var i in mapData)
     {
-        var httpDest = await getReqDest(mapData[i]);
+        try
+        {
+            var httpDest = await getReqDest(mapData[i]);
+        }
+        catch(e){
+            message.innerHTML=e;
+            message.style.display='block'
+            return 0;
+        }
         for(let j=0; j<Object.keys(httpDest).length; j++)
         {
             mapData[i][j].ip = httpDest[j].lat.toString() + ',' + httpDest[j].lon.toString()
@@ -84,6 +125,7 @@ async function createMap()
             L.polyline(cords,{weight: (mapData[i][j].visits/maxVisits) > 0.3 ?(mapData[i][j].visits/maxVisits) : 0.3 }).addTo(mymap);
         }
     }
+
 }
 
-polyBut.onclick = butClick;
+polyBut.onclick = mapButClick;

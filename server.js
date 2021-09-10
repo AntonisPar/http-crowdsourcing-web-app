@@ -9,8 +9,10 @@ var changeSettings = require('./backend/changeSettings.js');
 var ipGeolocation = require('./backend/ipGeolocation.js');
 var viewInfo  = require('./backend/viewInfo.js');
 var timingAn  = require('./backend/timingAn.js');
-var headersInfo = require('./backend/headersInfo.js');
+var headers = require('./backend/headers.js');
 var polyline = require('./backend/polyline.js');
+var ttls = require('./backend/ttls.js');
+var giveAdmin = require('./backend/giveAdmin.js');
 var app = express();
 
 
@@ -47,4 +49,6 @@ ipGeolocation.ipGeolocation(app,connection);
 viewInfo.viewInfo(app,connection);
 timingAn.timingAn(app, connection);
 polyline.polyline(app, connection);
-headersInfo.headersInfo(app, connection);
+headers.headers(app, connection);
+ttls.ttls(app, connection);
+giveAdmin.giveAdmin(app, connection);

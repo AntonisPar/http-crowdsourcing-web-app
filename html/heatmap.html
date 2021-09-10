@@ -56,13 +56,13 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="/html/har.html">Filter file <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="har.html">Filter file <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="#">Data Visualisation</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/html/profileSettings.html">Settings</a>
+            <a class="nav-link" href="profileSettings.html">Settings</a>
           </li>
           </li>
         </ul>
@@ -75,6 +75,9 @@
       <h1> <b>Heatmap of Requests</b> </h1> <br>
     See the location of the servers where your requests have gone in the Heatmap below. <br>
     The intensity of the heat on the map is correlated to the number of requests you have sent to a server located there.
+    <div id='alert' class="alert alert-danger" role="alert"
+                               style='display:none;'>
+        </div>
     <div id="mapid"></div>
 
 

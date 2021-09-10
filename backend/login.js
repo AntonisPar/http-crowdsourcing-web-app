@@ -1,5 +1,5 @@
 var CryptoJS = require('crypto-js');
-var path = require('path');
+var path = require( 'path');
 
 module.exports.login =  function login(app,connection,path) {
  app.get('/', function (request, response) {
@@ -29,5 +29,8 @@ module.exports.login =  function login(app,connection,path) {
         else
             res.send("empty")
 
+    });
+ app.get('/redirect', function (request, response) {
+            response.sendFile(path.resolve('html/har.html'));
     });
 }

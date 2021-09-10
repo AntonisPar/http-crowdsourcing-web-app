@@ -58,10 +58,10 @@
               <a class="nav-link" href="#">Filter file <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/html/heatmap.html">Data Visualisation</a>
+              <a class="nav-link" href="heatmap.html">Data Visualisation</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/html/profileSettings.html">Settings</a>
+              <a class="nav-link" href="profileSettings.html">Settings</a>
             </li>
             </li>
           </ul>
@@ -71,6 +71,15 @@
 
     <!-- CONTENT -->
         <div class="container ">
+          <!-- ALERTS -->
+          <div id='alert' class="alert alert-danger" role="alert"
+                               style='display:none;'>
+          </div>
+          <div id='succ' class="alert alert-success" role="alert"
+                               style='display:none;'>
+          </div>
+
+          <!-- BODY -->
             <h1><b>Filter and Upload a .HAR file</b></h1>
 
             <div class="container-fluid" style="margin-top: 3%;">
@@ -103,6 +112,7 @@
 
     <script charset="utf-8" type="text/javascript" src="scripts/harFilter.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/harUpload.js"></script>
+    <!-- <script charset="utf-8" type="text/javascript" src="scripts/harDownload.js"></script> -->
     <script charset="utf-8" type="text/javascript" src="scripts/ipHandle.js"></script>
     <!-- <link rel="stylesheet" href="har.css?v=1.1" type="text/css" media="screen" title="no title" charset="utf-8"> -->
     <script charset="utf-8" type="text/javascript" src="scripts/redirectSettings.js"></script>
