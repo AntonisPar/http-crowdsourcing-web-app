@@ -9,6 +9,7 @@ var uploadHar  = require('./backend/uploadHar.js');
 var viewInfo  = require('./backend/viewInfo.js');
 var timingAn  = require('./backend/timingAn.js');
 var headers  = require('./backend/headers.js');
+var colors  = require('./backend/colors.js');
 var polyline  = require('./backend/polyline.js');
 var ttls  = require('./backend/ttls.js');
 var giveAdmin  = require('./backend/giveAdmin.js');
@@ -65,3 +66,5 @@ polyline.polyline(app,connection);
 giveAdmin.giveAdmin(app,connection);
 
 ttls.ttls(app,connection);
+
+colors.colors(app,connection);

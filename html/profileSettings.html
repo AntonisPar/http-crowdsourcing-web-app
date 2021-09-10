@@ -1,32 +1,138 @@
+<!DOCTYPE html>
 <html>
     <head>
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <title>Change Profile Settings</title>
+    <title>.HAR Analyzer - Settings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" href="./img/har_analyzer-removebg-preview.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <style>
+        body{
+          background-color: rgb(219,226,226);
+        }
+        .navbar{
+        margin-top: 0.5%;
+        margin-left: 0.5%;
+        margin-right: 0.5%;
+        border-radius: 50px;
+        }
+        .container{
+            margin-top: 0.5%;
+            padding-right: 1.5%;
+            padding-left: 1.5%;
+            padding-top: 1%;
+            padding-bottom: 2%;
+            
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 12px 12px 22px;
+        }
+        .container-fluid{
+            margin-top: 0.5%;
+            margin-left: 0.5%;
+            padding-right: 1.5%;
+            padding-left: 1.5%;
+            padding-top: 1%;
+            padding-bottom: 2%;
+            
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 12px 12px 22px;
+        }
+        label, input{
+            margin-top: 5px;
+        }
+        .user-statistics{
+            padding-right: 0%;
+        }
+        /* .row{
+            border: 3px solid;
+            border-radius: 10px;
+        } */
+        /* .col-6{
+            border: 2px solid;
+            border-radius: 1.5%;
+        } */
+
+      </style>
 
     </head>
-
     <body onload="getInfo()">
-        <div id='main'>
-        <h1><b>Change Profile Settings</b></h1>
-         
-        <label  for="username" id='username'><b>Username</b></label>
-        <input  type="text/submit/hidden/button" name="new_username" value="" id="new_username">
-  
-        <p id="p1">
-        <label for="pass"><b> Password </b></label>
-        <input id="new_password" type="password"  name="new_password" > 
-        <input id="confirm_pass" type="password"  name="confirm_pass" > 
-        </p>
-  
-        <input id="old_pass" type="password"  name="old_pass" > 
-        <input type="submit" id="sub" value="Confirm">
-        <p id='infoMess'> </p>
-  
-        </div>
-        <div id='alert' class="alert alert-danger" role="alert"
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="navbar-brand">
+                <img src="./img/har_analyzer-removebg-preview.png" width="75" height="75" class="d-inline-block" alt="">
+                .HAR Analyzer</div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="har.html">Filter file <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="heatmap.html">Data Visualisation</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Settings</a>
+                </li>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+      <!-- CONTENT  -->
+        <div class="container" id='main'>
+            <div class="row">
+                <div class="col-5" style="border-right: 3px solid;" >
+                    <h1 style="margin-bottom: 35px;"><b>User Statistics</b></h1>
+                        <h4 style="margin-bottom: 25px;">Total Number of Entries Uploaded: </h3>
+                        <div class="user-statistics" id="num_of_entries" style="margin-bottom: 75px;"></div>
+                        <h4 style="margin-bottom: 25px;">Last Upload Date: </h3>
+                        <div class="user-statistics" id="last_upload" style="margin-bottom: 75px;"></div>
+
+                </div>
+                <div class="col-6">
+                  <div id='alert_error' class="alert alert-danger alert-dismissible fade show" role="alert"
                                style='display:none;'>
+                  </div>
+                  <div id='alert_success' class="alert alert-success alert-dismissible fade show" role="alert"
+                               style='display:none;'>
+                  </div>
+                    <h1 style="margin-bottom: 35px;"><b>Change Profile Settings</b></h1>
+                    <div>
+                        <div class="form-row">
+                          <div class="form-group col-md-7">
+                            <label for="inputEmail4">New Username</label>
+                            <input type="username" class="form-control" id="new_username" name="new_username" placeholder="">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="pass">New Password</label>
+                            <input type="password" class="form-control" id="new_pass" placeholder="Type New Password">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="pass">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_pass" placeholder="Repeat New Password">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="pass">Old Password</label>
+                                <input type="password" class="form-control" id="old_pass" placeholder="Type Old Password">
+                            </div>
+                        </div>
+                        <button  id="sub" class="btn btn-outline-success" style="margin-bottom: 2%;">Apply Changes</button>
+                      </div>
+                </div>
+            </div>  
         </div>
 
       <script charset="utf-8" type="text/javascript" src="scripts/settingsInfoReq.js"></script> 

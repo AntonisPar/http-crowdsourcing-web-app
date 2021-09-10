@@ -70,7 +70,9 @@ async function cacheChartCreate(options)
         plotData.labels=Object.keys(ttldata[list.value]).slice(0,10)
         plotData.datasets.push({
             label: [],
-            data: Object.values(ttldata[list.value]).slice(0,10)
+            data: Object.values(ttldata[list.value]).slice(0,10),
+            borderColor: Object.values(colors),
+            backgroundColor: Object.values(colors),
         })
 //        for(var i in ttldata[list.value])
 //        {
@@ -108,7 +110,9 @@ async function cacheChartCreate(options)
             }
                     plotData.datasets.push( {
                             label: i,
-                            data: d
+                            data: d,
+                            borderColor: colors[CryptoJS.SHA256(i).toString()],
+                            backgroundColor: colors[CryptoJS.SHA256(i).toString()],
                         })
                 }
             }

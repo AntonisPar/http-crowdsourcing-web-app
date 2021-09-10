@@ -7,6 +7,8 @@ function remove(obj, itemsToFilter) {
     if (obj.hasOwnProperty(property)) {
       if (itemsToFilter.includes(property)) {
         delete obj[property];
+          for(var j in obj[property])
+              console.log(obj[property][j].name)
       }
       else if (typeof obj[property] === "object") {
         remove(obj[property], itemsToFilter);
@@ -16,11 +18,39 @@ function remove(obj, itemsToFilter) {
   return obj;
 }
 
+function removeInRequestHeaders(obj) {
+    for (var entries in obj) {
+        for(var headers in obj[entries].request['headers']){
+            if(obj[entries].request['headers'][headers]["name"] !=='undefined' && typeof(obj[entries].request['headers'][headers]["name"]) !== null){
+                if(obj[entries].request['headers'][headers]["name"].toLowerCase().includes('cookie')) {
+                    delete obj[entries].request['headers'][headers]["name"]
+                    delete obj[entries].request['headers'][headers]["name"];
+                }
+            } 
+        }
+    }
+  return obj;
+}
+function removeInResponseHeaders(obj) {
+    for (var entries in obj) {
+        for(var headers in obj[entries].response['headers']){
+            if(obj[entries].response['headers'][headers]["name"] !=='undefined' && typeof(obj[entries].response['headers'][headers]["name"]) !== null){
+                if(obj[entries].response['headers'][headers]["name"].toLowerCase().includes('cookie')) {
+                    delete obj[entries].response['headers'][headers]["name"]
+                    delete obj[entries].response['headers'][headers]["name"];
+                }
+            } 
+        }
+    }
+  return obj;
+}
+
 function filterHar() {
 
 
   var harFile = document.getElementById("harFile").files[0];
   var reader = new FileReader();
+  var file_name = harFile.name;
   reader.readAsText(harFile, "UTF-8");
 
   reader.onload = function () {
@@ -33,19 +63,23 @@ function filterHar() {
         message.style.display='block'
     }
 
-    const itemsToFilter = ["cookies", "content", "postData"];
+    const itemsToFilter = ["cookies", "content", "postData", "Cookie","set-cookie"];
 
-    var harFiltered = remove(harContent, itemsToFilter);
-    console.log(harFiltered); 
+    //console.log(harFiltered.log.entries); 
+    //removeInHeaders(harFiltered.log.entries)
+    //removeFromRequest(harContent.log, itemsToFilter);
 
-    testObject = remove(harContent, itemsToFilter);
-    var sensitive = JSON.stringify(testObject, null, 2);
+    remove(harContent, itemsToFilter);
+    removeInRequestHeaders(harContent.log.entries)
+    removeInResponseHeaders(harContent.log.entries)
+    var sensitive = JSON.stringify(harContent, null, 2);
     var blob = new Blob([sensitive], {type: "application/json"});
     var url = URL.createObjectURL(blob); 
+    document.getElementById("choose_file_placeholder").innerHTML = file_name
     var filteredHar = document.createElement('a');
-    filteredHar.download = "sensitive.json"
+    filteredHar.download = file_name.split(".har")[0]+ "-FILTERED.har"
     filteredHar.href = url;
-    filteredHar.textContent = "Download Filtered Har"
+    filteredHar.textContent = "Download Filtered .HAR file"
 
     var linkNode = document.getElementById('link')
     if(linkNode.hasChildNodes()){

@@ -167,8 +167,8 @@ async function createChart()
            newDataset = {
                 label: checkedList[i],
                 data: data[checkedList[i]],
-                borderColor: color,
-                backgroundColor: color,
+                borderColor: colors[CryptoJS.SHA256(checkedList[i]).toString()],
+                backgroundColor: colors[CryptoJS.SHA256(checkedList[i]).toString()],
                }
                 charts.data.datasets.push(newDataset);
                 charts.update()
@@ -183,8 +183,8 @@ async function createChart()
            newDataset = {
                 label: i,
                 data: data[i],
-                borderColor: color,
-                backgroundColor: color,
+                borderColor: Object.values(colors),
+                backgroundColor: Object.values(colors),
                }
                 charts.data.datasets.push(newDataset);
                 charts.update()

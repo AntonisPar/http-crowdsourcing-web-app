@@ -11,42 +11,120 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
        crossorigin=""/>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heatmap.js/2.0.1/heatmap.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" href="./img/har_analyzer-removebg-preview.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/heatmap.js/2.0.1/heatmap.js"></script>
 
+    <style>
+        .navbar{
+            margin-top: 0.5%;
+            margin-left: 0.5%;
+            margin-right: 0.5%;
+            border-radius: 50px;
+        }
+        body{
+            background-color: rgb(219,226,226);
+        }
+        .container{
+            margin-top: 1%;
+            padding-right: 1.5%;
+            padding-left: 1.5%;
+            padding-top: 1%;
+            padding-bottom: 2%;
+            /* padding-bottom : 20px; */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px;
+        }
+        .info{
+            margin-top: 2%;
+        }
+
+    </style>
+    
 </head>
 
-<body>
-    <h1> Choose an Action</h1>
-        <button type="infoView" id="infoView">View Information</button>
-        <button type="timing" id="timing">Timing Analysis</button>
-        <button type="headers" id="headers">Headers Analysis</button>
-        <button type="polyline" id="polyline">Heat map</button>
-    </div>
-    <div id='viewInfo' class='info'>
-    </div>
-    <div id='timingDiv' class='info'>
-        <select name="filter" id="filter">
-            <option value= "method">By Method</option>
-              <option value="`content-typeResponse`">By Content-Type</option>
-              <option value="dayname(startedDateTime)">By Day of the Week</option>
-              <option value="isp">By ISP</option>
-        </select>
-    </div>
-    <div id='headersDiv' class='info'>
-    </div>
-    <div id='map'>
-    </div>
-        <div id='alert' class="alert alert-danger" role="alert"
-                               style='display:none;'>
+<body onload="col()">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-brand">
+            <img src="./img/har_analyzer-removebg-preview.png" width="75" height="75" class="d-inline-block" alt="">
+            .HAR Analyzer [Admin]</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">User Data Analysis <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="giveAdmin.html">Create Admin Account</a>
+            </li>
+          </ul>
         </div>
- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      </nav>
+
+
+    <div class="container">
+
+                <h1 style="margin-bottom: 3%;"> <b>Choose an Action</b> </h1>
+                <div class="container-fluid" style="margin-top: 3%;">
+                    <div class="row">
+                      <div class="col">
+                        <!-- EMPTY ON PURPOSE -->
+                      </div>
+                      <div class="col-7">
+                        <div class="btn-group" style="text-align: center;">
+                            <button type="infoView" class="btn btn-secondary" id="infoView">View Information</button>
+                            <button type="timing" class="btn btn-secondary" id="timing">Timing Analysis</button>
+                            <button type="headers" class="btn btn-secondary" id="headers">Headers Analysis</button> <br>
+                            <button type="polyline" class="btn btn-secondary" id="polyline">Polyline Map</button>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <!-- EMPTY ON PURPOSE -->
+                      </div>
+                </div>
+                    
+
+                    <div id='viewInfo' class='info'></div>
+                    <div id='timingDiv' class='info'>
+                        <select name="filter" id="filter" class="info">
+                            <option value= "method">By Method</option>
+                            <option value="`content-typeResponse`">By Content-Type</option>
+                            <option value="dayname(startedDateTime)">By Day of the Week</option>
+                            <option value="isp">By ISP</option>
+                        </select>
+                    </div>
+                    <div id='headersDiv' class='info'></div>
+                    <div id='alert' class="alert alert-danger" role="alert"
+                               style='display:none;margin-top: 15px;'>
+                    </div>
+                    <div id='polyline_map'>
+                      <div id='polyline_map_description' style='margin-bottom: 25px;'>
+                        
+                      </div>
+                      
+
+                      <div id="map"></div>
+                    </div>
+
+        </div>
+        
+    </div>
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
     <script charset="utf-8" type="text/javascript" src="scripts/viewInfo.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/timingAn.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/headers.js"></script>
     <script charset="utf-8" type="text/javascript" src="scripts/polyline.js"></script>
+    <script charset="utf-8" type="text/javascript" src="scripts/colors.js"></script>
     <script src="https://unpkg.com/leaflet-heatmap@1.0.0/leaflet-heatmap.js"></script>
 </body>
 

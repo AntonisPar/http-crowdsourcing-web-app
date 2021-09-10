@@ -1,41 +1,142 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <!--script charset="utf-7" type="text/javascript" src="background.js"></script> -->
+
   </head>
 
   <body>
-      <div class='start'>
-          <h1 id='wel'>Welcome!</h1>
-          <input type='image' src='img/scroll.png'  id="scroll" title="Log In"></input>
-      </div>
-
-    <div class='login' id='login'> 
-
-     <h2>Login</h2>
-             
-        <label  for="username" class="label">Username</label>
-        <input  type="text/submit/hidden/button" class="fields" value="" name="username" id="username">
- 
-        <label for="pass" class="label">Password</label>
-        <input id="password" type="password" name="password" class="fields" > 
-  
-        <input type="submit" id="loginBut" class="buttons" value="Log In">
-
-        <button class="buttons" id="signBut" >Sign Up</button>
-        <p id='erMes'></p>
-
-    </div>
-
-        <div id='alert' class="alert alert-danger" role="alert"
-                               style='display:none;'>
+    <div class="center-screen">
+      <section class="Form my-4 mx-5">
+        <div class="container">
+          <div class="row g-0 justify-content-center">
+            <div  class="col-lg-6">
+              <img src="POSSIBLE.png" class="img-fluid">
+            </div>
+            <div id="first" class="col-lg-5 px-5 pt-5">
+              <h1 class="font-weight-bold"> Sign in</h1>
+              <form>
+                <div class="form-row">
+                  <div class="col-lg-7">
+                    <input type="text/submit/hidden/button" placeholder="Username" class="fields my-1 p-1" value="" name="username" id="username">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-lg-7">
+                    <input id="password" type="password" placeholder="Password" name="password" class="fields my-1 p-1" > 
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-lg-7">
+                    <input type="submit" id="loginBut" class="btn1 mt-3 mb-5" value="Log In">
+                  </div>
+                </div>
+                <p> Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#SignupModal"> Register here</a></p>
+                <p id='erMes'></p>
+              </form>
+            </div>
+          </div>
         </div>
-    <script charset="utf-8" type="text/javascript" src="scripts/login.js"></script> 
-    <script charset="utf-8" type="text/javascript" src="scripts/redirect.js"></script> 
-    <link rel="stylesheet" href="login.css?v=1.1" type="text/css" media="all"> 
+      </div>
+    </section>
+  </div>
+
+
+
+
+
+
+  <div class="modal fade" id="SignupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <section class="vh-100">
+            <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+              <div class="container h-100">
+                <div id="background" class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 25px;">
+                      <div class="card-body p-5">
+                        <h2 id="h2" class="text-center mb-5">Create an account</h2>
+          
+                        <form>
+          
+                          <div class="form-outline mb-4">
+                            <input type="text" id="modal_username" class="form-control form-control-lg" placeholder="Username" />
+                            <label class="form-label" id="modalUsernameLabel"></label>
+                          </div>
+          
+                          <div class="form-outline mb-4">
+                            <input type="email" id="modal_email" class="form-control form-control-lg" placeholder="Email" />
+                            <label class="form-label" id="modalEmailLabel"></label>
+                          </div>
+          
+                          <div id="modal_pass_control" class="form-outline mb-4">
+                            <input type="password" id="modal_password" class="form-control form-control-lg" placeholder="Password">
+                            <label class="form-label" id="modalPasswordLabel"></label>
+                            </div>
+                            <div id="message">
+                              <h3>Password must contain the following:</h3>
+                              <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                              <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                              <p id="number" class="invalid">A <b>number</b></p>
+                              <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                              <p id="special_char" class="invalid">A  <b>special character</b></p>
+                            </div>
+                          <div class="form-outline mb-4">
+                            <input type="password" id="modal_conf_password" class="form-control form-control-lg" placeholder="Confirm password"/>
+                            <label class="form-label" id="modalConfirmPassLabel"></label>
+                          </div>
+                          <div class="d-flex justify-content-center">
+                            <button id="sub" type="button" class="btn1 mt-3 mb-5">Register</button>
+                          </div>
+                            <div id='alert-red' class="alert alert-danger" role="alert" style='display:none;'></div>
+                            <div id='alert-green' class="alert alert-success" role="alert" style='display:none;'></div>
+                          <div id='redirect'>
+                            <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!" id="red_but" class="fw-bold text-body"><u>Login here</u></a></p>
+                        </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+    <script>
+      $('#SignupModal').on('hidden.bs.modal', function () {
+      $(this).find('form').trigger('reset');
+      document.getElementById("alert-red").style.display = "none";
+      document.getElementById("alert-green").style.display = "none";
+})
+    </script>
+
+    <script charset="utf-8" type="text/javascript" src="scripts/pass_veri.js"></script>
+    <script charset="utf-8" type="text/javascript" src="scripts/signup.js"></script>
+    <script charset="utf-8" type="text/javascript" src="scripts/login.js"></script>
+    <script charset="utf-8" type="text/javascript" src="scripts/redirect.js"></script>
+    <link rel="stylesheet" href="login.css?v=1.1" type="text/css" media="all">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    
   </body>
+  
 
 </html>
+

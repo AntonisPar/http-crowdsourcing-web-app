@@ -7,15 +7,13 @@ module.exports.login =  function login(app,connection,path) {
     });
     app.post('/login', function (req, res) {
         var username = req.body['username'];
-        console.log(req.body['username'])
         var password = CryptoJS.SHA1(req.body['password']);
         if (username && password) {
             connection.query("select username,passwd,isAdmin from User where username = ?", [username], (error, response) => {
                 if (response) {
                     if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
                         if(response[0].isAdmin === 0)
-                        //res.redirect('/main.html');
-                            res.send('/main.html');
+                            res.send('/har.html');
                         else
                             res.send('/mainAdmin.html');
                     }

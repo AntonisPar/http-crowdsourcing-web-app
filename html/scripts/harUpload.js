@@ -1,5 +1,6 @@
 var uploadButton = document.getElementById("uploadBut");
-var message = document.getElementById('alert')
+var error_message = document.getElementById('alert');
+var success_message = document.getElementById('succ');
 
 function urlDomain(url)
 {
@@ -42,7 +43,8 @@ function addHeaderValues(obj, valueArr, attribute) {
 
 function readHar() {
 
-    message.style.display='none'
+    error_message.class = 'alert alert-danger'
+    error_message.style.display='none'
     let uploadValues = {};
     var harFile = document.getElementById("harFile").files[0];
     if (harFile) {
@@ -87,24 +89,25 @@ function readHar() {
             .then(data =>{
                 if(Object.keys(data).includes('succ'))
                 {
-                    message.innerHTML = data['succ']
-                    message.class = 'alert alert-success'
-                    message.style.display = 'block';
+                    success_message.innerHTML = data['succ']
+                    success_message.style.display='block';
+                    setTimeout(function(){ success_message.style.display="none"; }, 6000);
 
                 }
                    
                 else if(Object.keys(data).includes('err'))
                 {
-                    message.innerHTML = data['err'];
-                    message.style.display = 'block';
+                    error_message.innerHTML = data['err'];
+                    error_message.style.display = 'block';
+                    setTimeout(function(){ error_message.style.display="none"; }, 6000);
                 }
             })
         }
 
         reader.onerror = function () {
-                    message.innerHTML = 'Error in .har file'
-                    message.class = 'alert alert-success'
-                    message.style.display = 'block';
+                    error_message.innerHTML = 'Error in loading the .har file'
+                    error_message.style.display = 'block';
+                    setTimeout(function(){ error_message.style.display="none"; }, 6000);
         }
 
         fetch("http://ip-api.com/json/?fields=lat,lon,isp,status",

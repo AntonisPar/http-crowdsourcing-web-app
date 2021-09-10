@@ -95,20 +95,20 @@ async function createTable(){
         message.style.display = 'block'
     }
     let chartBg = [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure)',
+                'Azure'
                 ]
     let chartBorderColor = [ 
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure)',
+                'Azure'
                 ]
 
     let chartOptions = {
@@ -170,8 +170,8 @@ async function createTable(){
                     datasets: [{
                         label: captions[key],
                         data:  [],
-                        backgroundColor:chartBg,
-                        borderColor:chartBorderColor,
+                        backgroundColor:Object.values(colors),
+                        borderColor:Object.values(colors),
                         borderWidth: 1
                     }]
                 },
@@ -218,6 +218,7 @@ async function createTable(){
 
 function infoButClick()
 {
+    document.getElementById('viewInfo').innerHTML = '';
     let div = document.getElementById('viewInfo')
     message.style.display = 'none';
     if(div.style.display === 'none')

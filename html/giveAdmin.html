@@ -1,24 +1,84 @@
+<!DOCTYPE html>
+
 <html>
     <head>
 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        <title>Make Admin</title>
+        <title>.HAR Analyzer- Make Admin</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="icon" href="./img/har_analyzer-removebg-preview.png">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+        <style>
+            .navbar{
+            margin-top: 0.5%;
+            margin-left: 0.5%;
+            margin-right: 0.5%;
+            border-radius: 50px;
+            }
+            body{
+                background-color: rgb(219,226,226);
+            }
+            .container{
+                margin-top: 1%;
+                padding-right: 1.5%;
+                padding-left: 1.5%;
+                padding-top: 1%;
+                padding-bottom: 2%;
+                /* padding-bottom : 20px; */
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 5px 5px 15px;
+            }
+        </style>
 
     </head>
 
     <body >
-        <div id='div'>
-        <h1><b>Give admin property to User</b></h1>
-         
-        <label  for="username"><b>Username</b></label>
-        <input  type="text/submit/hidden/button" name="username" value="" id="username">
-        <button id='confirm'>Confirm</button>
-  
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="navbar-brand">
+                <img src="./img/har_analyzer-removebg-preview.png" width="75" height="75" class="d-inline-block" alt="">
+                .HAR Analyzer [Admin]</div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="mainAdmin.html">User Data Analysis</a>
+                </li>
+                <li class="nav-item active">
+                <a class="nav-link" href="#">Create Admin Account <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+                <div id='alert' class="alert alert-success" role="alert"
+                    style='display:none;'>
+                </div>
+                <h1><b>Give Admin privileges to User</b></h1>
+                <!-- <label  for="username"><b>Username</b></label> -->
+                <!-- <input  type="text/submit/hidden/button" name="username" value="" id="username"> -->
+                <!-- <button type="button" class="btn btn-outline-success" id='confirm'>Apply Change</button> -->
+
+                <div class="form-group col-md-4">
+                    <label for="username"><b>Username</b></label>
+                    <input type="email" class="form-control" name="username" value="" id="username" placeholder="Give User's Username">
+                    <button style="margin-top: 15px;" type="button" class="btn btn-outline-success" id='confirm'>Apply Change</button>
+                </div>
+                
+          
         </div>
-        <div id='alert' class="alert alert-danger" role="alert"
-                               style='display:none;'>
-        </div>
+        
 
       <script charset="utf-8" type="text/javascript" src="scripts/giveAdmin.js"></script> 
 

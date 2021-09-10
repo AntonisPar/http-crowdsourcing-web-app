@@ -61,8 +61,10 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
 
         }
             connection.query('INSERT INTO Entry(username,uploadDate,ageRequest,ageResponse,`cache-controlRequest`,`cache-controlResponse`,`content-typeRequest`,`content-typeResponse`,expiresRequest,expiresResponse,hostRequest,hostResponse,`last-modifiedRequest`,`last-modifiedResponse`,method, pragmaRequest,pragmaResponse,serverIPAddress,startedDateTime,status,statusText,url,wait) VALUES ?', [nestedArr], function(err,result,fields){
-                if(err)
+                if(err){
+                    console.log(err)
                     response.send({'err':'The .har file is damaged'})
+                }
                 else 
                     response.send({'succ':'Upload Successful'})
             });

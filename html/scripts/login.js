@@ -12,6 +12,7 @@ function usernameCookie(){
         "username": document.getElementById("username").value,
         "password": document.getElementById("password").value
     }
+    console.log(fields)
         fetch('/login', 
             {
                 method: 'POST',
@@ -32,20 +33,4 @@ function usernameCookie(){
         })
 }
 
-function showBut(){
-    if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
-        scrollBut.style.display = "none";
-      } else {
-        scrollBut.style.display = "inline";
-      }
-}
-
-function scrollToLogin() {
-    var log = document.getElementById("login");
-    log.scrollIntoView();
-}
-
-
-window.onscroll = function() {showBut()};
-scrollBut.onclick = scrollToLogin;
 loginBut.onclick=usernameCookie;
