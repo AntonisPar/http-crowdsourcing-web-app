@@ -5,6 +5,7 @@
 !package.json
 !backend/*
 !html/*
+!html/img/*
 !html/scripts/
 !html/scripts/*
 !README.md
