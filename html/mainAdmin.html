@@ -43,6 +43,9 @@
         .info{
             margin-top: 2%;
         }
+        .form-group{
+          margin-right: 1%;
+        }
 
     </style>
     
@@ -73,7 +76,7 @@
 
     <div class="container">
 
-                <h1 style="margin-bottom: 3%;"> <b>Choose an Action</b> </h1>
+                <h1 style="margin-bottom: 3%;text-align: center;"> <b>Choose Information to View</b> </h1>
                 <div class="container-fluid" style="margin-top: 3%;">
                     <div class="row">
                       <div class="col">
@@ -81,7 +84,7 @@
                       </div>
                       <div class="col-7">
                         <div class="btn-group" style="text-align: center;">
-                            <button type="infoView" class="btn btn-secondary" id="infoView">View Information</button>
+                            <button type="infoView" class="btn btn-secondary" id="infoView">General Information</button>
                             <button type="timing" class="btn btn-secondary" id="timing">Timing Analysis</button>
                             <button type="headers" class="btn btn-secondary" id="headers">Headers Analysis</button> <br>
                             <button type="polyline" class="btn btn-secondary" id="polyline">Polyline Map</button>
@@ -106,14 +109,9 @@
                     <div id='alert' class="alert alert-danger" role="alert"
                                style='display:none;margin-top: 15px;'>
                     </div>
-                    <div id='polyline_map'>
-                      <div id='polyline_map_description' style='margin-bottom: 25px;'>
-                        
-                      </div>
-                      
-
+                    <!-- <div id='polyline_map'> -->
                       <div id="map"></div>
-                    </div>
+                    <!-- </div> -->
 
         </div>
         

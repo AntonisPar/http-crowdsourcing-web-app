@@ -1,11 +1,11 @@
 var subBut = document.getElementById('sub');
 
 async function getInfo(){
-    let response = await fetch('/info',{
+    var response = await fetch('/info',{
         method: 'GET'
     });
     if(!response.ok)
-        throw new Error('You have not upload anython yet')
+        throw new Error().info='You have not upload anything yet';
     else
         return await response.json()
 }
@@ -20,6 +20,7 @@ async function showInfo(){
     catch(e){
         document.getElementById('num_of_entries').innerHTML = e
         document.getElementById('last_upload').innerHTML = e
+        return 0;
     }
 
     document.getElementById('num_of_entries').innerHTML = info[0]['entryNum']
@@ -119,4 +120,5 @@ function changeSettings(){
   
 }
 
+showInfo()
 subBut.onclick = changeSettings;

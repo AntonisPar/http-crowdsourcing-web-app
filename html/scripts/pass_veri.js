@@ -1,4 +1,8 @@
-var myInput = document.getElementById("modal_password");
+if(typeof(document.getElementById("modal_password")) === 'undefined' || document.getElementById("modal_password")===null)
+    var myInput = document.getElementById("new_pass");
+else
+    var myInput = document.getElementById("modal_password");
+
 var letter = document.getElementById("letter");
 var capital = document.getElementById("capital");
 var number = document.getElementById("number");
@@ -70,4 +74,29 @@ myInput.onkeyup = function() {
     special_char.classList.remove("valid");
     special_char.classList.add("invalid");
   }
+
+}
+if(typeof(document.getElementById("modal_password")) === 'undefined' || document.getElementById("modal_password")===null)
+    var confirmInput = document.getElementById("confirm_pass");
+else
+    var confirmInput = document.getElementById("modal_conf_password");
+
+
+confirmInput.onkeyup = function(){
+  if(confirmInput.value === myInput.value){
+
+    confirmInput.style.borderColor = "green";
+  }
+  else{
+    confirmInput.style.borderColor = "red";
+  }
+}
+
+confirmInput.onfocus = function(){
+  confirmInput.style.borderWidth = "3px";
+}
+
+confirmInput.onblur = function (){
+  confirmInput.style.borderColor = "#e9ecef";
+  confirmInput.style.borderWidth = "1px";
 }

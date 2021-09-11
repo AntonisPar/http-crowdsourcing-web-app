@@ -3,13 +3,16 @@ var timingDiv = document.getElementById('timingDiv');
 var tablesDiv = document.getElementById('viewInfo');
 var headersDiv = document.getElementById('headersDiv');
 var listEl = document.getElementById('filter')
-var checkP = document.createElement('p')
+var checkP = document.createElement("div");
+checkP.classList.add('row')
+checkP.style['margin-left'] = '0.5%'
+checkP.style['margin-top'] = '2%'
 let chartPlaceHolder = document.createElement('canvas')
 var message = document.getElementById('alert');
 var checkedList = [];
 
-timingDiv.append(chartPlaceHolder)
 timingDiv.append(checkP)
+timingDiv.append(chartPlaceHolder)
 chartPlaceHolder.style.display ='none'
 timingDiv.style.display = 'none';
 message.style.display = 'none';
@@ -23,7 +26,7 @@ let chartOptions = {
       },
       title: {
         display: true,
-        text: 'Chart.js Line Chart'
+        text: 'Average Response Time during the day'
       }
         }
             
@@ -37,11 +40,6 @@ let charts = new Chart(chartPlaceHolder, {
                     borderColor:'#ff0000'
                 },
                 options: chartOptions,
-                title: {
-                  display: true,
-                  text: 'Chart.js Line Chart'
-          
-                }
             });
 
 
@@ -90,31 +88,54 @@ async function selectChange()
         message.innerHTML = e;
         message.style.display = 'block';
     }
-    checkP.innerHTML = ' '
+
+
+    var paras = document.getElementsByClassName('form-group')
+    while(paras[0]){
+        paras[0].parentNode.removeChild(paras[0])
+    }
+
+    var checkbox_div = document.createElement('div')
+    checkbox_div.classList.add('form-group')
+    checkbox_div.classList.add('form-check')
+    
     var checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = 'all';
     checkbox.onclick = checkAll;
-    checkbox.classList.add("checkbox");
+    checkbox.classList.add("form-check-input");
     checkbox.checked = true;
+    
     var label = document.createElement('label')
-    label.htmlFor =  'ALL';
-    label.appendChild(document.createTextNode('ALL'));
-    checkP.append(checkbox);
-    checkP.append(label);
+    label.classList.add('form-check-label')
+    label.htmlFor =  'exampleCheck1';
+    label.innerHTML = 'ALL';
+
+    checkbox_div.append(checkbox);
+    checkbox_div.append(label);
+    checkP.append(checkbox_div);
+
 
     for(var i in data)
     {
+            var checkbox_div = document.createElement('div')
+            checkbox_div.classList.add('form-group')
+            checkbox_div.classList.add('form-check')
+            
             var checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = i;
             checkbox.onclick =  checkBoxes;
-            checkbox.classList.add("checkbox");
+            checkbox.classList.add("form-check-input");
+            
             var label = document.createElement('label')
-            label.htmlFor =  i;
-            label.appendChild(document.createTextNode(i));
-            checkP.append(checkbox);
-            checkP.append(label);
+            label.classList.add('form-check-label')
+            label.htmlFor =  'exampleCheck1';
+            label.innerHTML =  i;
+        
+            checkbox_div.append(checkbox);
+            checkbox_div.append(label);
+            checkP.append(checkbox_div);
 
     }
     createChart()
@@ -127,7 +148,7 @@ function checkBoxes()
    var box = document.getElementById('all')
    box.checked = false;
    checkedList=[];
-   var elements = document.getElementsByClassName("checkbox");
+   var elements = document.getElementsByClassName("form-check-input");
    for (var i = 0, len = elements.length; i < len; i++) 
    {
                 if((elements[i].checked === true))
@@ -163,7 +184,6 @@ async function createChart()
     {
         for(var i in checkedList)
         {
-           var color = '#' + Math.floor(Math.random()*16777215).toString(16);
            newDataset = {
                 label: checkedList[i],
                 data: data[checkedList[i]],
@@ -179,7 +199,6 @@ async function createChart()
 
         for(var i in data)
         {
-           var color = '#' + Math.floor(Math.random()*16777215).toString(16);
            newDataset = {
                 label: i,
                 data: data[i],
@@ -194,7 +213,7 @@ async function createChart()
     
 function checkAll()
 {
-   var elements = document.getElementsByClassName("checkbox");
+   var elements = document.getElementsByClassName("form-check-input");
    var box = document.getElementById('all')
    if(box.checked === true)
     {

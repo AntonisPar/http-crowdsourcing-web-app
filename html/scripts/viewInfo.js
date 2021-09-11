@@ -94,8 +94,22 @@ async function createTable(){
         message.innerHTML = e;
         message.style.display = 'block'
     }
-    let chartBg = Object.values(colors)
-    let chartBorderColor = Object.values(colors)
+    let chartBg = [
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure)',
+                'Azure'
+                ]
+    let chartBorderColor = [ 
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure',
+                'Azure)',
+                'Azure'
+                ]
 
     let chartOptions = {
             scales: {
@@ -128,7 +142,7 @@ async function createTable(){
     let div = document.getElementById('viewInfo');
 
     let chartDescription = document.createElement('h2')
-    chartDescription.innerHTML = 'General Application Data'
+    chartDescription.innerHTML = 'General Application Info'
     chartDescription.style['margin-top'] = "3%"
     chartDescription.style['textAlign'] = "center"
     
@@ -149,13 +163,13 @@ async function createTable(){
     content_row.insertCell(0).innerHTML = finalData.users ;
     
     div.append(chartDescription)
-    div.append(chartPlaceHolder)
+    // div.append(chartPlaceHolder)
     div.append(table)
 
     var captions = {
-        'age': 'Average age per content-type',
-        'perMethod': 'Number of Entries per method',
-        'perStatus': 'Number of Entries per status',
+        'age': 'Average Age per CONTENT-TYPE',
+        'perMethod': 'Number of Entries per METHOD',
+        'perStatus': 'Number of Entries per STATUS',
     }
 
     // Creating a table and a chart for each key in finalData
@@ -194,7 +208,7 @@ async function createTable(){
             var table_header_row = table_header.insertRow(0);
             if(key === 'age'){
                 table_header_row.insertCell(0).outerHTML = "<th>Average Age</th>";
-                table_header_row.insertCell(0).outerHTML = "<th>Content Type</th>";
+                table_header_row.insertCell(0).outerHTML = "<th>Content-Type</th>";
             }
             else if(key === 'perMethod'){
                 table_header_row.insertCell(0).outerHTML = "<th>Number of Entries</th>";
