@@ -1,9 +1,20 @@
 var mapDiv = document.getElementById('map')
 var polyBut = document.getElementById('polyline')
 var message = document.getElementById('alert');
+var idx = 0;
+var limit = 0;
 mapDiv.style.display = 'none';
 mapDiv.style.height='600px'
-mapDiv.style.width='80%'
+mapDiv.style.width='100%'
+const timer = ms => new Promise(res => setTimeout(res, ms))
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
 
 function mapButClick()
 {
@@ -35,11 +46,10 @@ async function getReqDest(ips)
 {
     var endpoint = "http://ip-api.com/batch?fields=query,lat,lon,status,isp"
     var ip = [];
-    for(var i in ips)
+    for(let i=0; i<ips.length; i++)
         ip.push(ips[i].ip)
     
 
-    console.log(ip)
     var dest = await fetch(endpoint,
         {
             method: 'POST',
@@ -69,7 +79,7 @@ async function createMap()
     
     message.style.display='none'
     try{
-        var mapData = await getMapData();
+        var initMapData = await getMapData();
     }
     catch(e){
         message.innerHTML=e;
@@ -99,22 +109,41 @@ async function createMap()
         accessToken: "pk.eyJ1IjoidHNhYyIsImEiOiJja3M0MndvNDAwZ2xtMndsbHQwOHM1Z2FkIn0.atMs4AwoOm-9J30apCN_Vw",
     }).addTo(mymap);
 
-    for(var i in mapData)
+
+    //for(var i in mapData)
+    while(Object.keys(initMapData).length !== 0)
     {
+        var mapData=new Object()
+        var mapKey =Object.keys(initMapData)[0]
+        mapData[mapKey] = new Array();
         try
         {
-            var httpDest = await getReqDest(mapData[i]);
+            if (initMapData[mapKey].length-100 > limit)
+            {
+                limit = limit +100;
+                var httpDest = await getReqDest(initMapData[mapKey].slice(idx,limit));
+            }
+            else 
+            { 
+                idx = limit
+                var httpDest = await getReqDest(initMapData[mapKey].slice(idx,));
+            }
         }
         catch(e){
             message.innerHTML=e;
             message.style.display='block'
             return 0;
         }
+
+
+        //for(let j=0; j<Object.keys(httpDest).length; j++)
         for(let j=0; j<Object.keys(httpDest).length; j++)
         {
-            mapData[i][j].ip = httpDest[j].lat.toString() + ',' + httpDest[j].lon.toString()
+            mapData[mapKey][j] ={ 'ip' :httpDest[j].lat.toString() + ',' + httpDest[j].lon.toString(),
+                                  'visits':initMapData[mapKey][j+idx].visits
+            }
         }
-    }
+    
     for(let i in mapData)
     {
         L.marker([parseFloat(i.split(',')[0]), parseFloat(i.split(',')[1])]).addTo(mymap)
@@ -122,10 +151,19 @@ async function createMap()
         for(var j in mapData[i])
         {
             let cords = [[parseFloat(i.split(',')[0]), parseFloat(i.split(',')[1])],[parseFloat(mapData[i][j].ip.split(',')[0]),parseFloat(mapData[i][j].ip.split(',')[1])]]
-            L.polyline(cords,{weight: (mapData[i][j].visits/maxVisits) > 0.3 ?(mapData[i][j].visits/maxVisits) : 0.3 }).addTo(mymap);
+            L.polyline(cords,{weight: (mapData[i][j].visits/maxVisits) > 0.2 ?(mapData[i][j].visits/maxVisits) : 0.2 }).addTo(mymap);
+            delete initMapData[mapKey][parseInt(j)+idx]
         }
     }
-
+    idx =limit
+    if(Object.keys(initMapData[mapKey]).length === 0)
+    {
+            delete initMapData[mapKey]
+            idx=0;
+            limit=0;
+    }
+    await timer(10000)
+    }
 }
 
 polyBut.onclick = mapButClick;

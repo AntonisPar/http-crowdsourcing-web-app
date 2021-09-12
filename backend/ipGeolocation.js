@@ -1,6 +1,6 @@
 module.exports.ipGeolocation =  function ipGeolocation(app, connection) {
     app.get('/ipInfo', function (request, response) {
-        var name = request.headers;
+        var name = JSON.parse(request.headers.cookie);
         connection.query('SELECT DISTINCT serverIPAddress as ip, count(*) as numReq FROM Entry where username=(?) AND serverIPAddress IS NOT NULL group by serverIPAddress;', [name['username']], function(err,result,fields){
             if (err) throw  err;
             var ips = new Object(); 
