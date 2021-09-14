@@ -110,7 +110,6 @@ async function createMap()
     }).addTo(mymap);
 
 
-    //for(var i in mapData)
     while(Object.keys(initMapData).length !== 0)
     {
         var mapData=new Object()
@@ -136,7 +135,6 @@ async function createMap()
         }
 
 
-        //for(let j=0; j<Object.keys(httpDest).length; j++)
         for(let j=0; j<Object.keys(httpDest).length; j++)
         {
             mapData[mapKey][j] ={ 'ip' :httpDest[j].lat.toString() + ',' + httpDest[j].lon.toString(),

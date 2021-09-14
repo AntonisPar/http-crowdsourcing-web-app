@@ -86,12 +86,10 @@ async function handleIP()
         }
         catch(e)
         {
-            //message.innerHTML=e;
-            //message.style.display='block'
+            console.log(e)
             return 0;
         }
 
-        console.log(limit,idx)
         for(var i in heatmapData){
             heatmapData[i]['visits'] = responseData[heatmapData[i]['query']]
         }

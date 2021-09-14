@@ -21,7 +21,6 @@ function redirectHeat() {
 if(typeof(changeSetBut) !== 'undefined' && changeSetBut !== null){
     changeSetBut.onclick = redirectSettings;
     harButton.onclick = redirectHar;
-    //heatButton.onclick = redirectHeat;
 }
 if(typeof(signupButton) !== 'undefined' && signupButton !== null)
     signupButton.onclick = redirectSignup;

@@ -15,7 +15,6 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                 data[i]['content-typeResponse'] = data[i]['content-typeResponse'].split(';')[0]
 
                 }
-//                //else content = data[i]['content-typeResponse']
             }
                 
             if ((data[i]['cache-controlResponse'] === null) || (typeof(data[i]['cache-controlResponse']) === 'undefined') || (!(data[i]['cache-controlResponse'].includes('max-age'))) )
@@ -25,7 +24,6 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                     if((typeof(data[i].expiresResponse) !== 'undefined' && data[i].expiresResponse !== null) && (typeof(data[i]['last-modifiedResponse']) !== 'undefined' && data[i]['last-modifiedResponse'] !== null ))
                     {
                         data[i]['cache-controlResponse'] += (', max-age='+(Math.abs(new Date(data[i]['last-modifiedResponse']) - new Date(data[i].expiresResponse))).toString());
-                            //data[i].ageResponse = new Date(Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse)) * 1000).toISOString().substr(11,8);
                     }
                     else
                         data[i]['cache-controlResponse'] += ', NULL'
@@ -36,7 +34,6 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                     if((typeof(data[i].expiresResponse) !== 'undefined' && data[i].expiresResponse !== null) && (typeof(data[i]['last-modifiedResponse']) !== 'undefined' && data[i]['last-modifiedResponse'] !== null ))
                     {
                         data[i]['cache-controlResponse'] = ('max-age='+(Math.abs(new Date(data[i]['last-modifiedResponse']) - new Date(data[i].expiresResponse))).toString());
-                            //data[i].ageResponse = new Date(Math.abs(new Date(data[i].startedDateTime) - new Date(data[i].expiresResponse)) * 1000).toISOString().substr(11,8);
                     }
 
                 }

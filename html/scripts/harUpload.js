@@ -78,7 +78,6 @@ function readHar() {
                     }, {});
                 uploadValues[key] = valueArr;
             }
-            console.log(uploadValues);
             fetch("/upload",
             {
                 method: 'POST',

@@ -94,23 +94,6 @@ async function createTable(){
         message.innerHTML = e;
         message.style.display = 'block'
     }
-    let chartBg = [
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure)',
-                'Azure'
-                ]
-    let chartBorderColor = [ 
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure',
-                'Azure)',
-                'Azure'
-                ]
-
     let chartOptions = {
             scales: {
                 y:{
@@ -125,10 +108,10 @@ async function createTable(){
     var myChart = new Chart(chartPlaceHolder, {
         type:'bar',
         data:{
-            labels: ['users','domains','isps'],
+            labels: [],
             datasets: [{
                 label: 'General Application Data',
-                data:  [finalData.users,finalData.domains,finalData.isps],
+                data:  [],
                 backgroundColor:chartBg,
                 borderColor:chartBorderColor,
                 borderWidth: 1

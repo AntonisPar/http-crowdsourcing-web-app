@@ -32,7 +32,6 @@ function signup()
             })
         .then(res => res.text())
         .then(data => {
-            console.log(data)
             if ( data === 'true')
             {
                 success.innerHTML= "Successful Signup";

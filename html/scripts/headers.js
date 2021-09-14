@@ -89,20 +89,6 @@ async function cacheChartCreate(options)
             borderColor: Object.values(colors),
             backgroundColor: Object.values(colors),
         })
-//        for(var i in ttldata[list.value])
-//        {
-//            var header = table.createTHead();
-//            var row1 = header.insertRow(0);    
-//            var header = table.createTHead();
-//            var row = header.insertRow(0);
-//            headersDiv.append(table)
-//            for(var label in plotData.labels)
-//                row.insertCell(0).innerHTML = label
-//            for(var val in plotData.datasets.data)
-//                console.log(val)
-//                //row.insertCell(1).innerHTML = val
-//                
-//        }
         cacheChart.data = plotData;
         cacheChart.update()
     }

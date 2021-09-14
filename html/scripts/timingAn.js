@@ -157,7 +157,6 @@ function checkBoxes()
     }
     if (checkedList.length === 0)
         box.checked = true
-    console.log(checkedList)
     createChart()
 }
 

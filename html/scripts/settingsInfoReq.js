@@ -84,7 +84,6 @@ function changeSettings(){
     }
 
     else {
-        console.log(fields)
 
         fetch("/settings",
             {

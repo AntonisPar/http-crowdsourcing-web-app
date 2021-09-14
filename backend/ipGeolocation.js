@@ -8,10 +8,8 @@ module.exports.ipGeolocation =  function ipGeolocation(app, connection) {
                 if(result[i]['ip'] !== '')
                     ips[result[i]['ip'].match(/\w.*\w/)[0].toString()]=result[i]['numReq']
             }
-            console.log(ips)
             response.send(ips)
             });
     });
 
-        //response.sendFile(path.resolve('html/profileSettings.html'));
 }

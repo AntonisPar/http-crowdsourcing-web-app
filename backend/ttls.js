@@ -1,6 +1,5 @@
 module.exports.ttls =  function ttls(app, connection) {
     app.post('/ttlData', function (request, response) {
-        //sql = `select \`cache-controlResponse\` as cache, \`content-typeResponse\` as type, isp from Entry  left join Ip_info on Entry.username = Ip_info.username where \`cache-controlResponse\` is not NULL and isp=\'`+request.headers.list+`\' or (`
 
         sql = `select  \`cache-controlResponse\` as cache, \`content-typeResponse\` as type, isp from Entry  left join Ip_info on Entry.username = Ip_info.username where \`cache-controlResponse\` is not NULL and (`
         for(let i=0; i< request.body.length; i++)
@@ -20,7 +19,6 @@ module.exports.ttls =  function ttls(app, connection) {
             var max = new Object();
             var regex = new  RegExp('[a-z]+-a[a-z]+=[0-9]+');
 
-            //console.log(result[1000])
             for(let i in result)
             {
                 let isp = result[i].isp

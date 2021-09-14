@@ -7,8 +7,6 @@ function remove(obj, itemsToFilter) {
     if (obj.hasOwnProperty(property)) {
       if (itemsToFilter.includes(property)) {
         delete obj[property];
-          for(var j in obj[property])
-              console.log(obj[property][j].name)
       }
       else if (typeof obj[property] === "object") {
         remove(obj[property], itemsToFilter);
@@ -65,9 +63,6 @@ function filterHar() {
 
     const itemsToFilter = ["cookies", "content", "postData", "Cookie","set-cookie"];
 
-    //console.log(harFiltered.log.entries); 
-    //removeInHeaders(harFiltered.log.entries)
-    //removeFromRequest(harContent.log, itemsToFilter);
 
     remove(harContent, itemsToFilter);
     removeInRequestHeaders(harContent.log.entries)
