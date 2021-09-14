@@ -14,6 +14,7 @@ var polyline  = require('./backend/polyline.js');
 var ttls  = require('./backend/ttls.js');
 var giveAdmin  = require('./backend/giveAdmin.js');
 var changeSettings  = require('./backend/changeSettings.js');
+var checkAccess = require('./backend/checkAccess.js')
 var app = express();
 
 
@@ -24,8 +25,8 @@ app.use(express.static('html'));
 
 var connection = mysql.createConnection({
     host: "localhost",
-    user: "tsac",
-    password: "pass",
+    user: "jason",
+    password: "j@s0n_123",
     database: "web",
     multipleStatements: true
 });
@@ -46,7 +47,9 @@ var server = app.listen(3000, function () {
 
 login.login(app,connection,path);
 
-signup.signup(app,connection); 
+signup.signup(app,connection);
+
+checkAccess.checkAccess(app, connection); 
 
 uploadHar.uploadHar(app,connection);
 
