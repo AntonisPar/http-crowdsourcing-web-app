@@ -13,3 +13,4 @@
 !.gitignore
 !database_export.sql
 !limited_access_html_files/
+!limited_access_html_files/*
