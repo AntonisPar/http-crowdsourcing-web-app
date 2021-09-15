@@ -156,8 +156,8 @@ async function getCont(){
     return await types.json();
 }
 
-async function col(){
-    var c = await getCont()
-    for(var i in c)
-        colors[CryptoJS.SHA256(c[i]).toString()] = CSS_COLOR_NAMES[i]
+async function createHash(){
+    var color = await getCont()
+    for(var i in color)
+        colors[color[i]] = CSS_COLOR_NAMES[i]
 }

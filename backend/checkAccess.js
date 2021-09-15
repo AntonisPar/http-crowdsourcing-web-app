@@ -3,7 +3,7 @@ module.exports.checkAccess = function checkAccess(app,connection){
         
     app.get('/mainAdmin.html', function(request, response, next){
 
-        var cookie = request.headers.cookie
+            var cookie = request.headers.cookie
     
         if(cookie===undefined){
             response.status(403).redirect('login.html')
@@ -76,6 +76,7 @@ module.exports.checkAccess = function checkAccess(app,connection){
     
         if(cookie===undefined){
             response.status(403).redirect('login.html')
+            return;
         }
         cookie = JSON.parse(cookie);
         if(cookie===null || cookie==='null' || cookie.username===null || cookie.username==='null')

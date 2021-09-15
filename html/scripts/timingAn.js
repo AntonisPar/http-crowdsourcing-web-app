@@ -186,8 +186,8 @@ async function createChart()
            newDataset = {
                 label: checkedList[i],
                 data: data[checkedList[i]],
-                borderColor: colors[CryptoJS.SHA256(checkedList[i]).toString()],
-                backgroundColor: colors[CryptoJS.SHA256(checkedList[i]).toString()],
+                borderColor: colors[checkedList[i]],
+                backgroundColor: colors[checkedList[i]],
                }
                 charts.data.datasets.push(newDataset);
                 charts.update()
@@ -201,8 +201,8 @@ async function createChart()
            newDataset = {
                 label: i,
                 data: data[i],
-                borderColor: Object.values(colors),
-                backgroundColor: Object.values(colors),
+                borderColor: colors[i],
+                backgroundColor: colors[i],
                }
                 charts.data.datasets.push(newDataset);
                 charts.update()
@@ -219,7 +219,6 @@ function checkAll()
         for (var i = 0, len = elements.length; i < len; i++) 
         {
                      elements[i].checked =false;
-                     
         }
     }
     box.checked = true;

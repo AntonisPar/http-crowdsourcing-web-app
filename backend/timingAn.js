@@ -30,9 +30,9 @@ module.exports.timingAn =  function timingAn(app, connection) {
                    padded[result[i]['hour']] = result[i].wait
 
                    if( Object.keys(data).includes(key))
-                       {
-                       data[key][result[i]['hour']] = result[i]['wait']
-                       }
+                    {
+                        data[key][result[i]['hour']] = result[i]['wait']
+                    }
                    else
                    { 
                       data[key] = padded;

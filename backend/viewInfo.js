@@ -71,7 +71,7 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
             });
     });
     app.get('/avgAge', function (request, response) {
-        connection.query('SELECT `content-typeResponse` as type, AVG(ageResponse) as age  FROM Entry WHERE ageResponse!="NULL" GROUP BY `content-typeResponse`', function(err,result,fields){
+        connection.query('SELECT `content-typeResponse` as type, AVG(ageResponse) as age  FROM Entry WHERE ageResponse is not null GROUP BY `content-typeResponse`', function(err,result,fields){
             if (err) {
                 console.log(err)
                 response.sendStatus(404)

@@ -13,87 +13,104 @@ module.exports.ttls =  function ttls(app, connection) {
 
 
         connection.query(sql, function(err,result,fields){
-            if (err) throw  err;
-            var cacheData = {}
-            let ttlDist = {}
-            var max = new Object();
-            var regex = new  RegExp('[a-z]+-a[a-z]+=[0-9]+');
-
-            for(let i in result)
-            {
-                let isp = result[i].isp
-                if(!Object.keys(max).includes(isp))
-                {
-                    max[isp]=0
-                }
-                if(regex.test(result[i].cache))
-                {
-                    if(max[isp] < parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0]))
-                        max[isp] = parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0]);
-                }
-                else 
-                    continue;
+            if (err){
+                response.sendStatus(404)
+                console.log(err)
             }
-
-            for(var isps in max)
+            else
             {
-            let buckets = []
-                for(let i=0; i<11;i++)
+                var cacheData = {}
+                let ttlDist = {}
+                var max = new Object();
+                var regex = new  RegExp('[a-z]+-a[a-z]+=[0-9]+');
+                max['all']=0
+
+                for(let i in result)
                 {
-                    buckets.push((i*(max[isps]/10)))
-                    if( i === 0 )
-                        continue;
-                    else 
+                    let isp = result[i].isp
+                    if(!Object.keys(max).includes(isp))
                     {
-                        
-                        key = ((i-1)*(max[isps]/10)).toString() +'-' + (i*(max[isps]/10)).toString()
-                        ttlDist[isps] ={
-                            ...ttlDist[isps],
-                            [key] : 0
+                        max[isp]=0
+                    }
+                    if(regex.test(result[i].cache))
+                    {
+                        if(max[isp] < parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0]))
+                            max[isp] = parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0]);
+
+                        if(max['all'] < parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0]))
+                            max['all'] = parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0]);
+
+                    }
+                    else 
+                        continue;
+                }
+
+                for(var isps in max)
+                {
+                let buckets = []
+                    for(let i=0; i<11;i++)
+                    {
+                        buckets.push((i*(max[isps]/10)))
+                        if( i === 0 )
+                            continue;
+                        else 
+                        {
+                            
+                            key = ((i-1)*(max[isps]/10)).toString() +'-' + (i*(max[isps]/10)).toString()
+                            ttlDist[isps] ={
+                                ...ttlDist[isps],
+                                [key] : 0
+                            }
+                        }
+                    }
+                    ttlDist[isps] = {
+                        ...ttlDist[isps],
+                        'count':0
+                    }
+                    max[isps] = buckets
+                }
+                buckets = max
+
+                for(let i in result)
+                {
+                    let isp = result[i].isp
+                    ttlDist[isp].count++;
+                    ttlDist['all'].count++;
+                    if(regex.test(result[i].cache))
+                        var mage = parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0])
+                    else 
+                        continue;
+                    
+                    for(let k=1; k<11; k++)
+                    {
+                        if(mage<=buckets[isp][k]  && mage>=buckets[isp][k-1])
+                        {
+                            currBucket = buckets[isp][k-1].toString()+'-'+buckets[isp][k].toString() 
+                            ttlDist[isp][currBucket] +=1;
+                        }
+                        if(mage<=buckets['all'][k]  && mage>=buckets['all'][k-1])
+                        {
+                            currBucket = buckets['all'][k-1].toString()+'-'+buckets['all'][k].toString() 
+                            ttlDist['all'][currBucket] +=1;
                         }
                     }
                 }
-                ttlDist[isps] = {
-                    ...ttlDist[isps],
-                    'count':0
-                }
-                max[isps] = buckets
-            }
-            buckets = max
+                for(var i in ttlDist)
+                    ttlDist[i]={
+                        ...ttlDist[i],
+                        label: buckets[i]
+                    }
 
-            for(let i in result)
-            {
-                let isp = result[i].isp
-            ttlDist[isp].count++;
-                if(regex.test(result[i].cache))
-                    var mage = parseInt(result[i].cache.match('[a-z]+-a[a-z]+=[0-9]+')[0].match('[0-9]+')[0])
-                else 
-                    continue;
-                
-                for(let k=1; k<11; k++)
-                {
-                    if(mage<=buckets[isp][k]  && mage>=buckets[isp][k-1])
-                    {
-                        currBucket = buckets[isp][k-1].toString()+'-'+buckets[isp][k].toString() 
-                        ttlDist[isp][currBucket] +=1;
+                for(var i in ttlDist){
+                    for(var j in ttlDist[i]){
+                        if(j !== 'label' && j !== 'count')
+                        ttlDist[i][j]=ttlDist[i][j]/ttlDist[i].count
+
                     }
                 }
+
+                response.send(ttlDist)
             }
-            for(var i in ttlDist)
-                ttlDist[i]={
-                    ...ttlDist[i],
-                    label: buckets[i]
-                }
-
-            for(var i in ttlDist){
-                for(var j in ttlDist[i]){
-                    if(j !== 'label' && j !== 'count')
-                    ttlDist[i][j]=ttlDist[i][j]/ttlDist[i].count
-
-                }
-            }
-
-            response.send(ttlDist)
         });
     });
             

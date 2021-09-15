@@ -7,8 +7,8 @@ module.exports.headers =  function headers(app, connection) {
             }
             else{
                 var cacheData = {}
-                let listOfIncluded = []
                 let listOfIsp = []
+                cacheData['all'] = new Object();
                 for(var i in result)
                 {
                     let contentType = result[i].type
@@ -26,13 +26,16 @@ module.exports.headers =  function headers(app, connection) {
                             if(splitted[j].includes('max-stale'))
                             {
                                 cacheData[isp][contentType]['max-stale'] += 1
+                                cacheData['all'][contentType]['max-stale'] += 1
                             }
                             if(Object.keys(cacheData[isp][contentType]).includes(splitted[j]))
                             {
                                 cacheData[isp][contentType][splitted[j]] += 1;
+                                cacheData['all'][contentType][splitted[j]] += 1;
                             }
                         }
                         cacheData[isp][contentType]['count']+=1
+                        cacheData['all'][contentType]['count']+=1
                     }
                 
                     else
@@ -46,26 +49,37 @@ module.exports.headers =  function headers(app, connection) {
                         'no-store':0,
                         'count': 0
                         };
+                    if(!Object.keys(cacheData['all']).includes(contentType))
+                        cacheData['all'][contentType] = {
+                            'public':0,
+                            'private':0,
+                            'max-stale':0,
+                            'min-fresh':0,
+                            'no-cache' : 0,
+                            'no-store':0,
+                            'count': 0
+                            };
                         let splitted = result[i].cache.split(',')
                         for(var j in splitted)
                         {
                             if(splitted[j].includes('max-stale'))
                             {
                                 cacheData[isp][contentType]['max-stale'] += 1
+                                cacheData['all'][contentType]['max-stale'] += 1
                             }
                             if(Object.keys(cacheData[isp][contentType]).includes(splitted[j]))
                             {
                                 cacheData[isp][contentType][splitted[j]] += 1;
+                                cacheData['all'][contentType][splitted[j]] += 1;
                             }
                         }
                         cacheData[isp][contentType]['count']+=1
-                        listOfIncluded.push(contentType)
+                        cacheData['all'][contentType]['count']+=1
                     }
                         
                         
                         
                 }
-
                 response.send(cacheData)
             }
         });

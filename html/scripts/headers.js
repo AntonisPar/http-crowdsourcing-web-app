@@ -2,9 +2,10 @@ var headBut = document.getElementById('headers')
 var headersDiv = document.getElementById('headersDiv')
 var message = document.getElementById('alert')
 var list = document.createElement("select");
-list.style.display = 'none';
+let newOption = new Option('all','All');
 var checkBoxPlace = document.createElement("div");
 checkBoxPlace.classList.add('row')
+checkBoxPlace.id='checkBoxDiv'
 var cacheCheckedList=[];
 headersDiv.style.display='none';
     
@@ -38,7 +39,7 @@ async function cacheChartCreate(options)
     catch(e){
         message.innerHTML='An Error has occured while loading the data.'
         message.style.display = 'block';
-        setTimeout(function(){ message.style.display = 'none' })
+        setTimeout(function(){ message.style.display = 'none' },6000)
     }
     if(typeof(document.getElementById('canvas'+options[0])) !== 'undefined' && document.getElementById('canvas'+options[0]) !== null)
        document.getElementById('canvas'+options[0]).remove()
@@ -158,14 +159,15 @@ async function cacheChartCreate(options)
                     plotData.datasets.push( {
                             label: i,
                             data: d,
-                            borderColor: colors[CryptoJS.SHA256(i).toString()],
-                            backgroundColor: colors[CryptoJS.SHA256(i).toString()],
-                        })
+                            borderColor: colors[i],
+                            backgroundColor: colors[i],
+                    })
                 }
             }
             cacheChart.data = plotData;
             cacheChart.update()
             headersDiv.append(table)
+        
     }
 }
 
@@ -196,10 +198,9 @@ async function headButClick()
     else
     {
         headersDiv.style.display = 'none';
+        document.getElementById('checkBoxDiv').innerHTML=''
         headersDiv.innerHTML = '';
         list.remove()
-        checkBoxPlace.remove()
-
     }
 }
 
@@ -242,15 +243,15 @@ function createSelectList(obj)
     {
         var option = document.createElement("option");
         option.value = Object.keys(obj)[i];
-        option.text = Object.keys(obj)[i];
+        option.text = Object.keys(obj)[i].charAt(0).toUpperCase() + Object.keys(obj)[i].slice(1,);
         list.appendChild(option);
 
     }
-
 }
 
 function createCheckBoxes(obj)
 {
+    
     var checkbox_div = document.createElement('div')
     checkbox_div.classList.add('form-group')
     checkbox_div.classList.add('form-check')
@@ -270,10 +271,10 @@ function createCheckBoxes(obj)
     checkbox_div.append(checkbox);
     checkbox_div.append(label);
     checkBoxPlace.append(checkbox_div);
-
     for(var i in obj[list.value])
     {
             var checkbox_div = document.createElement('div')
+            checkbox_div.id='checkDiv'
             checkbox_div.classList.add('form-group')
             checkbox_div.classList.add('form-check')
             

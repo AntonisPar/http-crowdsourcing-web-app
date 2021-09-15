@@ -112,8 +112,8 @@ async function createTable(){
             datasets: [{
                 label: 'General Application Data',
                 data:  [],
-                backgroundColor:chartBg,
-                borderColor:chartBorderColor,
+                backgroundColor:Object.values(colors),
+                borderColor:Object.values(colors),
                 borderWidth: 1
             }]
         },
