@@ -19,10 +19,10 @@ function remove(obj, itemsToFilter) {
 function removeInRequestHeaders(obj) {
     for (var entries in obj) {
         for(var headers in obj[entries].request['headers']){
-            if(obj[entries].request['headers'][headers]["name"] !=='undefined' && typeof(obj[entries].request['headers'][headers]["name"]) !== null){
+            if(typeof(obj[entries].request['headers'][headers]["name"]) !=='undefined' && typeof(obj[entries].request['headers'][headers]["name"]) !== null){
                 if(obj[entries].request['headers'][headers]["name"].toLowerCase().includes('cookie')) {
                     delete obj[entries].request['headers'][headers]["name"]
-                    delete obj[entries].request['headers'][headers]["name"];
+                    delete obj[entries].request['headers'][headers]["value"];
                 }
             } 
         }
@@ -32,10 +32,10 @@ function removeInRequestHeaders(obj) {
 function removeInResponseHeaders(obj) {
     for (var entries in obj) {
         for(var headers in obj[entries].response['headers']){
-            if(obj[entries].response['headers'][headers]["name"] !=='undefined' && typeof(obj[entries].response['headers'][headers]["name"]) !== null){
+            if(typeof(obj[entries].response['headers'][headers]["name"]) !=='undefined' && typeof(obj[entries].response['headers'][headers]["name"]) !== null){
                 if(obj[entries].response['headers'][headers]["name"].toLowerCase().includes('cookie')) {
                     delete obj[entries].response['headers'][headers]["name"]
-                    delete obj[entries].response['headers'][headers]["name"];
+                    delete obj[entries].response['headers'][headers]["value"];
                 }
             } 
         }
@@ -85,9 +85,8 @@ function filterHar() {
   } 
     reader.onerror = () => {
 
-        let message = document.createElement('p');
         message.innerHTML = "Error with .har file";
-        document.body.append(message)
+        message.style.display='block'
     }
 }
 

@@ -5,7 +5,7 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
         let nestedArr = new Array()
         var curdate = new Date().toJSON().slice(0,10).replace(/-/g,'/')
         var cookie = JSON.parse(request.headers.cookie);
-        var checklist = ["startedDateTime","serverIPAddress","wait","url","method","hostRequest","pragmaRequest","cache-controlRequest","status","statusText","cache-controlResponse","pragmaResponse","ageResponse","last-modifiedResponse",'content-typeResponse',"expiresResponse"]
+        //var checklist = ["startedDateTime","serverIPAddress","wait","url","method","hostRequest","pragmaRequest","cache-controlRequest","status","statusText","cache-controlResponse","pragmaResponse","ageResponse","last-modifiedResponse",'content-typeResponse',"expiresResponse"]
 
         for(var i in data){
             if( (data[i]['content-typeResponse'] !== null) && (typeof(data[i]['content-typeResponse']) !== 'undefined')) {
@@ -25,10 +25,8 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                     {
                         data[i]['cache-controlResponse'] += (', max-age='+(Math.abs(new Date(data[i]['last-modifiedResponse']) - new Date(data[i].expiresResponse))).toString());
                     }
-                    else
-                        data[i]['cache-controlResponse'] += ', NULL'
-                    
-            }
+                }
+                
                 else 
                 {
                     if((typeof(data[i].expiresResponse) !== 'undefined' && data[i].expiresResponse !== null) && (typeof(data[i]['last-modifiedResponse']) !== 'undefined' && data[i]['last-modifiedResponse'] !== null ))
@@ -39,20 +37,20 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                 }
 
             }
-            for (var j in checklist)
-            {
+            //for (var j in checklist)
+            //{
 
-                if(!(Object.keys(data[i]).includes(checklist[j])))
-                    data[i][checklist[j]] = null
-            }
-            let unsorted = data[i]
-            let sorted = Object.keys(unsorted)
-                    .sort()
-                    .reduce(function (acc, key) { 
-                        acc[key] = unsorted[key];
-                        return acc;
-                    }, {});
-            nestedArr.push(Object.values(sorted))
+            //    if(!(Object.keys(data[i]).includes(checklist[j])))
+            //        data[i][checklist[j]] = null
+            //}
+            //let unsorted = data[i]
+            //let sorted = Object.keys(unsorted)
+            //        .sort()
+            //        .reduce(function (acc, key) { 
+            //            acc[key] = unsorted[key];
+            //            return acc;
+            //        }, {});
+            nestedArr.push(Object.values(data[i]))
             
             nestedArr[i].unshift(cookie['username'],curdate)
 

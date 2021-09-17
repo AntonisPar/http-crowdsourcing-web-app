@@ -30,14 +30,14 @@ function addHeaderValues(obj, valueArr, attribute) {
     let itemKeys = Object.keys(inHeaderValues);
     let itemValues = Object.values(inHeaderValues);
     for (var items in itemKeys) {
-        if (itemKeys[items] != null) {
-            if (itemKeys[items] in valueArr) {
+        //if (itemKeys[items] !== null){
+        //    if (itemKeys[items] in valueArr) {
+        //        valueArr[itemKeys[items] + attribute] = itemValues[items];
+        //    }
+        //    else {
                 valueArr[itemKeys[items] + attribute] = itemValues[items];
-            }
-            else {
-                valueArr[itemKeys[items] + attribute] = itemValues[items];
-            }
-        }
+            //}
+        //}
     }
 }
 
