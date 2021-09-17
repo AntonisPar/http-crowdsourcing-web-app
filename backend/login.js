@@ -1,8 +1,7 @@
 var CryptoJS = require('crypto-js');
-var path = require( 'path');
 
 module.exports.login =  function login(app,connection,path) {
- app.get('/', function (request, response) {
+    app.get('/', function (request, response) {
         response.sendFile(path.resolve('html/login.html'));
     });
     app.post('/login', function (req, res) {
@@ -14,7 +13,7 @@ module.exports.login =  function login(app,connection,path) {
                     if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
                         if(response[0].isAdmin === 0)
                             res.send('/har.html');
-                        else
+                        else if(response[0].isAdmin === 1)
                             res.send('/mainAdmin.html');
                     }
                     else 
@@ -27,8 +26,5 @@ module.exports.login =  function login(app,connection,path) {
         else
             res.send("empty")
 
-    });
- app.get('/redirect', function (request, response) {
-            response.sendFile(path.resolve('html/main.html'));
     });
 }

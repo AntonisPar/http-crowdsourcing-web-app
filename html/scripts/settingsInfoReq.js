@@ -5,7 +5,7 @@ async function getInfo(){
         method: 'GET'
     });
     if(!response.ok)
-        throw new Error().info='You have not upload anything yet';
+        throw new Error().info='You have not uploaded anything yet';
     else
         return await response.json()
 }
@@ -78,7 +78,7 @@ function changeSettings(){
     }
     else if(fields['new_pass'] !== fields['confirm_pass']){
 
-       error_alert.innerHTML = "The passwords you enetered are different";
+       error_alert.innerHTML = "Confirm password doesn't match the new password";
        error_alert.style.display="block"
        setTimeout(function(){ error_alert.style.display="none"; }, 6000);
     }
@@ -101,6 +101,7 @@ function changeSettings(){
                 document.cookie = JSON.stringify({"username": fields['new_name']});
                 success_alert.style.display="block"
                 setTimeout(function(){ success_alert.style.display="none"; }, 6000);
+                showInfo()
             }
             
             else if (data === "2"){

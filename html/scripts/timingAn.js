@@ -2,21 +2,16 @@ var timingBut = document.getElementById('timing');
 var timingDiv = document.getElementById('timingDiv');
 var tablesDiv = document.getElementById('viewInfo');
 var headersDiv = document.getElementById('headersDiv');
-var listEl = document.getElementById('filter')
+var listEl = document.createElement("select");
 var checkP = document.createElement("div");
-checkP.classList.add('row')
-checkP.style['margin-left'] = '0.5%'
-checkP.style['margin-top'] = '2%'
 let chartPlaceHolder = document.createElement('canvas')
 var message = document.getElementById('alert');
 var checkedList = [];
 
-timingDiv.append(checkP)
-timingDiv.append(chartPlaceHolder)
-chartPlaceHolder.style.display ='none'
-timingDiv.style.display = 'none';
-message.style.display = 'none';
-listEl.style.display ='none'
+checkP.classList.add('row')
+checkP.style['margin-left'] = '0.5%'
+checkP.style['margin-top'] = '2%'
+//listEl.style.display ='none'
 
 let chartOptions = {
     responsive: true,
@@ -30,6 +25,25 @@ let chartOptions = {
       }
         }
             
+}
+function createFilterList()
+{
+    listEl.innerHTML='';
+    list.style['margin-bottom'] = '5%'
+    filtMap={
+        'method':'By Method',
+        '\`content-typeResponse\`':'By Content-Type',
+        'dayname(startedDateTime)':'By Day of the Week',
+        'isp':'By ISP'
+    }
+    for(var i in filtMap)
+    {
+        var option = document.createElement("option");
+        option.value = i
+        option.text = filtMap[i]
+        listEl.appendChild(option);
+
+    }
 }
 
 let charts = new Chart(chartPlaceHolder, {
@@ -62,14 +76,23 @@ async function getData(filter)
 
 function timingButClick()
 {
+    if(timingDiv.innerHTML===''){
+        timingDiv.append(listEl)
+        timingDiv.append(checkP)
+        timingDiv.append(chartPlaceHolder)
+        chartPlaceHolder.style.display ='none'
+        timingDiv.style.display = 'none';
+        message.style.display = 'none';
+        createFilterList();
+        selectChange();
+        createChart()
+    }
     if (timingDiv.style.display === 'none')
     {
         document.getElementById('map').style.display='none'
         headersDiv.style.display='none';
         timingDiv.style.display = 'block';
         tablesDiv.style.display = 'none';
-        selectChange();
-        createChart()
     }
     else
         timingDiv.style.display = 'none';
@@ -79,6 +102,7 @@ async function selectChange()
 {
 
     var filterType = listEl.options[listEl.selectedIndex].value;
+    checkP.innerHTML=''
     try{
         var data = await getData(filterType)
         listEl.style.display ='block'
@@ -90,10 +114,6 @@ async function selectChange()
     }
 
 
-    var paras = document.getElementsByClassName('form-group')
-    while(paras[0]){
-        paras[0].parentNode.removeChild(paras[0])
-    }
 
     var checkbox_div = document.createElement('div')
     checkbox_div.classList.add('form-group')
@@ -104,6 +124,7 @@ async function selectChange()
     checkbox.id = 'all';
     checkbox.onclick = checkAll;
     checkbox.classList.add("form-check-input");
+    checkbox.classList.add("timing");
     checkbox.checked = true;
     
     var label = document.createElement('label')
@@ -127,6 +148,7 @@ async function selectChange()
             checkbox.id = i;
             checkbox.onclick =  checkBoxes;
             checkbox.classList.add("form-check-input");
+            checkbox.classList.add("timing");
             
             var label = document.createElement('label')
             label.classList.add('form-check-label')
@@ -148,7 +170,7 @@ function checkBoxes()
    var box = document.getElementById('all')
    box.checked = false;
    checkedList=[];
-   var elements = document.getElementsByClassName("form-check-input");
+   var elements = document.getElementsByClassName("timing");
    for (var i = 0, len = elements.length; i < len; i++) 
    {
                 if((elements[i].checked === true))
@@ -212,7 +234,7 @@ async function createChart()
     
 function checkAll()
 {
-   var elements = document.getElementsByClassName("form-check-input");
+   var elements = document.getElementsByClassName("timing");
    var box = document.getElementById('all')
    if(box.checked === true)
     {

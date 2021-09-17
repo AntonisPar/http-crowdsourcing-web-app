@@ -2,7 +2,6 @@ var headBut = document.getElementById('headers')
 var headersDiv = document.getElementById('headersDiv')
 var message = document.getElementById('alert')
 var list = document.createElement("select");
-let newOption = new Option('all','All');
 var checkBoxPlace = document.createElement("div");
 checkBoxPlace.classList.add('row')
 checkBoxPlace.id='checkBoxDiv'
@@ -51,7 +50,6 @@ async function cacheChartCreate(options)
     table.classList.add('table')
     table.style['margin-top'] = '4%'
 
-    // headersDiv.append(cacheChartPlaceHolder);
     cacheChartPlaceHolder.id='canvas'+options[0]
     table.id = 'table'+options[0]
 
@@ -184,23 +182,22 @@ async function headButClick()
         message.innerHTML=e;
         message.style.display = 'block';
     }
+    if(headersDiv.innerHTML === '')
+    {
+        createSelectList(cacheData)
+        createCheckBoxes()
+        .then(() => cacheCheckAll())
+    }
     if(headersDiv.style.display === 'none')
     {
         document.getElementById('viewInfo').style.display='none'
         document.getElementById('timingDiv').style.display='none'
         document.getElementById('map').style.display='none'
         headersDiv.style.display = 'block';
-        createSelectList(cacheData)
-        createCheckBoxes(cacheData)
-
-        cacheCheckAll()
     }
     else
     {
         headersDiv.style.display = 'none';
-        document.getElementById('checkBoxDiv').innerHTML=''
-        headersDiv.innerHTML = '';
-        list.remove()
     }
 }
 
@@ -249,9 +246,14 @@ function createSelectList(obj)
     }
 }
 
-function createCheckBoxes(obj)
+async function createCheckBoxes()
 {
     
+    try{
+        var obj = await getHeadersData()
+    }
+    catch(e){}
+    checkBoxPlace.innerHTML =''
     var checkbox_div = document.createElement('div')
     checkbox_div.classList.add('form-group')
     checkbox_div.classList.add('form-check')
@@ -260,6 +262,7 @@ function createCheckBoxes(obj)
     checkbox.type = 'checkbox';
     checkbox.id = 'allCache';
     checkbox.classList.add("form-check-input");
+    checkbox.classList.add("cache");
     checkbox.onclick = cacheCheckAll;
     checkbox.checked = true;
     
@@ -283,6 +286,7 @@ function createCheckBoxes(obj)
             checkbox.id = i;
             checkbox.onclick =  cacheCheckBoxes;
             checkbox.classList.add("form-check-input");
+            checkbox.classList.add("cache");
             
             var label = document.createElement('label')
             label.htmlFor =  "exampleCheck1";
@@ -304,7 +308,7 @@ function cacheCheckBoxes()
    var cacheAllBox = document.getElementById('allCache')
    cacheAllBox.checked = false;
    cacheCheckedList=[];
-   var elements = document.getElementsByClassName("form-check-input");
+   var elements = document.getElementsByClassName("cache");
    for (var i = 0, len = elements.length; i < len; i++) 
    {
                 if((elements[i].checked === true))
@@ -323,7 +327,7 @@ function cacheCheckBoxes()
 
 function cacheCheckAll()
 {
-   var elements = document.getElementsByClassName("form-check-input");
+   var elements = document.getElementsByClassName("cache");
    var allCacheBox = document.getElementById('allCache')
    cacheCheckedList=[];
    if(allCacheBox.checked === true)
@@ -344,9 +348,12 @@ function cacheCheckAll()
 function onListChange()
 {
 
-    cacheChartCreate(['max-age'])
-    cacheChartCreate(['max-stale','min-fresh'])
-    cacheChartCreate(['public','private','no-cache','no-store'])
+    headersDiv.style.display ='none'
+    createCheckBoxes()
+    .then( () => cacheChartCreate(['max-age']))
+    .then( () => cacheChartCreate(['max-stale','min-fresh']))
+    .then( () => cacheChartCreate(['public','private','no-cache','no-store']))
+    .finally( () => headersDiv.style.display = 'block')
 }
 
 headBut.onclick = headButClick; 

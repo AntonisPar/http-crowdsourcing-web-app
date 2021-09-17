@@ -242,15 +242,15 @@ async function createTable(){
 
 function infoButClick()
 {
-    document.getElementById('viewInfo').innerHTML = '';
     let div = document.getElementById('viewInfo')
     message.style.display = 'none';
+    if(div.innerHTML ==='')
+        createTable()
     if(div.style.display === 'none')
     {
         document.getElementById('map').style.display='none'
         document.getElementById('timingDiv').style.display='none'
         document.getElementById('headersDiv').style.display='none'
-        createTable()
 
         div.style.display='block'
     }

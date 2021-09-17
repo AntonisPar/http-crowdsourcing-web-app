@@ -71,9 +71,18 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
 
     app.post("/myisp", function (request, response) {
 
-        var data = request.body;
         var cookie = JSON.parse(request.headers.cookie);
 
-        connection.query('INSERT IGNORE INTO Ip_info(username,isp,lat,lon) VALUES (?,?,?,?)', [cookie['username'],request.body['isp'],request.body['lat'],request.body['lon']]);
+        connection.query('select username,isp,lat,lon from Ip_info where username=? ', [cookie['username']],function(err,result,fields){
+            if(Object.keys(result).length === 0){
+                connection.query('INSERT INTO Ip_info(username,isp,lat,lon) VALUES (?,?,?,?)', [cookie['username'],request.body['isp'],request.body['lat'],request.body['lon']]);
+
+            }
+            else{
+                if(result[0].lat !== request.body['lat'] || result[0].lon !== request.body['lon'] || result[0].isp !== request.body['isp'])
+        connection.query('update Ip_info set isp=?,lat=?,lon=? where username=?', [request.body['isp'],request.body['lat'],request.body['lon'],cookie['username']]);
+            }
+        });
+
     });
 }

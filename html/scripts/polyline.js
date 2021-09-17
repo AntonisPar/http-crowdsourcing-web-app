@@ -4,26 +4,23 @@ var message = document.getElementById('alert');
 var idx = 0;
 var limit = 0;
 mapDiv.style.display = 'none';
-mapDiv.style.height='600px'
+mapDiv.style['margin-top']='5%'
+mapDiv.style.height='550px'
 mapDiv.style.width='100%'
 const timer = ms => new Promise(res => setTimeout(res, ms))
-
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
+var mymap;
 
 function mapButClick()
 {
+    if(mapDiv.innerHTML==='')
+        createMap();
+
     if(mapDiv.style.display === 'none')
     {
         document.getElementById('viewInfo').style.display='none'
         document.getElementById('timingDiv').style.display='none'
         document.getElementById('headersDiv').style.display='none'
-        createMap();
+        mapDiv.style.display='block'
     }
     else
         mapDiv.style.display = 'none';
@@ -44,7 +41,7 @@ async function getMapData()
 
 async function getReqDest(ips)
 {
-    var endpoint = "http://ip-api.com/batch?fields=query,lat,lon,status,isp"
+    var endpoint = "http://ip-api.com/batch?fields=query,lat,lon"
     var ip = [];
     for(let i=0; i<ips.length; i++)
         ip.push(ips[i].ip)
@@ -84,22 +81,26 @@ async function createMap()
     catch(e){
         message.innerHTML=e;
         message.style.display='block'
+        console.log(e)
         return 0;
     }
-    mapDiv.style.display = 'block';
     try{
         var view = await myCords();
     }
     catch(e){
         message.innerHTML=e;
         message.style.display='block'
+        console.log(e)
         return 0;
     }
-    mapDiv.innerHTML = ''
-    if(!(typeof(mymap) ==='undefined' || mymap === null))
-        mymap.remove()
+    if(mapDiv.classList.length!==0)
+    {
+        mymap.invalidateSize()
+        return;
 
-    var mymap = L.map('map').setView([view.lat, view.lon], 20);
+    }
+
+    mymap = L.map('map').setView([view.lat, view.lon], 20);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 12,
@@ -120,39 +121,39 @@ async function createMap()
             if (initMapData[mapKey].length-100 > limit)
             {
                 limit = limit +100;
-                var httpDest = await getReqDest(initMapData[mapKey].slice(idx,limit));
+                var serverCords = await getReqDest(initMapData[mapKey].slice(idx,limit));
             }
             else 
             { 
                 idx = limit
-                var httpDest = await getReqDest(initMapData[mapKey].slice(idx,));
+                var serverCords = await getReqDest(initMapData[mapKey].slice(idx,));
             }
         }
         catch(e){
             message.innerHTML=e;
+            console.log(e)
             message.style.display='block'
             return 0;
         }
 
 
-        for(let j=0; j<Object.keys(httpDest).length; j++)
+        for(let j=0; j<Object.keys(serverCords).length; j++)
         {
-            mapData[mapKey][j] ={ 'ip' :httpDest[j].lat.toString() + ',' + httpDest[j].lon.toString(),
+            mapData[mapKey][j] ={ 'cords' :serverCords[j].lat.toString() + ',' + serverCords[j].lon.toString(),
                                   'visits':initMapData[mapKey][j+idx].visits
             }
         }
     
-    for(let i in mapData)
-    {
-        L.marker([parseFloat(i.split(',')[0]), parseFloat(i.split(',')[1])]).addTo(mymap)
-        var maxVisits = Math.max.apply(Math, mapData[i].map(function(o) { return o.visits; }))
-        for(var j in mapData[i])
+        L.marker([parseFloat(mapKey.split(',')[0]), parseFloat(mapKey.split(',')[1])]).addTo(mymap)
+        var maxVisits = Math.max.apply(Math, initMapData[mapKey].map(function(o) { return o.visits; }))
+        for(var j in mapData[mapKey])
         {
-            let cords = [[parseFloat(i.split(',')[0]), parseFloat(i.split(',')[1])],[parseFloat(mapData[i][j].ip.split(',')[0]),parseFloat(mapData[i][j].ip.split(',')[1])]]
-            L.polyline(cords,{weight: (mapData[i][j].visits/maxVisits) > 0.2 ?(mapData[i][j].visits/maxVisits) : 0.2 }).addTo(mymap);
+            let line = [[parseFloat(mapKey.split(',')[0]), parseFloat(mapKey.split(',')[1])],[parseFloat(mapData[mapKey][j].cords.split(',')[0]),parseFloat(mapData[mapKey][j].cords.split(',')[1])]]
+
+            L.polyline(line,{weight: (mapData[mapKey][j].visits/maxVisits) > 0.2 ? (mapData[mapKey][j].visits/maxVisits) : 0.2 }).addTo(mymap);
+
             delete initMapData[mapKey][parseInt(j)+idx]
         }
-    }
     idx =limit
     if(Object.keys(initMapData[mapKey]).length === 0)
     {
@@ -160,7 +161,7 @@ async function createMap()
             idx=0;
             limit=0;
     }
-    await timer(10000)
+    await timer(4000)
     }
 }
 

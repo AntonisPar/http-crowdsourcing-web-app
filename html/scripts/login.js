@@ -1,5 +1,4 @@
 var loginBut= document.getElementById("loginBut");
-var scrollBut = document.getElementById("scroll");
 
 function usernameCookie(){
     var user = document.getElementById("username").value;

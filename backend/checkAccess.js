@@ -7,6 +7,7 @@ module.exports.checkAccess = function checkAccess(app,connection){
     
         if(cookie===undefined){
             response.status(403).redirect('login.html')
+            return;
         }
         cookie = JSON.parse(cookie);
         if(cookie===null || cookie==='null' || cookie.username===null || cookie.username==='null')
@@ -41,6 +42,7 @@ module.exports.checkAccess = function checkAccess(app,connection){
     
         if(cookie===undefined){
             response.status(403).redirect('login.html')
+            return
         }
         cookie = JSON.parse(cookie);
         if(cookie===null || cookie==='null' || cookie.username===null || cookie.username==='null')
@@ -111,6 +113,7 @@ module.exports.checkAccess = function checkAccess(app,connection){
     
         if(cookie===undefined){
             response.status(403).redirect('login.html')
+            return
         }
         cookie = JSON.parse(cookie);
         if(cookie===null || cookie==='null' || cookie.username===null || cookie.username==='null')
@@ -144,6 +147,7 @@ module.exports.checkAccess = function checkAccess(app,connection){
     
         if(cookie===undefined){
             response.status(403).redirect('login.html')
+            return;
         }
         cookie = JSON.parse(cookie);
         if(cookie===null || cookie==='null' || cookie.username===null || cookie.username==='null')
