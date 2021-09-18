@@ -1,6 +1,5 @@
 var fileLoad = document.getElementById('harFile');
 var message = document.getElementById('alert')
-testObject = {};
 
 function remove(obj, itemsToFilter) {
   for (var property in obj) {

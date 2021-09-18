@@ -13,6 +13,8 @@ module.exports.headers =  function headers(app, connection) {
                 {
                     let contentType = result[i].type
                     let isp = result[i].isp
+                    if(contentType === null)
+                        continue;
                     if(!(listOfIsp.includes(isp)))
                     {
                         cacheData[isp] = new Object();

@@ -30,14 +30,15 @@ function addHeaderValues(obj, valueArr, attribute) {
     let itemKeys = Object.keys(inHeaderValues);
     let itemValues = Object.values(inHeaderValues);
     for (var items in itemKeys) {
-        //if (itemKeys[items] !== null){
-        //    if (itemKeys[items] in valueArr) {
-        //        valueArr[itemKeys[items] + attribute] = itemValues[items];
-        //    }
-        //    else {
+        if (itemKeys[items] !== null){
+            if (itemKeys[items] in valueArr) {
                 valueArr[itemKeys[items] + attribute] = itemValues[items];
-            //}
-        //}
+                console.log(itemKeys[items])
+            }
+            else {
+                valueArr[itemKeys[items] + attribute] = itemValues[items];
+            }
+        }
     }
 }
 
@@ -70,12 +71,6 @@ function readHar() {
 
                 addHeaderValues(harRequest, valueArr, "Request");
                 addHeaderValues(harResponse, valueArr, "Response");
-                valueArr = Object.keys(valueArr)
-                    .sort()
-                    .reduce(function (acc, key) { 
-                        acc[key] = valueArr[key];
-                        return acc;
-                    }, {});
                 uploadValues[key] = valueArr;
             }
             fetch("/upload",

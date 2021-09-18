@@ -5,7 +5,7 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
         let nestedArr = new Array()
         var curdate = new Date().toJSON().slice(0,10).replace(/-/g,'/')
         var cookie = JSON.parse(request.headers.cookie);
-        //var checklist = ["startedDateTime","serverIPAddress","wait","url","method","hostRequest","pragmaRequest","cache-controlRequest","status","statusText","cache-controlResponse","pragmaResponse","ageResponse","last-modifiedResponse",'content-typeResponse',"expiresResponse"]
+        var checklist = ["startedDateTime","serverIPAddress","wait","url","method","hostRequest","pragmaRequest","cache-controlRequest","status","statusText","cache-controlResponse","pragmaResponse","ageResponse","last-modifiedResponse",'content-typeResponse',"expiresResponse"]
 
         for(var i in data){
             if( (data[i]['content-typeResponse'] !== null) && (typeof(data[i]['content-typeResponse']) !== 'undefined')) {
@@ -37,24 +37,25 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
                 }
 
             }
-            //for (var j in checklist)
-            //{
+            for (var j in checklist)
+            {
 
-            //    if(!(Object.keys(data[i]).includes(checklist[j])))
-            //        data[i][checklist[j]] = null
-            //}
-            //let unsorted = data[i]
-            //let sorted = Object.keys(unsorted)
-            //        .sort()
-            //        .reduce(function (acc, key) { 
-            //            acc[key] = unsorted[key];
-            //            return acc;
-            //        }, {});
-            nestedArr.push(Object.values(data[i]))
+                if(!(Object.keys(data[i]).includes(checklist[j])))
+                    data[i][checklist[j]] = null
+            }
+            let unsorted = data[i]
+            let sorted = Object.keys(unsorted)
+                    .sort()
+                    .reduce(function (acc, key) { 
+                        acc[key] = unsorted[key];
+                        return acc;
+                    }, {});
+            nestedArr.push(Object.values(sorted))
             
             nestedArr[i].unshift(cookie['username'],curdate)
 
         }
+        console.log(nestedArr)
             connection.query('INSERT INTO Entry(username,uploadDate,ageRequest,ageResponse,`cache-controlRequest`,`cache-controlResponse`,`content-typeRequest`,`content-typeResponse`,expiresRequest,expiresResponse,hostRequest,hostResponse,`last-modifiedRequest`,`last-modifiedResponse`,method, pragmaRequest,pragmaResponse,serverIPAddress,startedDateTime,status,statusText,url,wait) VALUES ?', [nestedArr], function(err,result,fields){
                 if(err){
                     console.log(err)
