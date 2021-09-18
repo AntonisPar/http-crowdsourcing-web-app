@@ -1,4 +1,5 @@
 var loginBut= document.getElementById("loginBut");
+document.cookie = JSON.stringify({});
 
 function usernameCookie(){
     var user = document.getElementById("username").value;
