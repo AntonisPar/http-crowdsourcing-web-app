@@ -1,7 +1,6 @@
 module.exports.ttls =  function ttls(app, connection) {
     app.post('/ttlData', function (request, response) {
 
-        console.log(request.body)
         // Setting up the SQL query
         sql = `select  \`cache-controlResponse\` as cache, \`content-typeResponse\` as type, isp from Entry  left join Ip_info on Entry.username = Ip_info.username where \`cache-controlResponse\` is not NULL and (`
         for(let i=0; i< request.body.length; i++)
@@ -24,7 +23,7 @@ module.exports.ttls =  function ttls(app, connection) {
                 var cacheData = {}
                 let ttlDist = {}
                 var max = new Object();
-                var regex = new  RegExp('[a-z]+-a[a-z]+=[0-9]+') //regex for finding max-stale directive
+                var regex = new  RegExp('[a-z]+-a[a-z]+=[0-9]+') //regex for finding max-age directive
                 max['all']=0 // used for determining the max value of TTLs for ALL ISPs
                              // so that we can create the buckets in the histogram
                 for(let i in result)
