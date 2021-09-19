@@ -28,7 +28,7 @@ module.exports.timingAn =  function timingAn(app, connection) {
                     let key = result[i][filterMap[filter['filter']]]
                     if(key === null)
                        continue;
-                    for( var j =0; j<=24; j++)
+                    for( var j =0; j<24; j++)
                            padded[j]=0;
 
                     padded[result[i]['hour']] = result[i].wait 
