@@ -1,4 +1,3 @@
-var but = document.getElementById('ip');
 var mapDiv = document.getElementById('mapid');
 mapDiv.style.height = '600px'
 const timer = ms => new Promise(res => setTimeout(res, ms))
@@ -136,14 +135,3 @@ async function handleIP()
     }
 }
 
-
-function redirect(){
-
-    window.location.replace('http://localhost:3000/heatmap.html');
-
-
-}
-
-if(typeof(but) != 'undefined' && but != null){
-but.onclick = redirect;
-};
