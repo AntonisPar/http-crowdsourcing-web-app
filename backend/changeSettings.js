@@ -38,20 +38,19 @@ module.exports.changeSettings =  function changeSettings(app, connection) {
 
         connection.query('SELECT username FROM User WHERE username=(?)', [username],function(err,name,fields){
             if(Object.keys(name).length !== 0 && username !== cookie['username'])
-                response.send("2")
+                response.send("Username exists")
             else
                 connection.query('SELECT passwd FROM User WHERE username=(?)', [cookie['username']],function(err,pass,fields){
                     if(pass[0]['passwd'] === old_pass){
                         connection.query('UPDATE User SET username=(?), passwd=(?) WHERE username=(?)', [username,password,cookie['username']],function(err,res,fields){
                                 if(err) console.log(err);
                             });
-                            response.send("1")
+                            response.send("Successful change")
                     }
-                    else response.send("3")
+                    else 
+                        response.send("Incorrect old pass")
                     
-
                 });
-
 
             });
         });

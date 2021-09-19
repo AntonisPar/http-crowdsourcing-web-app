@@ -6,7 +6,8 @@ module.exports.colors =  function colors(app, connection) {
                 response.sendStatus(404)
             }
             else
-            {
+            { // Add all the distinct elements needed in the charts
+              // inside an array. That array will be sent to the front-end
                var data = [] 
                for(var i in result[0]) 
                 {

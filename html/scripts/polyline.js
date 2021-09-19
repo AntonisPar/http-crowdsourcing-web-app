@@ -10,9 +10,10 @@ mapDiv.style.width='100%'
 const timer = ms => new Promise(res => setTimeout(res, ms))
 var mymap;
 
+// "Polyline Map" button's on-click funtion
 function mapButClick()
 {
-    if(mapDiv.innerHTML==='')
+    if(mapDiv.innerHTML==='') //if the button gets pressed for the first time
         createMap();
 
     if(mapDiv.style.display === 'none')
@@ -26,6 +27,9 @@ function mapButClick()
         mapDiv.style.display = 'none';
 }
 
+// Fetch data from back-end.
+// The data contain each server's IP with the number of requests sent to it
+// for each user.
 async function getMapData()
 {
     let response = await fetch('/polyline',
@@ -39,6 +43,8 @@ async function getMapData()
 
 }
 
+// Function that returns the lat,lon of the server IPs that are
+// in the data sent from back-end.
 async function getReqDest(ips)
 {
     var endpoint = "http://ip-api.com/batch?fields=query,lat,lon"
@@ -59,6 +65,7 @@ async function getReqDest(ips)
         return await dest.json();
 }
 
+// Function that returns the lat,lon of your current IP
 async function myCords()
 {
     var endpoint = "http://ip-api.com/json?fields=lat,lon"
@@ -71,6 +78,8 @@ async function myCords()
         return await myCords.json();
 }
 
+// Function that creates the map layer and polyline layer
+// based on the data from back-end and Ip-api
 async function createMap()
 {
     
@@ -100,9 +109,10 @@ async function createMap()
 
     }
 
+    // Create the map and the map layer and center it on the admin's current location
     mymap = L.map('map').setView([view.lat, view.lon], 20);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery ï¿½ <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 12,
         id: 'mapbox/streets-v11',
         tileSize: 512,
@@ -111,19 +121,22 @@ async function createMap()
     }).addTo(mymap);
 
 
+    // Bottleneck the requests sent to the Ip-api to avoid fetch abortions
+    // Make 15 requests per minute with (max) 100 IPs in each request
+    // While loop will continue for all Users
     while(Object.keys(initMapData).length !== 0)
     {
         var mapData=new Object()
-        var mapKey =Object.keys(initMapData)[0]
-        mapData[mapKey] = new Array();
+        var mapKey =Object.keys(initMapData)[0] //current processing User's lat,lon
+        mapData[mapKey] = new Array(); //create new key in object and the value is an empty array
         try
         {
-            if (initMapData[mapKey].length-100 > limit)
+            if (initMapData[mapKey].length-100 > limit) //if there are at least 100 more IPs in the object
             {
                 limit = limit +100;
                 var serverCords = await getReqDest(initMapData[mapKey].slice(idx,limit));
             }
-            else 
+            else //else if there are less than 100 IPs
             { 
                 idx = limit
                 var serverCords = await getReqDest(initMapData[mapKey].slice(idx,));
@@ -136,7 +149,8 @@ async function createMap()
             return 0;
         }
 
-
+        // Initialize current processing User's object with
+        // the lat,lon of each of the servers and the number of requests to each server 
         for(let j=0; j<Object.keys(serverCords).length; j++)
         {
             mapData[mapKey][j] ={ 'cords' :serverCords[j].lat.toString() + ',' + serverCords[j].lon.toString(),
@@ -144,7 +158,10 @@ async function createMap()
             }
         }
     
+        //add a marker for current processing User to the map
         L.marker([parseFloat(mapKey.split(',')[0]), parseFloat(mapKey.split(',')[1])]).addTo(mymap)
+
+        // Normalize the thickness of the lines and add them on the map 
         var maxVisits = Math.max.apply(Math, initMapData[mapKey].map(function(o) { return o.visits; }))
         for(var j in mapData[mapKey])
         {
@@ -155,11 +172,13 @@ async function createMap()
             delete initMapData[mapKey][parseInt(j)+idx]
         }
     idx =limit
+    //if all the lines for the server IPs for a User are done getting rendered on the map
+    //remove him from object and reset the indexes for the next User to be processed
     if(Object.keys(initMapData[mapKey]).length === 0)
     {
-            delete initMapData[mapKey]
-            idx=0;
-            limit=0;
+        delete initMapData[mapKey]
+        idx=0;
+        limit=0;
     }
     await timer(4000)
     }

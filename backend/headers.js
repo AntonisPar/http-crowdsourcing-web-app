@@ -6,23 +6,23 @@ module.exports.headers =  function headers(app, connection) {
                 response.sendStatus(404);
             }
             else{
-                var cacheData = {}
+                var cacheData = {} // object to be sent to front-end
                 let listOfIsp = []
-                cacheData['all'] = new Object();
+                cacheData['all'] = new Object(); //creating new key representing all ISPs
                 for(var i in result)
                 {
                     let contentType = result[i].type
                     let isp = result[i].isp
-                    if(contentType === null)
+                    if(contentType === null) //if content-type is NULL don't put element in cacheData
                         continue;
-                    if(!(listOfIsp.includes(isp)))
+                    if(!(listOfIsp.includes(isp))) //create a new key for each ISP
                     {
                         cacheData[isp] = new Object();
                         listOfIsp.push(isp);
                     }
-                    if(Object.keys(cacheData[isp]).includes(contentType))
+                    if(Object.keys(cacheData[isp]).includes(contentType)) //if object already exists
                     {
-                        let splitted = result[i].cache.split(',')
+                        let splitted = result[i].cache.split(',') //array with all the conent-types splitted
                         for(var j in splitted)
                         {
                             if(splitted[j].includes('max-stale'))
@@ -39,20 +39,9 @@ module.exports.headers =  function headers(app, connection) {
                         cacheData[isp][contentType]['count']+=1
                         cacheData['all'][contentType]['count']+=1
                     }
-                
-                    else
+                    else //else create the object
                     {
-                    cacheData[isp][contentType] = {
-                        'public':0,
-                        'private':0,
-                        'max-stale':0,
-                        'min-fresh':0,
-                        'no-cache' : 0,
-                        'no-store':0,
-                        'count': 0
-                        };
-                    if(!Object.keys(cacheData['all']).includes(contentType))
-                        cacheData['all'][contentType] = {
+                        cacheData[isp][contentType] = {
                             'public':0,
                             'private':0,
                             'max-stale':0,
@@ -60,6 +49,16 @@ module.exports.headers =  function headers(app, connection) {
                             'no-cache' : 0,
                             'no-store':0,
                             'count': 0
+                        };
+                        if(!Object.keys(cacheData['all']).includes(contentType))
+                            cacheData['all'][contentType] = {
+                                'public':0,
+                                'private':0,
+                                'max-stale':0,
+                                'min-fresh':0,
+                                'no-cache' : 0,
+                                'no-store':0,
+                                'count': 0
                             };
                         let splitted = result[i].cache.split(',')
                         for(var j in splitted)

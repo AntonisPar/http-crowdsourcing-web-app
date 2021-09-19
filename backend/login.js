@@ -4,27 +4,27 @@ module.exports.login =  function login(app,connection,path) {
     app.get('/', function (request, response) {
         response.sendFile(path.resolve('html/login.html'));
     });
-    app.post('/login', function (req, res) {
-        var username = req.body['username'];
-        var password = CryptoJS.SHA1(req.body['password']);
+    app.post('/login', function (request, response) {
+        var username = request.body['username'];
+        var password = CryptoJS.SHA1(request.body['password']); //encrypt sent password
         if (username && password) {
-            connection.query("select username,passwd,isAdmin from User where username = ?", [username], (error, response) => {
-                if (response.length !==0) {
-                    if( response[0].passwd === CryptoJS.enc.Hex.stringify(password)){
-                        if(response[0].isAdmin === 0)
-                            res.send('/har.html');
-                        else if(response[0].isAdmin === 1)
-                            res.send('/mainAdmin.html');
+            connection.query("select username,passwd,isAdmin from User where username = ?", [username], (error, result) => {
+                if (result.length !==0) {
+                    if( result[0].passwd === CryptoJS.enc.Hex.stringify(password)){
+                        if(result[0].isAdmin === 0)
+                            response.send('/har.html');
+                        else if(result[0].isAdmin === 1)
+                            response.send('/mainAdmin.html');
                     }
                     else 
-                        res.send("fail")
+                        response.send("fail")
                 }
                 else 
-                    res.send("fail")
+                    response.send("fail")
             });
         }
         else
-            res.send("empty")
+            response.send("empty")
 
     });
 }

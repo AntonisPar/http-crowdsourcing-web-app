@@ -5,7 +5,8 @@ module.exports.ipGeolocation =  function ipGeolocation(app, connection) {
             if (err) throw  err;
             var ips = new Object(); 
             for(var i in result){
-                if(result[i]['ip'] !== '')
+                if(result[i]['ip'] !== '') //if IP is not empty, create a key for the IP
+                                           //with the value of the total number of requests to that IP
                     ips[result[i]['ip'].match(/\w.*\w/)[0].toString()]=result[i]['numReq']
             }
             response.send(ips)

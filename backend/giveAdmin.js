@@ -5,8 +5,12 @@ module.exports.giveAdmin=  function giveAdmin(app, connection) {
             if (err){
                 response.send('User does not exist')
             }
-            else
-                response.send('User is now admin')
+            else{
+                if(result.affectedRows == 0)
+                    response.send('User does not exist')
+                else
+                    response.send('User is now admin')
+            }
         });
     });
 }

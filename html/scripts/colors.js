@@ -149,6 +149,9 @@ const CSS_COLOR_NAMES = [
     "Yellow",
     "YellowGreen",
 ];
+
+// Function that returns the distinct elements
+// needed in creating the charts
 async function getCont(){
     let types = await fetch('/cont-type',{
         method: 'GET',
@@ -157,7 +160,12 @@ async function getCont(){
 }
 
 async function createHash(){
-    var color = await getCont()
-    for(var i in color)
-        colors[color[i]] = CSS_COLOR_NAMES[i]
+    var distinct_chart_elements = await getCont()
+    // Match each element in the array sent from the back-end
+    // to a color contained in the CSS_COLOR_NAMES array.
+    // The color assigned to the element is based on the index
+    // it has inside the array sent from the back-end.
+    for(var i in distinct_chart_elements)
+        colors[distinct_chart_elements[i]] = CSS_COLOR_NAMES[i]
+    console.log(colors)
 }

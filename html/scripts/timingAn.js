@@ -11,8 +11,8 @@ var checkedList = [];
 checkP.classList.add('row')
 checkP.style['margin-left'] = '0.5%'
 checkP.style['margin-top'] = '2%'
-//listEl.style.display ='none'
 
+// Configuring the chart
 let chartOptions = {
     responsive: true,
     plugins: {
@@ -26,6 +26,8 @@ let chartOptions = {
         }
             
 }
+
+// Creating the dropdown select list
 function createFilterList()
 {
     listEl.innerHTML='';
@@ -42,10 +44,10 @@ function createFilterList()
         option.value = i
         option.text = filtMap[i]
         listEl.appendChild(option);
-
     }
 }
 
+// Creating the chart
 let charts = new Chart(chartPlaceHolder, {
                 type:'line',
                 data:{
@@ -56,7 +58,8 @@ let charts = new Chart(chartPlaceHolder, {
                 options: chartOptions,
             });
 
-
+// Function that returns an object.
+// The object contains ...
 async function getData(filter)
 {
     let reqData= { 'filter': filter}
@@ -74,6 +77,7 @@ async function getData(filter)
 
 }
 
+// "Timing Analysis" button's on-click function
 function timingButClick()
 {
     if(timingDiv.innerHTML===''){
@@ -98,6 +102,7 @@ function timingButClick()
         timingDiv.style.display = 'none';
 }
 
+// Function that ...
 async function selectChange()
 {
 
@@ -163,8 +168,7 @@ async function selectChange()
     createChart()
 }
 
-
-
+// Function that ...
 function checkBoxes()
 {
    var box = document.getElementById('all')

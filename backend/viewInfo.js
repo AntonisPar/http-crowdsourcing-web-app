@@ -20,7 +20,8 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
                 else
                 {
                     let dataToSend = {};
-                    for (let i in result){
+                    for (let i in result){ //each key is a distinct HTTP method, each value is 
+                                           //the times the method appears in the uploaded entries
                         dataToSend[result[i].method] = result[i].count
                     }
                     response.send(dataToSend);
@@ -38,7 +39,8 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
             else
             {
                 let dataToSend = {};
-                for (let i in result){
+                for (let i in result){ //each key is a distinct HTTP status, each value is 
+                                       //the times the status appears in the uploaded entries
                     dataToSend[result[i].status.toString()] = result[i].count
                 }
                 response.send(dataToSend);
@@ -78,13 +80,14 @@ module.exports.viewInfo =  function viewInfo(app, connection) {
             }
             else
             {
-                var avgAge = {}
+                var avgAge = {} //each key is a distinct Content-Type, each value is 
+                                //the avg(age) of the Content-Type in hours and minutes
                 for( var i in result){
 
-                    var h = result[i].age/3600
+                    var hours = result[i].age/3600
 
-                    var m = parseFloat("0."+h.toString().split('.')[1])*60
-                    avgAge[result[i].type] = h.toString().split('.')[0]+":"+m.toString().split('.')[0]
+                    var minutes = parseFloat("0."+ hours.toString().split('.')[1])*60
+                    avgAge[result[i].type] = hours.toString().split('.')[0]+":" + minutes.toString().split('.')[0]
 
                 }
             response.send(avgAge);
