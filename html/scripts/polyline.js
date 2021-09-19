@@ -167,7 +167,7 @@ async function createMap()
         {
             let line = [[parseFloat(mapKey.split(',')[0]), parseFloat(mapKey.split(',')[1])],[parseFloat(mapData[mapKey][j].cords.split(',')[0]),parseFloat(mapData[mapKey][j].cords.split(',')[1])]]
 
-            L.polyline(line,{weight: (mapData[mapKey][j].visits/maxVisits) > 0.2 ? (mapData[mapKey][j].visits/maxVisits) : 0.2 }).addTo(mymap);
+            L.polyline(line,{weight: (mapData[mapKey][j].visits/maxVisits) > 0.2 ? 3*(mapData[mapKey][j].visits/maxVisits) : 0.2 }).addTo(mymap);
 
             delete initMapData[mapKey][parseInt(j)+idx]
         }

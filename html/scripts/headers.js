@@ -151,6 +151,10 @@ async function cacheChartCreate(options)
         // Creating the table body
         var table_body = table.createTBody();
         var current_row = 0
+        var max_count =0
+        for(var i in cacheCheckedList){
+            max_count += data[list.value][cacheCheckedList[i]]['count']
+        }
 
         // Loops through ISP(s) selected in the dropdown list
         for(var i in data[list.value])
@@ -169,7 +173,8 @@ async function cacheChartCreate(options)
                                     // in the correct column
                 for(var j in options)
                 {
-                    values =(data[list.value][i][options[j]]/data[list.value][i]['count']) *100
+                    //values =(data[list.value][i][options[j]]/data[list.value][i]['count']) *100
+                    values = (data[list.value][i][options[j]]/max_count)*100
                     d.push(values)
                     content_row.insertCell(cell_index).innerHTML = values
                     cell_index++
@@ -361,8 +366,8 @@ function cacheCheckBoxes()
         cacheCheckAll()
     }
     cacheChartCreate(['max-age'])
-    .then(() => cacheChartCreate(['max-stale','min-fresh'])) //test
-    .then(() => cacheChartCreate(['public','private','no-cache','no-store'])) //test
+    cacheChartCreate(['max-stale','min-fresh']) 
+    cacheChartCreate(['public','private','no-cache','no-store']) 
 }
 
 // Function that gets called when the "ALL" checkbox
@@ -383,8 +388,8 @@ function cacheCheckAll()
     }
     allCacheBox.checked = true;
     cacheChartCreate(['max-age'])
-    .then(() => cacheChartCreate(['max-stale','min-fresh'])) //test
-    .then(() => cacheChartCreate(['public','private','no-cache','no-store'])) //test
+    cacheChartCreate(['max-stale','min-fresh'])
+    cacheChartCreate(['public','private','no-cache','no-store']) 
 }
 
 // Function that gets called when the
@@ -394,10 +399,8 @@ function onListChange()
 
     headersDiv.style.display ='none'
     createCheckBoxes()
-    .then( () => cacheChartCreate(['max-age']))
-    .then( () => cacheChartCreate(['max-stale','min-fresh']))
-    .then( () => cacheChartCreate(['public','private','no-cache','no-store']))
-    .finally( () => headersDiv.style.display = 'block')
+    .then(() => cacheCheckAll())
+    headersDiv.style.display = 'block'
 }
 
 headBut.onclick = headButClick; 

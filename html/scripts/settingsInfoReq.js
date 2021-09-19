@@ -81,7 +81,7 @@ function changeSettings(){
     }
 
 
-    if(!passFormat.test(fields['new_pass'])){
+    if( (document.getElementById('new_pass').value.length !== 0) && (!passFormat.test(fields['new_pass']))) {
         error_alert.innerHTML = "New password has incorrect format";
         error_alert.style.display="block"
         setTimeout(function(){ error_alert.style.display="none"; }, 6000);

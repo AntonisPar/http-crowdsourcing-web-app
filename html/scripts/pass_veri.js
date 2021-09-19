@@ -54,6 +54,15 @@ function checkPass(myInput){
     length.classList.remove("valid");
     length.classList.add("invalid");
   }
+  // elegxos gia special character
+  var specialchars = /[ `!@#$%^&*()_+\-={};':"|,.<>?~]/;
+  if(myInput.value.match(specialchars)) {
+    special_char.classList.remove("invalid");
+    special_char.classList.add("valid");
+  } else {
+    special_char.classList.remove("valid");
+    special_char.classList.add("invalid");
+  }
 }
 
 // otan kanei klik sto password emfanizetai to box me ta munhmata
@@ -98,15 +107,6 @@ confirmInput.onfocus = function(){
 }
 
 
-  // elegxos gia special character
-  var specialchars = /[ `!@#$%^&*()_+\-={};':"|,.<>?~]/;
-  if(myInput.value.match(specialchars)) {
-    special_char.classList.remove("invalid");
-    special_char.classList.add("valid");
-  } else {
-    special_char.classList.remove("valid");
-    special_char.classList.add("invalid");
-  }
 
 
 

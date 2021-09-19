@@ -46,11 +46,9 @@ const CSS_COLOR_NAMES = [
     "DimGrey",
     "DodgerBlue",
     "FireBrick",
-    "FloralWhite",
     "ForestGreen",
     "Fuchsia",
     "Gainsboro",
-    "GhostWhite",
     "Gold",
     "GoldenRod",
     "Gray",
@@ -100,7 +98,6 @@ const CSS_COLOR_NAMES = [
     "MintCream",
     "MistyRose",
     "Moccasin",
-    "NavajoWhite",
     "Navy",
     "OldLace",
     "Olive",
@@ -144,7 +141,6 @@ const CSS_COLOR_NAMES = [
     "Turquoise",
     "Violet",
     "Wheat",
-    "White",
     "WhiteSmoke",
     "Yellow",
     "YellowGreen",
@@ -167,5 +163,4 @@ async function createHash(){
     // it has inside the array sent from the back-end.
     for(var i in distinct_chart_elements)
         colors[distinct_chart_elements[i]] = CSS_COLOR_NAMES[i]
-    console.log(colors)
 }
