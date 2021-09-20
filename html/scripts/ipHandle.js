@@ -1,7 +1,7 @@
 var mapDiv = document.getElementById('mapid');
 mapDiv.style.height = '600px'
 const timer = ms => new Promise(res => setTimeout(res, ms))
-var limit =0 
+var limit =100 
 var idx=0;
 
 // Function that returns the lat,lon of your current IP
@@ -77,15 +77,13 @@ async function handleIP()
     {
         try
         {
-            if (ips.length-100 > limit) //if there are at least 100 more IPs in the ips object
+            if (ips.length > limit) //if there are at least 100 more IPs in the ips object
             {
-                limit = limit +100;
                 var heatmapData = await getServerCords(ips.slice(idx,limit));
                 ips.splice(idx, limit) //remove the first 100 elements of the array
             }
             else //else if there are less than 100 IPs
             { 
-                idx = limit
                 var heatmapData = await getServerCords(ips.slice(idx,));
                 ips.splice(idx, ) //remove the rest of the elements of the array
             }
@@ -104,6 +102,7 @@ async function handleIP()
                         
         // Initialize the data that will be used for the heatmap
         var heatMapPoints = [];
+        console.log(heatmapData)
         Max = Math.max.apply(Math, heatmapData.map(function(heatmapData) { return heatmapData.visits; }));
         for(var i in heatmapData){
             temp = heatmapData[i].visits/Max;
@@ -128,7 +127,7 @@ async function handleIP()
                     '0.76': 'Red',
                     '1': 'Red'
                 }}).addTo(mymap);    
-        idx =limit
+        console.log(ips.length)
         await timer(4000)
                 
 
