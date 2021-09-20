@@ -40,6 +40,7 @@ module.exports.uploadHar =  function uploadHar(app, connection) {
             }
             // Sort the fields and add them to the array
             let unsorted = data[i]
+            //let sorted = Object.fromEntries(Object.entries(unsorted).sort())
             let sorted = Object.keys(unsorted)
                     .sort()
                     .reduce(function (acc, key) { 

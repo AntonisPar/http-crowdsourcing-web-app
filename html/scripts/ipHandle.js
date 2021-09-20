@@ -60,6 +60,7 @@ async function handleIP()
             ips.push(i)
     }
 
+    Max = Math.max.apply(Math, Object.values(responseData));
     // Create the map and the map layer and center it on the user's current location
     const mymap = L.map('mapid').setView([mycords['lat'], mycords['lon']], 8);                
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -102,8 +103,6 @@ async function handleIP()
                         
         // Initialize the data that will be used for the heatmap
         var heatMapPoints = [];
-        console.log(heatmapData)
-        Max = Math.max.apply(Math, heatmapData.map(function(heatmapData) { return heatmapData.visits; }));
         for(var i in heatmapData){
             temp = heatmapData[i].visits/Max;
             heatMapPoints.push([heatmapData[i].lat,heatmapData[i].lon,temp])
