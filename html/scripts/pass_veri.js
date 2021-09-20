@@ -16,7 +16,7 @@ else
     var confirmInput = document.getElementById("modal_conf_password");
 
 function checkPass(myInput){
-  // elegxei gia mikra
+  // Checks for lower-case
   var lowerCaseLetters = /[a-z]/g;
   if(myInput.value.match(lowerCaseLetters)) {
     letter.classList.remove("invalid");
@@ -26,7 +26,7 @@ function checkPass(myInput){
     letter.classList.add("invalid");
 }
 
-  // elegxei gia kefalaia
+  // Checks for upper-case
   var upperCaseLetters = /[A-Z]/g;
   if(myInput.value.match(upperCaseLetters)) {
     capital.classList.remove("invalid");
@@ -36,7 +36,7 @@ function checkPass(myInput){
     capital.classList.add("invalid");
   }
 
-  // elegxei gia noumera
+  // Checks for numbers
   var numbers = /[0-9]/g;
   if(myInput.value.match(numbers)) {
     number.classList.remove("invalid");
@@ -46,7 +46,7 @@ function checkPass(myInput){
     number.classList.add("invalid");
   }
 
-  // elegxei gia mhkos
+  // Checks for length
   if(myInput.value.length >= 8) {
     length.classList.remove("invalid");
     length.classList.add("valid");
@@ -54,7 +54,7 @@ function checkPass(myInput){
     length.classList.remove("valid");
     length.classList.add("invalid");
   }
-  // elegxos gia special character
+  // Checks for special characters
   var specialchars = /[ `!@#$%^&*()_+\-={};':"|,.<>?~]/;
   if(myInput.value.match(specialchars)) {
     special_char.classList.remove("invalid");
@@ -65,13 +65,13 @@ function checkPass(myInput){
   }
 }
 
-// otan kanei klik sto password emfanizetai to box me ta munhmata
+// The message-box appears when the field is clicked
 myInput.onfocus = function() {
   document.getElementById("message").style.display = "block";
     checkPass(myInput)
 }
 
-// otan kanei click ektos password kryvontai ta mynhmata kai epanerxontai ola sto state invalid
+// The message-box disappears and the messages state reset to "invalid" when clicked away from field
 myInput.onblur = function() {
   document.getElementById("message").style.display = "none";
   letter.classList.add("invalid");
@@ -81,7 +81,7 @@ myInput.onblur = function() {
   special_char.classList.add("invalid");
 }
 
-// otan ksekinaei na grafei o xrhsths
+// When user begins to type
 myInput.onkeyup = function(){checkPass(myInput)}
 
 
@@ -105,9 +105,6 @@ confirmInput.onfocus = function(){
     confirmInput.style.borderColor = "red";
   }
 }
-
-
-
 
 
 confirmInput.onblur = function (){

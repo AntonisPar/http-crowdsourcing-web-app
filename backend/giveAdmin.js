@@ -6,7 +6,7 @@ module.exports.giveAdmin=  function giveAdmin(app, connection) {
                 response.send('User does not exist')
             }
             else{
-                if(result.affectedRows == 0)
+                if(result.affectedRows === 0)
                     response.send('User does not exist')
                 else
                     response.send('User is now admin')

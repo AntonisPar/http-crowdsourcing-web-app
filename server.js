@@ -25,8 +25,8 @@ app.use(express.static('html'));
 
 var connection = mysql.createConnection({
     host: "localhost",
-    user: "tsac",
-    password: "pass",
+    user: "jason",
+    password: "j@s0n_123",
     database: "web",
     multipleStatements: true
 });
