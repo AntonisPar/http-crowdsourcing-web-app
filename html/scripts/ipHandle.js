@@ -127,7 +127,6 @@ async function handleIP()
                     '0.76': 'Red',
                     '1': 'Red'
                 }}).addTo(mymap);    
-        console.log(ips.length)
         await timer(4000)
                 
 
